@@ -2,244 +2,389 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>my webpage</title>
+<title>info</title>
 
-<!-- Favicon -->
-<link rel="icon" type="image/png" href="your-pfp.png">
-
-<!-- FONT IMPORT -->
+<link rel="icon" type="image/gif" href="luna.gif">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 
 <style>
-  /* Cursor */
-  body {
-    cursor: url('robloxoldcursor.webp'), auto;
-    margin: 0;
-    font-family: 'Google Sans Code', monospace;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    color: white;
-    position: relative;
-    overflow: hidden;
-    background: black;
-  }
+body {
+  cursor: url('robloxoldcursor.webp'), auto;
+  margin: 0;
+  font-family: 'google sans code', monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  background: black;
+  user-select: none;
+  text-transform: lowercase;
+}
 
-  /* ✦ stars */
-  .star {
-    position: fixed;
-    color: white;
-    pointer-events: none;
-    user-select: none;
-    opacity: 0.7;
-  }
+img { pointer-events: none; -webkit-user-drag: none; }
 
-  .container {
-    text-align: center;
-    z-index: 2;
-    position: relative;
-  }
+.star {
+  position: fixed;
+  color: white;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.5;
+  text-shadow: 0 0 3px white, 0 0 5px #fff;
+  animation: twinkle 3s ease-in-out infinite alternate;
+  z-index: 1;
+}
 
-  img.profile {
-    width: 120px;
-    border-radius: 50%;
-    margin-bottom: 10px;
-  }
+@keyframes twinkle {
+  0% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.3; }
+}
 
-  h1 {
-    margin: 5px;
-  }
+.container {
+  text-align: center;
+  z-index: 5;
+  position: relative;
+}
 
-  p {
-    opacity: 0.7;
-  }
+img.profile {
+  width: 120px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
 
-  .buttons {
-    margin-top: 15px;
-  }
+h1 { margin: 5px; }
+p { opacity: 0.7; }
 
-  /* Icon buttons */
-  .buttons a {
-    display: inline-block;
-    margin: 8px;
-    text-decoration: none;
-  }
+.buttons { margin-top: 15px; }
+.buttons a { 
+  display: inline-block; 
+  margin: 8px; 
+  text-decoration: none; 
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
 
-  .buttons a img {
-    width: 60px;
-    height: 60px;
-    display: block;
-    transition: transform 0.3s;
-  }
+.buttons a img {
+  width: 60px;
+  height: 60px;
+  display: block;
+  transition: transform 0.3s ease;
+  position: relative;  
+  z-index: 5; 
+}
 
-  .buttons a img:hover {
-    transform: scale(1.1);
-  }
+.buttons a:hover img,
+.buttons a.scale img {
+  transform: scale(1.15);
+  cursor: pointer;
+}
 
-  /* Mute/unmute button */
-  #muteBtn {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    background: white; /* Changed to white */
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s;
-    z-index: 2;
-    padding: 6px;
-    border: none;
-  }
+#muteBtn {
+  position: fixed;
+  top: 10px; left: 10px;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s ease;
+  z-index: 5;
+  padding: 6px;
+  border: none;
+}
 
-  #muteBtn img {
-    width: 24px;
-    height: 24px;
-    display: block;
-  }
+#muteBtn img {
+  width: 24px;
+  height: 24px;
+  display: block;
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
 
-  /* Full-screen overlay for click-to-view */
-  #overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    backdrop-filter: blur(12px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 2em;
-    z-index: 3;
-    cursor: pointer;
-    transition: opacity 0.5s ease;
-  }
+#muteBtn:hover img,
+#muteBtn img.scale {
+  transform: scale(1.15);
+}
+
+#overlay {
+  position: fixed; top:0; left:0;
+  width:100%; height:100%;
+  background:transparent;
+  backdrop-filter: blur(12px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  font-size:2em;
+  z-index:10;
+  cursor:pointer;
+  transition:opacity 0.5s ease;
+}
+
+#nyanWrapper {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 160px;
+  pointer-events: none;
+  animation: float 3s ease-in-out infinite alternate;
+  z-index: 2;
+}
+
+#nyanCat {
+  width: 160px;
+  pointer-events: none;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+img.profile:hover,
+img.profile.scale {
+  transform: scale(1.15);
+}
+
+/* message box behind overlay */
+#messageBox {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 5;
+  display: flex;
+  gap: 6px;
+  font-family: 'google sans code', monospace;
+}
+
+#messageBox input,
+#messageBox button {
+  font-family: 'google sans code', monospace;
+  text-transform: lowercase;
+}
+
+#messageBox input {
+  background: black;
+  color: white;
+  border: 1px solid white;
+  border-radius: 4px;
+  padding: 6px 8px;
+  width: 180px;
+}
+
+#messageBox button {
+  background: white;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+#messageBox button:hover {
+  transform: scale(1.1);
+}
+
+/* temporary "i'll be listening" text */
+#listeningText {
+  position: fixed;
+  bottom: 100px;
+  left: 20px;
+  color: white;
+  font-family: 'google sans code', monospace;
+  z-index: 8;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateY(10px);
+}
+
+#listeningText.show {
+  opacity: 1;
+  transform: translateY(0px);
+}
 </style>
 </head>
 <body>
 
-<!-- click-to-view overlay -->
 <div id="overlay">click anywhere to view</div>
-
-<!-- Mute/unmute button with image -->
-<button id="muteBtn">
-  <img id="muteIcon" src="unmute.png" alt="mute">
-</button>
+<button id="muteBtn"><img id="muteIcon" src="unmute.png" alt="mute"></button>
 
 <div class="container">
-  <img class="profile" src="your-pfp.gif" alt="pfp">
+  <img class="profile" src="luna.gif" alt="pfp">
   <h1>cry</h1>
-  <p>:P</p>
-
+  <p>:p</p>
   <div class="buttons">
-    <a href="https://steamcommunity.com/id/cry_tals" target="_blank">
-      <img src="steam.webp" alt="steam">
-    </a>
-    <a href="https://discord.com/users/955250582078238730" target="_blank">
-      <img src="discord.webp" alt="discord">
-    </a>
-    <a href="https://www.tiktok.com/@vernacularism" target="_blank">
-      <img src="tiktok.webp" alt="tiktok">
-    </a>
-    <a href="https://www.roblox.com/users/679387671/profile" target="_blank">
-      <img src="roblox.webp" alt="roblox">
-    </a>
+    <a href="https://steamcommunity.com/id/cry_tals" target="_blank"><img src="steam.webp" alt="steam"></a>
+    <a href="https://discord.com/users/955250582078238730" target="_blank"><img src="discord.webp" alt="discord"></a>
+    <a href="https://www.tiktok.com/@vernacularism" target="_blank"><img src="tiktok.webp" alt="tiktok"></a>
+    <a href="https://www.roblox.com/users/679387671/profile" target="_blank"><img src="roblox.webp" alt="roblox"></a>
   </div>
 </div>
 
-<audio id="music" loop preload="auto">
-  <source src="music.mp3" type="audio/mpeg">
-</audio>
+<div id="nyanWrapper">
+  <img id="nyanCat" src="nyancat.gif" alt="nyan cat">
+</div>
+
+<div id="messageBox">
+  <input type="text" id="userMessage" placeholder="who are you?" disabled maxlength="200">
+  <button id="sendBtn" disabled>send</button>
+</div>
+
+<div id="listeningText">i'll be listening</div>
+
+<audio id="music" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
 
 <script>
+// --- overlay & music ---
 const overlay = document.getElementById("overlay");
 const music = document.getElementById("music");
 const btn = document.getElementById("muteBtn");
 const muteIcon = document.getElementById("muteIcon");
 let musicPlaying = false;
+let fadeInProgress = false;
 
-// Fade audio function
-function fadeAudio(audio, from, to, duration, callback) {
+function fadeAudio(audio, from, to, duration, callback){
   const stepTime = 20;
   const steps = duration / stepTime;
   let currentStep = 0;
   audio.volume = from;
-
   const step = () => {
     currentStep++;
-    const vol = from + (to - from) * (currentStep / steps);
-    audio.volume = Math.min(Math.max(vol, 0), 1);
-    if (currentStep < steps) {
-      setTimeout(step, stepTime);
-    } else if (callback) callback();
+    audio.volume = Math.min(Math.max(from + (to-from)*(currentStep/steps),0),1);
+    if(currentStep<steps) setTimeout(step,stepTime);
+    else if(callback) callback();
   };
   step();
 }
 
-// Overlay click handler
-overlay.addEventListener("click", () => {
-  overlay.style.opacity = "0";
-  setTimeout(() => overlay.style.display = "none", 500);
-
-  if (!musicPlaying) {
-    music.muted = false;
-    music.play().then(() => fadeAudio(music, 0, 1, 500))
-      .catch(err => console.log("Music play failed:", err));
-    musicPlaying = true;
-    muteIcon.src = "unmute.png";
+function unlockAudio() {
+  overlay.style.opacity="0";
+  setTimeout(()=>overlay.style.display="none",500);
+  if(!musicPlaying){
+    music.muted=false;
+    music.play().then(()=>fadeAudio(music,0,1,500)).catch(e=>console.log(e));
+    musicPlaying=true;
+    muteIcon.src="unmute.png";
   }
-}, { once: true });
+  if(!localStorage.getItem("hasChatted")) {
+    document.getElementById("userMessage").disabled = false;
+    document.getElementById("sendBtn").disabled = false;
+  }
+}
+overlay.addEventListener("click", unlockAudio, {once:true});
+overlay.addEventListener("touchstart", unlockAudio, {once:true});
 
-// Mute/unmute button with fade lock
-let fadeInProgress = false;
-
-btn.onclick = () => {
-  if (fadeInProgress) return;
-  fadeInProgress = true;
-
-  if (music.muted) {
-    music.muted = false;
-    fadeAudio(music, 0, 1, 500, () => { fadeInProgress = false; });
-    muteIcon.src = "unmute.png";
+// --- mute/unmute ---
+btn.onclick = ()=> {
+  if(fadeInProgress) return;
+  fadeInProgress=true;
+  if(music.muted){
+    music.muted=false;
+    fadeAudio(music,0,1,500,()=>fadeInProgress=false);
+    muteIcon.src="unmute.png";
   } else {
-    fadeAudio(music, 1, 0, 500, () => {
-      music.muted = true;
-      fadeInProgress = false;
-    });
-    muteIcon.src = "mute.png";
+    fadeAudio(music,1,0,500,()=>{music.muted=true; fadeInProgress=false});
+    muteIcon.src="mute.png";
   }
 };
 
-// ✦ generate random stars
-function createStars(count) {
-  const stars = [];
-  const minDistance = 40;
-  for (let i = 0; i < count; i++) {
-    const star = document.createElement('div');
+// --- stars ---
+function createStars(count){
+  for(let i=0;i<count;i++){
+    const star=document.createElement('div');
     star.classList.add('star');
-    star.textContent = '✦';
-    let tries = 0;
-    let x, y;
-    do {
-      x = Math.random() * window.innerWidth;
-      y = Math.random() * window.innerHeight;
-      tries++;
-    } while (stars.some(s => Math.hypot(s.x - x, s.y - y) < minDistance) && tries < 100);
-    star.style.left = `${x}px`;
-    star.style.top = `${y}px`;
-    const size = 8 + Math.random() * 16;
-    star.style.fontSize = `${size}px`;
-    star.style.opacity = 0.5 + Math.random() * 0.5;
-    stars.push({x, y});
+    star.textContent='✦';
+    let x = Math.random()*window.innerWidth;
+    let y = Math.random()*window.innerHeight;
+    star.style.left=`${x}px`;
+    star.style.top=`${y}px`;
+    const size=8+Math.random()*16;
+    star.style.fontSize=`${size}px`;
+    star.style.opacity=0.5+Math.random()*0.5;
+    star.style.textShadow=`0 0 ${Math.random()*8+2}px white, 0 0 ${Math.random()*8+2}px #fff`;
+    const offsetX=(Math.random()-0.5)*2;
+    const offsetY=(Math.random()-0.5)*2;
+    setInterval(()=>{
+      const currentX=parseFloat(star.style.left);
+      const currentY=parseFloat(star.style.top);
+      star.style.left=`${currentX+offsetX}px`;
+      star.style.top=`${currentY+offsetY}px`;
+    },2000+Math.random()*2000);
     document.body.appendChild(star);
   }
 }
-
 createStars(30);
-</script>
 
+// --- profile click secret ---
+let cooldown=false;
+const profile = document.querySelector(".profile");
+profile.addEventListener("click", ()=>{
+  if(!cooldown){
+    new Audio('secret.mp3').play();
+    cooldown=true;
+    setTimeout(()=>cooldown=false,5000);
+  }
+});
+
+// --- touch scaling ---
+function addTouchScale(el){
+  el.addEventListener("touchstart", ()=>{ el.classList.add("scale"); });
+  el.addEventListener("touchend", ()=>{ setTimeout(()=>el.classList.remove("scale"),200); });
+}
+addTouchScale(profile);
+addTouchScale(document.querySelector("#muteBtn img"));
+document.querySelectorAll(".buttons a").forEach(addTouchScale);
+
+// --- discord webhook chat ---
+const webhookURL = "https://discord.com/api/webhooks/1491511317700280440/oeLyXzuw63xDE2qhDeM7aQyIYS8uTTsQN_vygEZF8lZNDzlOILyEzDlWt0rH5AiUeuLB";
+const sendBtn = document.getElementById("sendBtn");
+const userMessage = document.getElementById("userMessage");
+const listeningText = document.getElementById("listeningText");
+
+sendBtn.addEventListener("click", () => {
+  if(localStorage.getItem("hasChatted")) {
+    alert("you already sent a message! clear cookies to send again.");
+    return;
+  }
+
+  let msg = userMessage.value.trim();
+  if(!msg) return;
+
+  if(msg.length > 200) msg = msg.slice(0, 200);
+
+  const div = document.createElement("div");
+  div.textContent = "you: " + msg;
+  div.style.position = "fixed";
+  div.style.bottom = "60px";
+  div.style.left = "20px";
+  div.style.color = "white";
+  div.style.fontFamily = "'google sans code', monospace";
+  document.body.appendChild(div);
+
+  fetch(webhookURL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ content: msg })
+  });
+
+  listeningText.classList.add("show");
+  setTimeout(()=> listeningText.classList.remove("show"), 2500);
+
+  localStorage.setItem("hasChatted", "true");
+  userMessage.value = "";
+  userMessage.disabled = true;
+  sendBtn.disabled = true;
+});
+</script>
+<script> //i see you, filthy code scraper!! </script>
 </body>
 </html>
