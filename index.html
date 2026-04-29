@@ -153,64 +153,6 @@ img.profile:hover,
 img.profile.scale {
   transform: scale(1.15);
 }
-
-/* message box behind overlay */
-#messageBox {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  z-index: 5;
-  display: flex;
-  gap: 6px;
-  font-family: 'google sans code', monospace;
-}
-
-#messageBox input,
-#messageBox button {
-  font-family: 'google sans code', monospace;
-  text-transform: lowercase;
-}
-
-#messageBox input {
-  background: black;
-  color: white;
-  border: 1px solid white;
-  border-radius: 4px;
-  padding: 6px 8px;
-  width: 180px;
-}
-
-#messageBox button {
-  background: white;
-  color: black;
-  border: none;
-  border-radius: 4px;
-  padding: 6px 12px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-#messageBox button:hover {
-  transform: scale(1.1);
-}
-
-/* temporary "i'll be listening" text */
-#listeningText {
-  position: fixed;
-  bottom: 100px;
-  left: 20px;
-  color: white;
-  font-family: 'google sans code', monospace;
-  z-index: 8;
-  opacity: 0;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  transform: translateY(10px);
-}
-
-#listeningText.show {
-  opacity: 1;
-  transform: translateY(0px);
-}
 </style>
 </head>
 <body>
@@ -221,6 +163,7 @@ img.profile.scale {
 <div class="container">
   <img class="profile" src="luna.gif" alt="pfp">
   <h1>cry</h1>
+  <p>personal site / links</p>
   <p>:p</p>
   <div class="buttons">
     <a href="https://steamcommunity.com/id/cry_tals" target="_blank"><img src="steam.webp" alt="steam"></a>
@@ -234,23 +177,15 @@ img.profile.scale {
   <img id="nyanCat" src="nyancat.gif" alt="nyan cat">
 </div>
 
-<div id="messageBox">
-  <input type="text" id="userMessage" placeholder="who are you?" disabled maxlength="200">
-  <button id="sendBtn" disabled>send</button>
-</div>
-
-<div id="listeningText">i'll be listening</div>
-
 <audio id="music" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
 
 <script>
-// --- overlay & music ---
+// overlay & music
 const overlay = document.getElementById("overlay");
 const music = document.getElementById("music");
 const btn = document.getElementById("muteBtn");
 const muteIcon = document.getElementById("muteIcon");
 let musicPlaying = false;
-let fadeInProgress = false;
 
 function fadeAudio(audio, from, to, duration, callback){
   const stepTime = 20;
@@ -266,125 +201,43 @@ function fadeAudio(audio, from, to, duration, callback){
   step();
 }
 
-function unlockAudio() {
+overlay.addEventListener("click", () => {
   overlay.style.opacity="0";
   setTimeout(()=>overlay.style.display="none",500);
   if(!musicPlaying){
     music.muted=false;
-    music.play().then(()=>fadeAudio(music,0,1,500)).catch(e=>console.log(e));
+    music.play().then(()=>fadeAudio(music,0,1,500));
     musicPlaying=true;
     muteIcon.src="unmute.png";
   }
-  if(!localStorage.getItem("hasChatted")) {
-    document.getElementById("userMessage").disabled = false;
-    document.getElementById("sendBtn").disabled = false;
-  }
-}
-overlay.addEventListener("click", unlockAudio, {once:true});
-overlay.addEventListener("touchstart", unlockAudio, {once:true});
+}, {once:true});
 
-// --- mute/unmute ---
+// mute toggle
 btn.onclick = ()=> {
-  if(fadeInProgress) return;
-  fadeInProgress=true;
   if(music.muted){
     music.muted=false;
-    fadeAudio(music,0,1,500,()=>fadeInProgress=false);
+    fadeAudio(music,0,1,500);
     muteIcon.src="unmute.png";
   } else {
-    fadeAudio(music,1,0,500,()=>{music.muted=true; fadeInProgress=false});
+    fadeAudio(music,1,0,500,()=>music.muted=true);
     muteIcon.src="mute.png";
   }
 };
 
-// --- stars ---
+// stars
 function createStars(count){
   for(let i=0;i<count;i++){
     const star=document.createElement('div');
     star.classList.add('star');
     star.textContent='✦';
-    let x = Math.random()*window.innerWidth;
-    let y = Math.random()*window.innerHeight;
-    star.style.left=`${x}px`;
-    star.style.top=`${y}px`;
-    const size=8+Math.random()*16;
-    star.style.fontSize=`${size}px`;
-    star.style.opacity=0.5+Math.random()*0.5;
-    star.style.textShadow=`0 0 ${Math.random()*8+2}px white, 0 0 ${Math.random()*8+2}px #fff`;
-    const offsetX=(Math.random()-0.5)*2;
-    const offsetY=(Math.random()-0.5)*2;
-    setInterval(()=>{
-      const currentX=parseFloat(star.style.left);
-      const currentY=parseFloat(star.style.top);
-      star.style.left=`${currentX+offsetX}px`;
-      star.style.top=`${currentY+offsetY}px`;
-    },2000+Math.random()*2000);
+    star.style.left=`${Math.random()*window.innerWidth}px`;
+    star.style.top=`${Math.random()*window.innerHeight}px`;
+    star.style.fontSize=`${8+Math.random()*16}px`;
     document.body.appendChild(star);
   }
 }
 createStars(30);
-
-// --- profile click secret ---
-let cooldown=false;
-const profile = document.querySelector(".profile");
-profile.addEventListener("click", ()=>{
-  if(!cooldown){
-    new Audio('secret.mp3').play();
-    cooldown=true;
-    setTimeout(()=>cooldown=false,5000);
-  }
-});
-
-// --- touch scaling ---
-function addTouchScale(el){
-  el.addEventListener("touchstart", ()=>{ el.classList.add("scale"); });
-  el.addEventListener("touchend", ()=>{ setTimeout(()=>el.classList.remove("scale"),200); });
-}
-addTouchScale(profile);
-addTouchScale(document.querySelector("#muteBtn img"));
-document.querySelectorAll(".buttons a").forEach(addTouchScale);
-
-// --- discord webhook chat ---
-const webhookURL = "https://discord.com/api/webhooks/1491511317700280440/oeLyXzuw63xDE2qhDeM7aQyIYS8uTTsQN_vygEZF8lZNDzlOILyEzDlWt0rH5AiUeuLB";
-const sendBtn = document.getElementById("sendBtn");
-const userMessage = document.getElementById("userMessage");
-const listeningText = document.getElementById("listeningText");
-
-sendBtn.addEventListener("click", () => {
-  if(localStorage.getItem("hasChatted")) {
-    alert("you already sent a message! clear cookies to send again.");
-    return;
-  }
-
-  let msg = userMessage.value.trim();
-  if(!msg) return;
-
-  if(msg.length > 200) msg = msg.slice(0, 200);
-
-  const div = document.createElement("div");
-  div.textContent = "you: " + msg;
-  div.style.position = "fixed";
-  div.style.bottom = "60px";
-  div.style.left = "20px";
-  div.style.color = "white";
-  div.style.fontFamily = "'google sans code', monospace";
-  document.body.appendChild(div);
-
-  fetch(webhookURL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ content: msg })
-  });
-
-  listeningText.classList.add("show");
-  setTimeout(()=> listeningText.classList.remove("show"), 2500);
-
-  localStorage.setItem("hasChatted", "true");
-  userMessage.value = "";
-  userMessage.disabled = true;
-  sendBtn.disabled = true;
-});
 </script>
-<script> //i see you, filthy code scraper!! </script>
+
 </body>
 </html>
