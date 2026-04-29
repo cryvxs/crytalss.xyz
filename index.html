@@ -26,30 +26,53 @@ body {
   text-transform: lowercase;
 }
 
-img { pointer-events: none; -webkit-user-drag: none; }
+/* base blur behind UI, above stars */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  background: rgba(0, 0, 0, 0.03);
+  z-index: 2;
+  pointer-events: none;
+}
 
+/* extra depth layer (parallax haze) */
+#depthLayer {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.03), transparent 60%);
+  transform: translateZ(0);
+}
+
+/* stars */
 .star {
   position: fixed;
   color: white;
   pointer-events: none;
   user-select: none;
-  opacity: 0.5;
   text-shadow: 0 0 3px white, 0 0 5px #fff;
   animation: twinkle 3s ease-in-out infinite alternate;
   z-index: 1;
 }
 
 @keyframes twinkle {
-  0% { opacity: 0.3; }
-  50% { opacity: 0.8; }
-  100% { opacity: 0.3; }
+  0% { opacity: 0.25; }
+  50% { opacity: 0.9; }
+  100% { opacity: 0.25; }
 }
 
+/* UI */
 .container {
   text-align: center;
   z-index: 5;
   position: relative;
 }
+
+img { pointer-events: none; -webkit-user-drag: none; }
 
 img.profile {
   width: 120px;
@@ -58,19 +81,20 @@ img.profile {
   cursor: pointer;
   pointer-events: auto;
   transition: transform 0.3s ease;
-  will-change: transform;
 }
 
 h1 { margin: 5px; }
 p { opacity: 0.7; }
 
-.buttons { margin-top: 15px; }
-.buttons a { 
-  display: inline-block; 
-  margin: 8px; 
-  text-decoration: none; 
+.buttons {
+  margin-top: 15px;
+}
+
+.buttons a {
+  display: inline-block;
+  margin: 8px;
+  text-decoration: none;
   transition: transform 0.3s ease;
-  will-change: transform;
 }
 
 .buttons a img {
@@ -78,24 +102,21 @@ p { opacity: 0.7; }
   height: 60px;
   display: block;
   transition: transform 0.3s ease;
-  position: relative;  
-  z-index: 5; 
 }
 
-.buttons a:hover img,
-.buttons a.scale img {
+.buttons a:hover img {
   transform: scale(1.15);
-  cursor: pointer;
 }
 
+/* mute */
 #muteBtn {
   position: fixed;
-  top: 10px; left: 10px;
+  top: 10px;
+  left: 10px;
   background: white;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s, transform 0.3s ease;
-  z-index: 5;
+  z-index: 6;
   padding: 6px;
   border: none;
 }
@@ -103,31 +124,25 @@ p { opacity: 0.7; }
 #muteBtn img {
   width: 24px;
   height: 24px;
-  display: block;
-  transition: transform 0.3s ease;
-  will-change: transform;
 }
 
-#muteBtn:hover img,
-#muteBtn img.scale {
-  transform: scale(1.15);
-}
-
+/* overlay */
 #overlay {
-  position: fixed; top:0; left:0;
-  width:100%; height:100%;
-  background:transparent;
+  position: fixed;
+  inset: 0;
+  background: transparent;
   backdrop-filter: blur(12px);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  color:white;
-  font-size:2em;
-  z-index:10;
-  cursor:pointer;
-  transition:opacity 0.5s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 2em;
+  z-index: 10;
+  cursor: pointer;
+  transition: opacity 0.5s ease;
 }
 
+/* nyan */
 #nyanWrapper {
   position: fixed;
   top: 20px;
@@ -135,12 +150,11 @@ p { opacity: 0.7; }
   width: 160px;
   pointer-events: none;
   animation: float 3s ease-in-out infinite alternate;
-  z-index: 2;
+  z-index: 3;
 }
 
 #nyanCat {
   width: 160px;
-  pointer-events: none;
 }
 
 @keyframes float {
@@ -149,94 +163,235 @@ p { opacity: 0.7; }
   100% { transform: translateY(0px); }
 }
 
-img.profile:hover,
-img.profile.scale {
-  transform: scale(1.15);
+/* input */
+#messageBox {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 6;
+  display: flex;
+  gap: 6px;
+}
+
+#messageBox input {
+  background: black;
+  color: white;
+  border: 1px solid white;
+  border-radius: 4px;
+  padding: 6px 8px;
+  width: 180px;
+}
+
+#messageBox button {
+  background: white;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+/* listening */
+#listeningText {
+  position: fixed;
+  bottom: 100px;
+  left: 20px;
+  color: white;
+  z-index: 6;
+  opacity: 0;
+  transition: 0.3s;
+  transform: translateY(10px);
+}
+
+#listeningText.show {
+  opacity: 1;
+  transform: translateY(0px);
 }
 </style>
 </head>
+
 <body>
 
+<div id="depthLayer"></div>
+
 <div id="overlay">click anywhere to view</div>
-<button id="muteBtn"><img id="muteIcon" src="unmute.png" alt="mute"></button>
+
+<button id="muteBtn"><img src="unmute.png"></button>
 
 <div class="container">
-  <img class="profile" src="luna.gif" alt="pfp">
+  <img class="profile" src="luna.gif">
   <h1>cry</h1>
-  <p>personal site / links</p>
   <p>:p</p>
+
   <div class="buttons">
-    <a href="https://steamcommunity.com/id/cry_tals" target="_blank"><img src="steam.webp" alt="steam"></a>
-    <a href="https://discord.com/users/955250582078238730" target="_blank"><img src="discord.webp" alt="discord"></a>
-    <a href="https://www.tiktok.com/@vernacularism" target="_blank"><img src="tiktok.webp" alt="tiktok"></a>
-    <a href="https://www.roblox.com/users/679387671/profile" target="_blank"><img src="roblox.webp" alt="roblox"></a>
+    <a href="https://steamcommunity.com/id/cry_tals" target="_blank"><img src="steam.webp"></a>
+    <a href="https://discord.com/users/955250582078238730" target="_blank"><img src="discord.webp"></a>
+    <a href="https://www.tiktok.com/@vernacularism" target="_blank"><img src="tiktok.webp"></a>
+    <a href="https://www.roblox.com/users/679387671/profile" target="_blank"><img src="roblox.webp"></a>
   </div>
 </div>
 
 <div id="nyanWrapper">
-  <img id="nyanCat" src="nyancat.gif" alt="nyan cat">
+  <img id="nyanCat" src="nyancat.gif">
 </div>
 
-<audio id="music" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
+<div id="messageBox">
+  <input type="text" id="userMessage" placeholder="who are you?" maxlength="200">
+  <button id="sendBtn">send</button>
+</div>
+
+<div id="listeningText">i'll be listening</div>
+
+<audio id="music" loop>
+  <source src="music.mp3">
+</audio>
+
+<audio id="typingSound" src="typing.mp3" preload="auto"></audio>
 
 <script>
-// overlay & music
 const overlay = document.getElementById("overlay");
+const input = document.getElementById("userMessage");
+const sendBtn = document.getElementById("sendBtn");
+const listeningText = document.getElementById("listeningText");
 const music = document.getElementById("music");
-const btn = document.getElementById("muteBtn");
-const muteIcon = document.getElementById("muteIcon");
-let musicPlaying = false;
+const typingSound = document.getElementById("typingSound");
 
-function fadeAudio(audio, from, to, duration, callback){
-  const stepTime = 20;
-  const steps = duration / stepTime;
-  let currentStep = 0;
-  audio.volume = from;
-  const step = () => {
-    currentStep++;
-    audio.volume = Math.min(Math.max(from + (to-from)*(currentStep/steps),0),1);
-    if(currentStep<steps) setTimeout(step,stepTime);
-    else if(callback) callback();
-  };
-  step();
+const webhookURL = "https://discord.com/api/webhooks/1491511317700280440/oeLyXzuw63xDE2qhDeM7aQyIYS8uTTsQN_vygEZF8lZNDzlOILyEzDlWt0rH5AiUeuLB";
+
+let unlocked = false;
+let typingTimeout;
+
+function setCookie(name, value, days){
+  const d = new Date();
+  d.setTime(d.getTime() + days*24*60*60*1000);
+  document.cookie = `${name}=${value}; expires=${d.toUTCString()}; path=/`;
+}
+
+function getCookie(name){
+  return document.cookie.split("; ").find(x => x.startsWith(name+"="))?.split("=")[1];
+}
+
+if(getCookie("sent")){
+  input.disabled = true;
+  sendBtn.disabled = true;
+  input.placeholder = "you already sent a message";
 }
 
 overlay.addEventListener("click", () => {
-  overlay.style.opacity="0";
-  setTimeout(()=>overlay.style.display="none",500);
-  if(!musicPlaying){
-    music.muted=false;
-    music.play().then(()=>fadeAudio(music,0,1,500));
-    musicPlaying=true;
-    muteIcon.src="unmute.png";
-  }
-}, {once:true});
+  overlay.style.opacity = "0";
+  setTimeout(() => overlay.remove(), 500);
 
-// mute toggle
-btn.onclick = ()=> {
-  if(music.muted){
-    music.muted=false;
-    fadeAudio(music,0,1,500);
-    muteIcon.src="unmute.png";
-  } else {
-    fadeAudio(music,1,0,500,()=>music.muted=true);
-    muteIcon.src="mute.png";
-  }
-};
+  music.play().catch(()=>{});
+  unlocked = true;
 
-// stars
+  if(!getCookie("sent")){
+    input.disabled = false;
+    sendBtn.disabled = false;
+  }
+});
+
+input.addEventListener("input", () => {
+  if(!unlocked || getCookie("sent")) return;
+
+  typingSound.currentTime = 0;
+  typingSound.play().catch(()=>{});
+
+  clearTimeout(typingTimeout);
+  typingTimeout = setTimeout(() => typingSound.pause(), 200);
+});
+
+sendBtn.addEventListener("click", async () => {
+  if(!unlocked || getCookie("sent")) return;
+
+  let msg = input.value.trim();
+  if(!msg) return;
+
+  await fetch(webhookURL, {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ content: msg })
+  });
+
+  setCookie("sent", "true", 365);
+
+  input.value = "";
+  input.disabled = true;
+  sendBtn.disabled = true;
+  input.placeholder = "you already sent a message";
+});
+</script>
+
+<script>
 function createStars(count){
-  for(let i=0;i<count;i++){
-    const star=document.createElement('div');
-    star.classList.add('star');
-    star.textContent='✦';
-    star.style.left=`${Math.random()*window.innerWidth}px`;
-    star.style.top=`${Math.random()*window.innerHeight}px`;
-    star.style.fontSize=`${8+Math.random()*16}px`;
+  for(let i = 0; i < count; i++){
+    const star = document.createElement("div");
+    star.className = "star";
+    star.textContent = "✦";
+
+    let x = Math.random() * window.innerWidth;
+    let y = Math.random() * window.innerHeight;
+
+    const depth = Math.random(); 
+    const speed = 0.2 + depth * 0.8;
+
+    const dx = (Math.random() - 0.5) * speed;
+    const dy = (Math.random() - 0.5) * speed;
+
+    const size = 4 + depth * 14;
+    star.style.fontSize = size + "px";
+    star.style.opacity = 0.2 + depth * 0.8;
+
     document.body.appendChild(star);
+
+    setInterval(() => {
+      x += dx;
+      y += dy;
+
+      if(x < 0) x = window.innerWidth;
+      if(x > window.innerWidth) x = 0;
+      if(y < 0) y = window.innerHeight;
+      if(y > window.innerHeight) y = 0;
+
+      star.style.left = x + "px";
+      star.style.top = y + "px";
+    }, 30);
   }
 }
-createStars(30);
+createStars(50);
+</script>
+
+<script>
+const profile = document.querySelector(".profile");
+let cooldown = false;
+
+profile.addEventListener("click", () => {
+  if(cooldown) return;
+
+  const s = new Audio("secret.mp3");
+  s.play().catch(()=>{});
+
+  cooldown = true;
+  setTimeout(() => cooldown = false, 3000);
+});
+</script>
+
+<script>
+const muteBtn = document.getElementById("muteBtn");
+const muteIcon = muteBtn.querySelector("img");
+
+let muted = false;
+
+muteBtn.addEventListener("click", () => {
+  if(!muted){
+    music.pause();
+    muteIcon.src = "mute.png";
+    muted = true;
+  } else {
+    music.play().catch(()=>{});
+    muteIcon.src = "unmute.png";
+    muted = false;
+  }
+});
 </script>
 
 </body>
