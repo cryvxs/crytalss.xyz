@@ -163,6 +163,29 @@ p { opacity: 0.7; }
   100% { transform: translateY(0px); }
 }
 
+#epicFace {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  width: 130px;
+  z-index: 6;
+
+  pointer-events: auto;
+  cursor: pointer;
+
+  transform-origin: bottom center;
+  animation: squishBounce 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes squishBounce {
+  0%   { transform: scaleY(1); }
+  25%  { transform: scaleY(0.5); }     /* squish down */
+  40%  { transform: scaleY(1.15); }    /* overshoot bounce */
+  55%  { transform: scaleY(0.95); }    /* settle */
+  70%  { transform: scaleY(1.05); }    /* tiny bounce */
+  100% { transform: scaleY(1); }
+}
+
 /* input */
 #messageBox {
   position: fixed;
@@ -226,14 +249,18 @@ p { opacity: 0.7; }
   <div class="buttons">
     <a href="https://steamcommunity.com/id/cry_tals" target="_blank"><img src="steam1.webp"></a>
     <a href="https://discord.com/users/955250582078238730" target="_blank"><img src="discord.webp"></a>
-    <a href="https://www.tiktok.com/@vernacularism" target="_blank"><img src="tiktok.webp"></a>
+    <a href="https://www.tiktok.com/@cry_tals" target="_blank"><img src="tiktok.webp"></a>
     <a href="https://www.roblox.com/users/679387671/profile" target="_blank"><img src="roblox1.webp"></a>
+    <a href="https://open.spotify.com/user/rug5s27cdasocy0227f5e75wc" target="_blank"><img src="spotify.webp"></a>
   </div>
 </div>
 
 <div id="nyanWrapper">
   <img id="nyanCat" src="nyancat.gif">
 </div>
+
+<!-- NEW epic face -->
+<img id="epicFace" src="epicface.png">
 
 <div id="messageBox">
   <input type="text" id="userMessage" placeholder="who are you?" maxlength="200">
@@ -242,9 +269,7 @@ p { opacity: 0.7; }
 
 <div id="listeningText">i'll be listening</div>
 
-<audio id="music" loop>
-  <source src="music.mp3">
-</audio>
+<audio id="music" loop></audio>
 
 <audio id="typingSound" src="typing.mp3" preload="auto"></audio>
 
@@ -276,6 +301,21 @@ if(getCookie("sent")){
   sendBtn.disabled = true;
   input.placeholder = "you already sent a message";
 }
+
+const songs = [
+  "music.mp3",
+  "spamton.mp3",
+  "ahomeforflowersempty.mp3",
+  "lostlibrary.mp3",
+  "wificonnection.mp3",
+  "sixrainy.mp3",
+  "bubblaineunderwater.mp3",
+  "janfourteen.mp3"
+];
+
+// pick random song
+const chosenSong = songs[Math.floor(Math.random() * songs.length)];
+music.src = chosenSong;
 
 overlay.addEventListener("click", () => {
   overlay.style.opacity = "0";
@@ -391,6 +431,26 @@ muteBtn.addEventListener("click", () => {
     muteIcon.src = "unmute.png";
     muted = false;
   }
+});
+</script>
+
+<script>
+const epicFace = document.getElementById("epicFace");
+
+let epicCooldown = false;
+
+epicFace.addEventListener("click", () => {
+  if(epicCooldown) return;
+  epicCooldown = true;
+
+  // play sound
+  const s = new Audio("heyapple.mp3");
+  s.play().catch(()=>{});
+
+  // refresh after 4 seconds
+  setTimeout(() => {
+    location.reload();
+  }, 4000);
 });
 </script>
 
