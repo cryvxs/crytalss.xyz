@@ -1,0 +1,401 @@
+@font-face {
+  font-family: 'mc';
+  src: url('../fontface/mc.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  cursor: url('../Images/robloxoldcursor.webp'), auto;
+  margin: 0;
+  font-family: 'google sans code', monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  background: black;
+  user-select: none;
+  text-transform: lowercase;
+}
+
+/* base blur behind UI, above stars */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  background: rgba(0, 0, 0, 0.03);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* extra depth layer (parallax haze) */
+#depthLayer {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.03), transparent 60%);
+  transform: translateZ(0);
+}
+
+#visualizer {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  width: min(90%, 960px);
+  height: 160px;
+  transform: translateX(-50%);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+/* stars */
+.star {
+  position: fixed;
+  color: white;
+  pointer-events: none;
+  user-select: none;
+  text-shadow: 0 0 3px white, 0 0 5px #fff;
+  animation: twinkle 3s ease-in-out infinite alternate;
+  z-index: 1;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.25; }
+  50% { opacity: 0.9; }
+  100% { opacity: 0.25; }
+}
+
+/* UI */
+.container {
+  text-align: center;
+  z-index: 5;
+  position: relative;
+}
+
+img { pointer-events: none; -webkit-user-drag: none; }
+
+img.profile {
+  width: 120px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform 0.3s ease;
+}
+
+h1 { margin: 5px; }
+p { opacity: 0.7; }
+
+.buttons {
+  margin-top: 15px;
+}
+
+.buttons a {
+  display: inline-block;
+  margin: 8px;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+.buttons a img {
+  width: 60px;
+  height: 60px;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.buttons a:hover img {
+  transform: scale(1.15);
+}
+
+/* Fixes the giant icon layout issue */
+#audioControl {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  padding: 8px;
+  background: rgba(0,0,0,0.22);
+  border-radius: 16px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+  backdrop-filter: blur(10px);
+}
+
+/* invisible wide hover area to make moving to the popup easier */
+#audioControl::after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  top: 0;
+  width: 220px;
+  height: 100%;
+  pointer-events: auto;
+}
+
+#trackInfo {
+  position: fixed;
+  /* position close to the corner so the element appears to emerge from it */
+  top: 80px;
+  right: 4px;
+  z-index: 7;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+  padding: 6px 10px;
+  background: transparent;
+  border-radius: 12px;
+  box-shadow: none;
+  backdrop-filter: none;
+  /* rotate and offset so the box peeks out of the top-right corner while text stays visible */
+  transform: rotate(20deg) translate(76px, 56px);
+  transform-origin: top right;
+}
+
+#trackName {
+  max-width: 700px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-transform: none;
+  font-family: 'mc', monospace;
+  font-size: 2.6rem;
+  letter-spacing: 0.02em;
+  color: #f8f8f8;
+  line-height: 1;
+  will-change: transform;
+  text-shadow: 0 3px 8px rgba(0,0,0,0.65);
+}
+
+@media (max-width: 800px) {
+  #trackInfo { top: 18px; right: 14px; transform: rotate(18deg) translate(-10px,6px); }
+  #trackName { font-size: 1.6rem; max-width: 260px; }
+}
+
+#trackNameInner {
+  display: inline-block;
+  padding-right: 14px;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+@keyframes track-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Removed headphones icon and swing animation */
+
+
+#muteBtn {
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 6px;
+  border: none;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#muteBtn img {
+  width: 24px;
+  height: 24px;
+}
+
+/* Volume slider popup */
+#volumePopup {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform-origin: left center;
+  transform: translate(0, -50%) scaleX(0);
+  opacity: 0;
+  transition: transform 0.18s ease-out, opacity 0.12s ease;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  background: rgba(0,0,0,0.75);
+  border-radius: 18px;
+  pointer-events: none;
+}
+
+#audioControl:hover #volumePopup {
+  transform: translate(10px, -50%) scaleX(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* JS-driven class to keep popup open while moving between button and popup */
+.open #volumePopup {
+  transform: translate(10px, -50%) scaleX(1) !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+#volumeSlider {
+  width: 120px;
+  height: 22px;
+  cursor: pointer;
+  accent-color: #ffffff;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 6px 0;
+}
+
+#volumeSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-top: -6px;
+  border-radius: 50%;
+  background: rgba(245,245,245,0.95);
+  cursor: pointer;
+  border: 2px solid rgba(255,255,255,0.55);
+}
+
+#volumeSlider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(245,245,245,0.95);
+  cursor: pointer;
+  border: 2px solid rgba(255,255,255,0.55);
+}
+
+#volumeSlider::-webkit-slider-runnable-track {
+  background: rgba(255,255,255,0.95);
+  height: 6px;
+  border-radius: 999px;
+}
+
+#volumeSlider::-moz-range-track {
+  background: rgba(255,255,255,0.95);
+  height: 6px;
+  border-radius: 999px;
+}
+
+/* Invisible click barrier covering everything */
+#overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.01); 
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 2em;
+  z-index: 100;
+  cursor: pointer;
+  transition: opacity 0.5s ease;
+  pointer-events: auto;
+}
+
+/* nyan */
+#nyanWrapper {
+  position: fixed;
+  bottom: 50px;
+  left: 20px;
+  width: 160px;
+  pointer-events: none;
+  animation: float 3s ease-in-out infinite alternate;
+  z-index: 3;
+  transition: transform 0.3s ease-out;
+}
+
+#muteBtn:hover ~ #nyanWrapper {
+  transform: translateX(50px);
+}
+
+#nyanCat {
+  width: 160px;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+#epicFace {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  width: 130px;
+  z-index: 6;
+  pointer-events: auto;
+  cursor: pointer;
+  transform-origin: bottom center;
+  animation: squishBounce 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes squishBounce {
+  0%   { transform: scaleY(1); }
+  25%  { transform: scaleY(0.5); }     
+  40%  { transform: scaleY(1.15); }    
+  55%  { transform: scaleY(0.95); }    
+  70%  { transform: scaleY(1.05); }    
+  100% { transform: scaleY(1); }
+}
+
+/* input */
+#messageBox {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 6;
+  display: flex;
+  gap: 6px;
+}
+
+#messageBox input {
+  background: black;
+  color: white;
+  border: 1px solid white;
+  border-radius: 4px;
+  padding: 6px 8px;
+  width: 180px;
+}
+
+#messageBox button {
+  background: white;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+/* listening */
+#listeningText {
+  position: fixed;
+  bottom: 100px;
+  left: 20px;
+  color: white;
+  z-index: 6;
+  opacity: 0;
+  transition: 0.3s;
+  transform: translateY(10px);
+}
+
+#listeningText.show {
+  opacity: 1;
+  transform: translateY(0px);
+}

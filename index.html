@@ -4,263 +4,51 @@
 <meta charset="UTF-8">
 <title>info</title>
 
-<link rel="icon" type="image/gif" href="luna.gif">
+<link rel="icon" type="image/gif" href="Images/luna.gif">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 
-<style>
-body {
-  cursor: url('robloxoldcursor.webp'), auto;
-  margin: 0;
-  font-family: 'google sans code', monospace;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  color: white;
-  position: relative;
-  overflow: hidden;
-  background: black;
-  user-select: none;
-  text-transform: lowercase;
-}
-
-/* base blur behind UI, above stars */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
-  background: rgba(0, 0, 0, 0.03);
-  z-index: 2;
-  pointer-events: none;
-}
-
-/* extra depth layer (parallax haze) */
-#depthLayer {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.03), transparent 60%);
-  transform: translateZ(0);
-}
-
-/* stars */
-.star {
-  position: fixed;
-  color: white;
-  pointer-events: none;
-  user-select: none;
-  text-shadow: 0 0 3px white, 0 0 5px #fff;
-  animation: twinkle 3s ease-in-out infinite alternate;
-  z-index: 1;
-}
-
-@keyframes twinkle {
-  0% { opacity: 0.25; }
-  50% { opacity: 0.9; }
-  100% { opacity: 0.25; }
-}
-
-/* UI */
-.container {
-  text-align: center;
-  z-index: 5;
-  position: relative;
-}
-
-img { pointer-events: none; -webkit-user-drag: none; }
-
-img.profile {
-  width: 120px;
-  border-radius: 50%;
-  margin-bottom: 10px;
-  cursor: pointer;
-  pointer-events: auto;
-  transition: transform 0.3s ease;
-}
-
-h1 { margin: 5px; }
-p { opacity: 0.7; }
-
-.buttons {
-  margin-top: 15px;
-}
-
-.buttons a {
-  display: inline-block;
-  margin: 8px;
-  text-decoration: none;
-  transition: transform 0.3s ease;
-}
-
-.buttons a img {
-  width: 60px;
-  height: 60px;
-  display: block;
-  transition: transform 0.3s ease;
-}
-
-.buttons a:hover img {
-  transform: scale(1.15);
-}
-
-/* mute */
-#muteBtn {
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  background: white;
-  border-radius: 8px;
-  cursor: pointer;
-  z-index: 6;
-  padding: 6px;
-  border: none;
-}
-
-#muteBtn img {
-  width: 24px;
-  height: 24px;
-}
-
-/* overlay */
-#overlay {
-  position: fixed;
-  inset: 0;
-  background: transparent;
-  backdrop-filter: blur(12px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-size: 2em;
-  z-index: 10;
-  cursor: pointer;
-  transition: opacity 0.5s ease;
-}
-
-/* nyan */
-#nyanWrapper {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  width: 160px;
-  pointer-events: none;
-  animation: float 3s ease-in-out infinite alternate;
-  z-index: 3;
-}
-
-#nyanCat {
-  width: 160px;
-}
-
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-15px); }
-  100% { transform: translateY(0px); }
-}
-
-#epicFace {
-  position: fixed;
-  right: 10px;
-  bottom: 10px;
-  width: 130px;
-  z-index: 6;
-
-  pointer-events: auto;
-  cursor: pointer;
-
-  transform-origin: bottom center;
-  animation: squishBounce 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-}
-
-@keyframes squishBounce {
-  0%   { transform: scaleY(1); }
-  25%  { transform: scaleY(0.5); }     /* squish down */
-  40%  { transform: scaleY(1.15); }    /* overshoot bounce */
-  55%  { transform: scaleY(0.95); }    /* settle */
-  70%  { transform: scaleY(1.05); }    /* tiny bounce */
-  100% { transform: scaleY(1); }
-}
-
-/* input */
-#messageBox {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  z-index: 6;
-  display: flex;
-  gap: 6px;
-}
-
-#messageBox input {
-  background: black;
-  color: white;
-  border: 1px solid white;
-  border-radius: 4px;
-  padding: 6px 8px;
-  width: 180px;
-}
-
-#messageBox button {
-  background: white;
-  color: black;
-  border: none;
-  border-radius: 4px;
-  padding: 6px 12px;
-  cursor: pointer;
-}
-
-/* listening */
-#listeningText {
-  position: fixed;
-  bottom: 100px;
-  left: 20px;
-  color: white;
-  z-index: 6;
-  opacity: 0;
-  transition: 0.3s;
-  transform: translateY(10px);
-}
-
-#listeningText.show {
-  opacity: 1;
-  transform: translateY(0px);
-}
-</style>
+<link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
 <div id="depthLayer"></div>
+<canvas id="visualizer"></canvas>
 
 <div id="overlay">click anywhere to view</div>
 
-<button id="muteBtn"><img src="unmute.png"></button>
+<div id="audioControl">
+  <button id="muteBtn"><img src="Images/unmute.png"></button>
+  <div id="volumePopup">
+    <input type="range" id="volumeSlider" min="0" max="100" value="100">
+  </div>
+</div>
+
+<div id="trackInfo">
+  <div id="trackName"><span id="trackNameInner"></span></div>
+</div>
 
 <div class="container">
-  <img class="profile" src="luna.gif">
+  <img class="profile" src="Images/luna.gif">
   <h1>cry</h1>
   <p>personal website</p>
 
   <div class="buttons">
-    <a href="https://steamcommunity.com/id/cry_tals" target="_blank"><img src="steam1.webp"></a>
-    <a href="https://discord.com/users/955250582078238730" target="_blank"><img src="discord.webp"></a>
-    <a href="https://www.tiktok.com/@cry_tals" target="_blank"><img src="tiktok.webp"></a>
-    <a href="https://www.roblox.com/users/679387671/profile" target="_blank"><img src="roblox1.webp"></a>
-    <a href="https://open.spotify.com/user/rug5s27cdasocy0227f5e75wc" target="_blank"><img src="spotify.webp"></a>
+    <a href="https://steamcommunity.com/id/cry_tals" target="_blank"><img src="Images/steam1.webp"></a>
+    <a href="https://discord.com/users/955250582078238730" target="_blank"><img src="Images/discord.webp"></a>
+    <a href="https://www.tiktok.com/@cry_tals" target="_blank"><img src="Images/tiktok.webp"></a>
+    <a href="https://www.roblox.com/users/679387671/profile" target="_blank"><img src="Images/roblox1.webp"></a>
+    <a href="https://open.spotify.com/user/rug5s27cdasocy0227f5e75wc" target="_blank"><img src="Images/spotify.webp"></a>
   </div>
 </div>
 
 <div id="nyanWrapper">
-  <img id="nyanCat" src="nyancat.gif">
+  <img id="nyanCat" src="Images/nyancat.gif">
 </div>
 
-<!-- NEW epic face -->
-<img id="epicFace" src="epicface.png">
+<img id="epicFace" src="Images/epicface.png">
 
 <div id="messageBox">
   <input type="text" id="userMessage" placeholder="who are you?" maxlength="200">
@@ -269,190 +57,14 @@ p { opacity: 0.7; }
 
 <div id="listeningText">i'll be listening</div>
 
-<audio id="music" loop></audio>
+<audio id="music"></audio>
+<audio id="typingSound" src="Music/typing.mp3" preload="auto"></audio>
 
-<audio id="typingSound" src="typing.mp3" preload="auto"></audio>
-
-<script>
-const overlay = document.getElementById("overlay");
-const input = document.getElementById("userMessage");
-const sendBtn = document.getElementById("sendBtn");
-const listeningText = document.getElementById("listeningText");
-const music = document.getElementById("music");
-const typingSound = document.getElementById("typingSound");
-
-const webhookURL = "https://discord.com/api/webhooks/1491511317700280440/oeLyXzuw63xDE2qhDeM7aQyIYS8uTTsQN_vygEZF8lZNDzlOILyEzDlWt0rH5AiUeuLB";
-
-let unlocked = false;
-let typingTimeout;
-
-function setCookie(name, value, days){
-  const d = new Date();
-  d.setTime(d.getTime() + days*24*60*60*1000);
-  document.cookie = `${name}=${value}; expires=${d.toUTCString()}; path=/`;
-}
-
-function getCookie(name){
-  return document.cookie.split("; ").find(x => x.startsWith(name+"="))?.split("=")[1];
-}
-
-if(getCookie("sent")){
-  input.disabled = true;
-  sendBtn.disabled = true;
-  input.placeholder = "you already sent a message";
-}
-
-const songs = [
-  "music.mp3",
-  "spamton.mp3",
-  "ahomeforflowersempty.mp3",
-  "lostlibrary.mp3",
-  "wificonnection.mp3",
-  "sixrainy.mp3",
-  "bubblaineunderwater.mp3",
-  "janfourteen.mp3"
-];
-
-// pick random song
-const chosenSong = songs[Math.floor(Math.random() * songs.length)];
-music.src = chosenSong;
-
-overlay.addEventListener("click", () => {
-  overlay.style.opacity = "0";
-  setTimeout(() => overlay.remove(), 500);
-
-  music.play().catch(()=>{});
-  unlocked = true;
-
-  if(!getCookie("sent")){
-    input.disabled = false;
-    sendBtn.disabled = false;
-  }
-});
-
-input.addEventListener("input", () => {
-  if(!unlocked || getCookie("sent")) return;
-
-  typingSound.currentTime = 0;
-  typingSound.play().catch(()=>{});
-
-  clearTimeout(typingTimeout);
-  typingTimeout = setTimeout(() => typingSound.pause(), 200);
-});
-
-sendBtn.addEventListener("click", async () => {
-  if(!unlocked || getCookie("sent")) return;
-
-  let msg = input.value.trim();
-  if(!msg) return;
-
-  await fetch(webhookURL, {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({ content: msg })
-  });
-
-  setCookie("sent", "true", 365);
-
-  input.value = "";
-  input.disabled = true;
-  sendBtn.disabled = true;
-  input.placeholder = "you already sent a message";
-});
-</script>
-
-<script>
-function createStars(count){
-  for(let i = 0; i < count; i++){
-    const star = document.createElement("div");
-    star.className = "star";
-    star.textContent = "✦";
-
-    let x = Math.random() * window.innerWidth;
-    let y = Math.random() * window.innerHeight;
-
-    const depth = Math.random(); 
-    const speed = 0.2 + depth * 0.8;
-
-    const dx = (Math.random() - 0.5) * speed;
-    const dy = (Math.random() - 0.5) * speed;
-
-    const size = 4 + depth * 14;
-    star.style.fontSize = size + "px";
-    star.style.opacity = 0.2 + depth * 0.8;
-
-    document.body.appendChild(star);
-
-    setInterval(() => {
-      x += dx;
-      y += dy;
-
-      if(x < 0) x = window.innerWidth;
-      if(x > window.innerWidth) x = 0;
-      if(y < 0) y = window.innerHeight;
-      if(y > window.innerHeight) y = 0;
-
-      star.style.left = x + "px";
-      star.style.top = y + "px";
-    }, 30);
-  }
-}
-createStars(50);
-</script>
-
-<script>
-const profile = document.querySelector(".profile");
-let cooldown = false;
-
-profile.addEventListener("click", () => {
-  if(cooldown) return;
-
-  const s = new Audio("secret.mp3");
-  s.play().catch(()=>{});
-
-  cooldown = true;
-  setTimeout(() => cooldown = false, 3000);
-});
-</script>
-
-<script>
-const muteBtn = document.getElementById("muteBtn");
-const muteIcon = muteBtn.querySelector("img");
-
-let muted = false;
-
-muteBtn.addEventListener("click", () => {
-  if(!muted){
-    music.pause();
-    muteIcon.src = "mute.png";
-    muted = true;
-  } else {
-    music.play().catch(()=>{});
-    muteIcon.src = "unmute.png";
-    muted = false;
-  }
-});
-</script>
-
-<script>
-const epicFace = document.getElementById("epicFace");
-
-let epicCooldown = false;
-
-epicFace.addEventListener("click", () => {
-  if(epicCooldown) return;
-  epicCooldown = true;
-
-  // play sound
-  const s = new Audio("heyapple.mp3");
-  s.play().catch(()=>{});
-
-  // refresh after 4 seconds
-  setTimeout(() => {
-    location.reload();
-  }, 4000);
-});
-</script>
+<script src="js/stars.js"></script>
+<script src="js/music.js"></script>
+<script src="js/main.js"></script>
+<script src="js/profile.js"></script>
+<script src="js/epicface.js"></script>
 
 </body>
 </html>
