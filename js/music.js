@@ -113,7 +113,6 @@ const songs = [
   "Music/Deal_Em_Out.mp3",
   "Music/Meltdown.mp3",
   "Music/Jawbreaker.mp3",
-  "Music/Introduction_to_the_Snow_Instrumental.mp3",
   "Music/Introduction_to_the_Snow_(Instrumental).mp3",
   "Music/Rise_And_Shine_Ursine.mp3",
   "Music/Wavetapper.mp3",
