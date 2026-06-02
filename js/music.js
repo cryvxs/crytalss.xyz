@@ -86,7 +86,7 @@ const tryPlayMusic = () => {
   if (audioCtx.state === "suspended") {
     audioCtx.resume().catch(() => {});
   }
-  if (!muted && music.paused) {
+  if (music.paused) {
     music.play().catch((error) => {
       console.warn('Music play blocked or failed:', error);
     });
@@ -118,6 +118,13 @@ const songs = [
   "Music/Basics_in_Behavior_(Instrumental).mp3",
 ];
 
+let muted = false;
+
+function updateMuteIcon() {
+  music.muted = muted;
+  muteIcon.src = muted ? "Images/mute.png" : "Images/unmute.png";
+}
+
 music.preload = 'auto';
 music.volume = 1;
 volumeSlider.value = 100;
@@ -130,12 +137,13 @@ if (savedVol) {
     if (!Number.isNaN(val)) {
       volumeSlider.value = val;
       music.volume = val / 100;
+      muted = val === 0;
       console.log('Loaded saved music volume from cookie:', val);
     }
   } catch (e) {}
 }
 
-let muted = false;
+updateMuteIcon();
 
 function getCurrentTrackName(path) {
   const file = path.split("/").pop().split("?")[0];
@@ -175,14 +183,10 @@ music.play().catch((error) => {
 });
 
 muteBtn.addEventListener("click", () => {
-  if(!muted) {
-    music.pause();
-    muteIcon.src = "Images/mute.png";
-    muted = true;
-  } else {
-    music.play().catch(() => {});
-    muteIcon.src = "Images/unmute.png";
-    muted = false;
+  muted = !muted;
+  updateMuteIcon();
+  if (!muted && music.paused) {
+    tryPlayMusic();
   }
 });
 
@@ -190,7 +194,12 @@ volumeSlider.addEventListener("input", () => {
   const value = parseInt(volumeSlider.value, 10);
   const volume = value / 100;
   music.volume = volume;
-  // persist to cookie for next visit
+  if (value === 0) {
+    muted = true;
+  } else if (muted) {
+    muted = false;
+  }
+  updateMuteIcon();
   setCookie('music_vol', String(value), 365);
   console.log('Saved music volume to cookie:', value);
 });
