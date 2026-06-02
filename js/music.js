@@ -4,8 +4,6 @@ const muteIcon = muteBtn.querySelector("img");
 const volumePopup = document.getElementById("volumePopup");
 const volumeSlider = document.getElementById("volumeSlider");
 const visualizerCanvas = document.getElementById("visualizer");
-const trackNameInner = document.getElementById("trackNameInner");
-const trackNameContainer = document.getElementById("trackName");
 
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 const analyser = audioCtx.createAnalyser();
@@ -109,11 +107,12 @@ const songs = [
   "Music/FEX_-_Subways_of_your_mind_(NDR-2_RADIO_DEMO).mp3",
   "Music/Chuck_Person_-_[untitled].mp3",
   "Music/Girl_Like_Me_(Instrumental).mp3",
+  "Music/Introduction_to_the_Snow_(Instrumental).mp3",
+  "Music/Labyrinth.mp3",
   "Music/Protocol.mp3",
   "Music/Deal_Em_Out.mp3",
   "Music/Meltdown.mp3",
   "Music/Jawbreaker.mp3",
-  "Music/Introduction_to_the_Snow_(Instrumental).mp3",
   "Music/Rise_And_Shine_Ursine.mp3",
   "Music/Wavetapper.mp3",
   "Music/Basics_in_Behavior_(Instrumental).mp3",
@@ -138,75 +137,13 @@ if (savedVol) {
 
 let muted = false;
 
-function formatTrackName(path) {
+function getCurrentTrackName(path) {
   const file = path.split("/").pop().split("?")[0];
-  const decoded = decodeURIComponent(file.replace(/\+/g, " "));
-  return decoded.replace(/\.mp3$/i, "").replace(/_/g, " ");
+  return decodeURIComponent(file.replace(/\+/g, " ")).replace(/\.mp3$/i, "").replace(/_/g, " ");
 }
 
-// Marquee variables
-let marqueeRAF = null;
-let marqueeStart = 0;
-let marqueeSpeed = 60; // pixels per second
-
-function stopMarquee() {
-  if (marqueeRAF) {
-    cancelAnimationFrame(marqueeRAF);
-    marqueeRAF = null;
-  }
-  trackNameInner.style.transform = '';
-}
-
-function startMarquee(totalWidth) {
-  stopMarquee();
-  marqueeStart = performance.now();
-  // ensure starting at 0 to avoid visual snapping
-  trackNameInner.style.transform = 'translateX(0)';
-  function step(now) {
-    const elapsed = (now - marqueeStart) / 1000;
-    const distance = (elapsed * marqueeSpeed) % totalWidth;
-    trackNameInner.style.transform = `translate3d(${-distance}px,0,0)`;
-    marqueeRAF = requestAnimationFrame(step);
-  }
-  marqueeRAF = requestAnimationFrame(step);
-}
-
-function updateTrackDisplay() {
-  const name = formatTrackName(music.src);
-  // If text fits, show plain text and stop marquee
-  trackNameInner.style.transform = '';
-  trackNameInner.className = '';
-  trackNameInner.innerHTML = '';
-  trackNameContainer.classList.remove('scrolling');
-
-  // Create two spans for seamless scrolling when needed
-  const spanA = document.createElement('span');
-  spanA.className = 'm1';
-  spanA.textContent = name;
-  const spanB = document.createElement('span');
-  spanB.className = 'm2';
-  spanB.textContent = name;
-  trackNameInner.appendChild(spanA);
-  trackNameInner.appendChild(spanB);
-
-  // Give browser a tick to layout
-  requestAnimationFrame(() => {
-    const spanWidth = spanA.offsetWidth;
-    const containerWidth = trackNameContainer.clientWidth;
-    if (spanWidth > containerWidth) {
-      // make inner wide enough (two copies) and start JS marquee
-      trackNameContainer.classList.add('scrolling');
-      // ensure spans are inline and separated
-      spanA.style.display = 'inline-block';
-      spanB.style.display = 'inline-block';
-      spanB.style.paddingLeft = '48px';
-      startMarquee(spanWidth + 48);
-    } else {
-      // fits: stop marquee and show single text
-      stopMarquee();
-      trackNameInner.textContent = name;
-    }
-  });
+function logTrackLoaded() {
+  console.log("Track loaded:", getCurrentTrackName(music.src));
 }
 
 function setRandomSong() {
@@ -216,8 +153,8 @@ function setRandomSong() {
     nextSong = songs[Math.floor(Math.random() * songs.length)];
   }
   music.src = nextSong;
+  music.load();
   console.log('Selected random song:', nextSong);
-  updateTrackDisplay();
 }
 
 function handleMusicError() {
@@ -230,7 +167,7 @@ function handleMusicError() {
 
 music.addEventListener('error', handleMusicError);
 music.addEventListener('stalled', handleMusicError);
-music.addEventListener('loadedmetadata', updateTrackDisplay);
+music.addEventListener('loadedmetadata', logTrackLoaded);
 
 setRandomSong();
 music.play().catch((error) => {

@@ -141,41 +141,6 @@ p { opacity: 0.7; }
   pointer-events: auto;
 }
 
-#trackInfo {
-  display: none !important;
-}
-
-#trackName {
-  max-width: 700px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-transform: none;
-  font-family: 'mc', monospace;
-  font-size: 2.6rem;
-  letter-spacing: 0.02em;
-  color: #f8f8f8;
-  line-height: 1;
-  will-change: transform;
-  text-shadow: 0 3px 8px rgba(0,0,0,0.65);
-}
-
-@media (max-width: 800px) {
-  #trackInfo { top: 18px; right: 14px; transform: rotate(18deg) translate(-10px,6px); }
-  #trackName { font-size: 1.6rem; max-width: 260px; }
-}
-
-#trackNameInner {
-  display: inline-block;
-  padding-right: 14px;
-  white-space: nowrap;
-  will-change: transform;
-}
-
-@keyframes track-scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
 /* Removed headphones icon and swing animation */
 
 
