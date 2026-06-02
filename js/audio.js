@@ -89,7 +89,7 @@ const songs = [
   "Music/6AM_Rainy_ACNH_OST.mp3",
   "Music/Bubblaine_Underwater.mp3",
   "Music/January_Fourteenth.mp3",
-  "Music/GenesisKeys - Short Man's High Ground.mp3",
+  "Music/GenesisKeys_-_Short_Man's_High_Ground.mp3",
   "Music/FEX_-_Subways_of_your_mind_(NDR-2_)RADIO_DEMO).mp3",
   "Music/Chuck_Person_-_[untitled].mp3",
   "Music/Girl_Like_Me_(Instrumental).mp3"

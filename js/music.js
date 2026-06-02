@@ -84,14 +84,18 @@ window.addEventListener("resize", resizeVisualizer);
 resizeVisualizer();
 drawVisualizer();
 
-document.addEventListener("click", () => {
+const tryPlayMusic = () => {
   if (audioCtx.state === "suspended") {
     audioCtx.resume().catch(() => {});
   }
   if (!muted && music.paused) {
-    music.play().catch(() => {});
+    music.play().catch((error) => {
+      console.warn('Music play blocked or failed:', error);
+    });
   }
-});
+};
+
+document.addEventListener("click", tryPlayMusic);
 
 const songs = [
   "Music/Spamton.mp3",
@@ -101,12 +105,22 @@ const songs = [
   "Music/6AM_Rainy_ACNH_OST.mp3",
   "Music/Bubblaine_Underwater.mp3",
   "Music/January_Fourteenth.mp3",
-  "Music/GenesisKeys - Short Man's High Ground.mp3",
-  "Music/FEX_-_Subways_of_your_mind_(NDR-2_)RADIO_DEMO).mp3",
+  "Music/GenesisKeys_-_Short_Man's_High_Ground.mp3",
+  "Music/FEX_-_Subways_of_your_mind_(NDR-2_RADIO_DEMO).mp3",
   "Music/Chuck_Person_-_[untitled].mp3",
-  "Music/Girl_Like_Me_(Instrumental).mp3"
+  "Music/Girl_Like_Me_(Instrumental).mp3",
+  "Music/Protocol.mp3",
+  "Music/Deal_Em_Out.mp3",
+  "Music/Meltdown.mp3",
+  "Music/Jawbreaker.mp3",
+  "Music/Introduction_to_the_Snow_Instrumental.mp3",
+  "Music/Introduction_to_the_Snow_(Instrumental).mp3",
+  "Music/Rise_And_Shine_Ursine.mp3",
+  "Music/Wavetapper.mp3",
+  "Music/Basics_in_Behavior_(Instrumental).mp3",
 ];
 
+music.preload = 'auto';
 music.volume = 1;
 volumeSlider.value = 100;
 
@@ -207,8 +221,22 @@ function setRandomSong() {
   updateTrackDisplay();
 }
 
+function handleMusicError() {
+  console.warn('Music failed to load/play, selecting another track.', music.error);
+  setRandomSong();
+  if (!muted) {
+    tryPlayMusic();
+  }
+}
+
+music.addEventListener('error', handleMusicError);
+music.addEventListener('stalled', handleMusicError);
+music.addEventListener('loadedmetadata', updateTrackDisplay);
+
 setRandomSong();
-music.play().catch(() => {});
+music.play().catch((error) => {
+  console.warn('Initial playback blocked or failed:', error);
+});
 
 muteBtn.addEventListener("click", () => {
   if(!muted) {

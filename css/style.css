@@ -142,23 +142,7 @@ p { opacity: 0.7; }
 }
 
 #trackInfo {
-  position: fixed;
-  /* position close to the corner so the element appears to emerge from it */
-  top: 80px;
-  right: 4px;
-  z-index: 7;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  pointer-events: none;
-  padding: 6px 10px;
-  background: transparent;
-  border-radius: 12px;
-  box-shadow: none;
-  backdrop-filter: none;
-  /* rotate and offset so the box peeks out of the top-right corner while text stays visible */
-  transform: rotate(20deg) translate(76px, 56px);
-  transform-origin: top right;
+  display: none !important;
 }
 
 #trackName {
