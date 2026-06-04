@@ -45,12 +45,6 @@ overlay.addEventListener("click", handleOverlayClick);
 input.addEventListener("input", () => {
   if(!unlocked || getCookie("sent")) return;
 
-  if (input.value.length > 0) {
-    listeningText.classList.add("show");
-  } else {
-    listeningText.classList.remove("show");
-  }
-
   typingSound.currentTime = 0;
   typingSound.play().catch(()=>{});
 
@@ -64,6 +58,8 @@ sendBtn.addEventListener("click", async () => {
   let msg = input.value.trim();
   if(!msg) return;
 
+  listeningText.classList.add("show");
+
   await fetch(webhookURL, {
     method: "POST",
     headers: {"Content-Type":"application/json"},
@@ -76,5 +72,6 @@ sendBtn.addEventListener("click", async () => {
   input.disabled = true;
   sendBtn.disabled = true;
   input.placeholder = "you already sent a message";
-  listeningText.classList.remove("show");
+  
+  setTimeout(() => listeningText.classList.remove("show"), 3000);
 });

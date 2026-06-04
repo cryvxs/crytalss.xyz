@@ -6,7 +6,7 @@
 }
 
 body {
-  cursor: url('../Images/robloxoldcursor.webp'), auto;
+  cursor: auto;
   margin: 0;
   font-family: 'google sans code', monospace;
   display: flex;
@@ -62,7 +62,7 @@ body::before {
   pointer-events: none;
   user-select: none;
   text-shadow: 0 0 3px white, 0 0 5px #fff;
-  animation: twinkle 3s ease-in-out infinite alternate;
+  animation: twinkle 3s ease-in-out infinite alternate, pulse 2s ease-in-out infinite;
   z-index: 1;
 }
 
@@ -70,6 +70,12 @@ body::before {
   0% { opacity: 0.25; }
   50% { opacity: 0.9; }
   100% { opacity: 0.25; }
+}
+
+@keyframes pulse {
+  0% { filter: drop-shadow(0 0 3px rgba(255,255,255,0.3)); }
+  50% { filter: drop-shadow(0 0 8px rgba(255,255,255,0.8)); }
+  100% { filter: drop-shadow(0 0 3px rgba(255,255,255,0.3)); }
 }
 
 /* UI */
@@ -85,13 +91,42 @@ img.profile {
   width: 120px;
   border-radius: 50%;
   margin-bottom: 10px;
-  cursor: pointer;
+  cursor: default;
   pointer-events: auto;
   transition: transform 0.3s ease;
 }
 
+img.profile.clickable {
+  cursor: pointer;
+}
+
+img.profile.clickable:hover {
+  transform: scale(1.1);
+}
+
 h1 { margin: 5px; }
 p { opacity: 0.7; }
+
+/* Triangle popup */
+#trianglePopup {
+  position: fixed;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5em;
+  color: white;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0;
+  animation: fadeInOut 6s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  33% { opacity: 1; }
+  66% { opacity: 1; }
+  100% { opacity: 0; }
+}
 
 .buttons {
   margin-top: 15px;
@@ -312,6 +347,7 @@ p { opacity: 0.7; }
   z-index: 6;
   display: flex;
   gap: 6px;
+  align-items: center;
 }
 
 #messageBox input {
@@ -335,16 +371,20 @@ p { opacity: 0.7; }
 /* listening */
 #listeningText {
   position: fixed;
-  bottom: 100px;
-  left: 20px;
+  bottom: 23px;
+  left: 280px;
   color: white;
   z-index: 6;
   opacity: 0;
-  transition: 0.3s;
-  transform: translateY(10px);
+  transition: 0.3s ease-out;
+  transform: translateX(0) scaleX(0);
+  transform-origin: left center;
+  pointer-events: none;
+  white-space: nowrap;
 }
 
 #listeningText.show {
   opacity: 1;
-  transform: translateY(0px);
+  transform: translateX(18px) scaleX(1);
+  pointer-events: auto;
 }

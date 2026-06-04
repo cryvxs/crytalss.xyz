@@ -126,8 +126,8 @@ function updateMuteIcon() {
 }
 
 music.preload = 'auto';
-music.volume = 1;
-volumeSlider.value = 100;
+music.volume = 0.5;
+volumeSlider.value = 50;
 
 // Load saved volume from cookie if present
 const savedVol = getCookie('music_vol');
