@@ -7,11 +7,12 @@ function createStars(count){
     star.className = "star";
     star.textContent = "✦";
 
-    let x = Math.random() * window.innerWidth;
-    let y = Math.random() * window.innerHeight;
+    // Use percentages instead of pixels for zoom stability
+    let xPercent = Math.random() * 100;
+    let yPercent = Math.random() * 100;
 
     const depth = Math.random(); 
-    const speed = 0.2 + depth * 0.8;
+    const speed = (0.1 + depth * 0.4) * 0.25;
 
     const dx = (Math.random() - 0.5) * speed;
     const dy = (Math.random() - 0.5) * speed;
@@ -21,7 +22,7 @@ function createStars(count){
     star.style.opacity = 0.2 + depth * 0.8;
 
     star.style.pointerEvents = "auto";
-    star.style.cursor = "default";
+    star.style.cursor = "pointer";
 
     star.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -54,16 +55,16 @@ function createStars(count){
     document.body.appendChild(star);
 
     const moveInterval = setInterval(() => {
-      x += dx;
-      y += dy;
+      xPercent += dx;
+      yPercent += dy;
 
-      if(x < 0) x = window.innerWidth;
-      if(x > window.innerWidth) x = 0;
-      if(y < 0) y = window.innerHeight;
-      if(y > window.innerHeight) y = 0;
+      if(xPercent < 0) xPercent = 100;
+      if(xPercent > 100) xPercent = 0;
+      if(yPercent < 0) yPercent = 100;
+      if(yPercent > 100) yPercent = 0;
 
-      star.style.left = x + "px";
-      star.style.top = y + "px";
+      star.style.left = xPercent + "%";
+      star.style.top = yPercent + "%";
     }, 30);
     
     star.moveInterval = moveInterval;
@@ -137,8 +138,12 @@ function drawTriangle() {
     const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
     line.setAttribute("stroke", "#FFFFFF");
     line.setAttribute("stroke-width", "2");
+    line.setAttribute("stroke-linecap", "round");
+    line.setAttribute("stroke-linejoin", "round");
     line.setAttribute("filter", "url(#triangleBlur)");
-    line.style.opacity = "1";
+    line.setAttribute("vector-effect", "non-scaling-stroke");
+    line.style.opacity = "0";
+    line.style.animation = "fadeInLines 3s ease-in-out forwards, lineTwinkle 3s ease-in-out infinite 3s, linePulse 2s ease-in-out infinite 3s";
     lines.push({ element: line, starIndex1: i, starIndex2: (i + 1) % 3 });
     svg.appendChild(line);
   }

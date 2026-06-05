@@ -116,6 +116,12 @@ const songs = [
   "Music/Rise_And_Shine_Ursine.mp3",
   "Music/Wavetapper.mp3",
   "Music/Basics_in_Behavior_(Instrumental).mp3",
+  "Music/Night_Walk_(Dreams_of_Our_Generation).mp3",
+  "Music/Cheer_Readers_2.mp3",
+  "Music/Screwbot_Factory_2.mp3",
+  "Music/Jackie's_Box_8-Bit_Remix_Instrumental.mp3",
+  "Music/The_Third_Sancuary.mp3",
+  "Music/Ruder_Buster_but_the_chord_progressions_are_swapped.mp3",
 ];
 
 let muted = false;
@@ -201,7 +207,7 @@ volumeSlider.addEventListener("input", () => {
   }
   updateMuteIcon();
   setCookie('music_vol', String(value), 365);
-  console.log('Saved music volume to cookie:', value);
+  console.log('Saved music volume to cookie: 😉😉😉', value);
 });
 
 // Keep the volume popup open while moving between the button and popup

@@ -21,6 +21,12 @@ body {
   text-transform: lowercase;
 }
 
+#overlaySubtext {
+  opacity: 0.05;
+  margin-top: 12px;
+  font-size: 0.6em;
+}
+
 /* base blur behind UI, above stars */
 body::before {
   content: "";
@@ -59,11 +65,13 @@ body::before {
 .star {
   position: fixed;
   color: white;
-  pointer-events: none;
+  pointer-events: auto;
   user-select: none;
   text-shadow: 0 0 3px white, 0 0 5px #fff;
   animation: twinkle 3s ease-in-out infinite alternate, pulse 2s ease-in-out infinite;
   z-index: 1;
+  padding: 8px;
+  cursor: pointer;
 }
 
 @keyframes twinkle {
@@ -73,6 +81,23 @@ body::before {
 }
 
 @keyframes pulse {
+  0% { filter: drop-shadow(0 0 3px rgba(255,255,255,0.3)); }
+  50% { filter: drop-shadow(0 0 8px rgba(255,255,255,0.8)); }
+  100% { filter: drop-shadow(0 0 3px rgba(255,255,255,0.3)); }
+}
+
+@keyframes fadeInLines {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes lineTwinkle {
+  0% { opacity: 0.25; }
+  50% { opacity: 0.9; }
+  100% { opacity: 0.25; }
+}
+
+@keyframes linePulse {
   0% { filter: drop-shadow(0 0 3px rgba(255,255,255,0.3)); }
   50% { filter: drop-shadow(0 0 8px rgba(255,255,255,0.8)); }
   100% { filter: drop-shadow(0 0 3px rgba(255,255,255,0.3)); }
@@ -282,6 +307,7 @@ p { opacity: 0.7; }
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   color: white;
@@ -387,4 +413,184 @@ p { opacity: 0.7; }
   opacity: 1;
   transform: translateX(18px) scaleX(1);
   pointer-events: auto;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  /* Adjust text sizes */
+  h1 {
+    font-size: 1.8em;
+  }
+  
+  p {
+    font-size: 0.9em;
+  }
+  
+  /* Profile image sizing */
+  img.profile {
+    width: 100px;
+  }
+  
+  /* Make buttons responsive */
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  
+  .buttons a {
+    margin: 0;
+  }
+  
+  .buttons a img {
+    width: 50px;
+    height: 50px;
+  }
+  
+  /* Audio control positioning for mobile */
+  #audioControl {
+    top: 8px;
+    left: 8px;
+    padding: 6px;
+  }
+  
+  #muteBtn {
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+  }
+  
+  #muteBtn img {
+    width: 20px;
+    height: 20px;
+  }
+  
+  /* Volume popup sizing for mobile */
+  #volumeSlider {
+    width: 100px;
+  }
+  
+  /* Message box repositioning for mobile */
+  #messageBox {
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+    gap: 8px;
+  }
+  
+  #messageBox input {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.9em;
+    padding: 8px;
+  }
+  
+  #messageBox button {
+    font-size: 0.9em;
+    padding: 8px 16px;
+    white-space: nowrap;
+  }
+  
+  /* Listening text repositioning for mobile */
+  #listeningText {
+    bottom: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  #listeningText.show {
+    transform: translateX(-50%) scaleX(1);
+  }
+  
+  /* Nyan cat positioning */
+  #nyanWrapper {
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+  }
+  
+  #nyanCat {
+    width: 120px;
+  }
+  
+  /* Epic face sizing for mobile */
+  #epicFace {
+    width: 100px;
+    bottom: 15px;
+    right: 15px;
+  }
+  
+  /* Visualizer sizing */
+  #visualizer {
+    height: 120px;
+  }
+  
+  /* Star size adjustment for mobile screens */
+  .star {
+    font-size: clamp(8px, 2vw, 24px) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5em;
+    margin: 3px;
+  }
+  
+  p {
+    font-size: 0.8em;
+  }
+  
+  img.profile {
+    width: 80px;
+    margin-bottom: 8px;
+  }
+  
+  .buttons a img {
+    width: 45px;
+    height: 45px;
+  }
+  
+  #messageBox input {
+    padding: 6px;
+    font-size: 0.85em;
+  }
+  
+  #messageBox button {
+    padding: 6px 12px;
+    font-size: 0.85em;
+  }
+  
+  #nyanWrapper {
+    bottom: 90px;
+    width: 100px;
+  }
+  
+  #nyanCat {
+    width: 100px;
+  }
+  
+  #epicFace {
+    width: 80px;
+  }
+  
+  #audioControl {
+    padding: 5px;
+  }
+  
+  #muteBtn {
+    width: 28px;
+    height: 28px;
+    padding: 3px;
+  }
+  
+  #muteBtn img {
+    width: 18px;
+    height: 18px;
+  }
 }

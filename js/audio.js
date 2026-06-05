@@ -33,22 +33,22 @@ function drawVisualizer() {
   const height = visualizerCanvas.clientHeight;
   canvasCtx.clearRect(0, 0, width, height);
 
-  const barCount = 49;
-  let gap = 5;
-  const desiredExtra = 5;
+  const barCount = 89;
+  let gap = 3;
+  const desiredExtra = 2;
   const desiredRatio = 0.95;
-  const baseBarWidth = Math.max(2, Math.floor((width - (barCount - 1) * gap) / barCount));
+  const baseBarWidth = Math.max(1, Math.floor((width - (barCount - 1) * gap) / barCount));
   let barWidth = baseBarWidth + desiredExtra;
   let totalWidth = barCount * barWidth + (barCount - 1) * gap;
 
   if (totalWidth > width * desiredRatio) {
     const maxAllowedWidth = Math.floor((width * desiredRatio - (barCount - 1) * gap) / barCount);
-    barWidth = Math.max(2, maxAllowedWidth);
+    barWidth = Math.max(1, maxAllowedWidth);
     totalWidth = barCount * barWidth + (barCount - 1) * gap;
   }
 
   if (totalWidth > width * desiredRatio) {
-    gap = Math.max(2, Math.floor((width * desiredRatio - barCount * barWidth) / (barCount - 1)));
+    gap = Math.max(1, Math.floor((width * desiredRatio - barCount * barWidth) / (barCount - 1)));
     totalWidth = barCount * barWidth + (barCount - 1) * gap;
   }
 
@@ -62,9 +62,12 @@ function drawVisualizer() {
       Math.round(distanceFromCenter * ((bufferLength - 1) / 2) / centerIndex)
     );
     const value = Math.max(0, dataArray[freqIndex] - 15) / 240;
-    const barHeight = Math.pow(value, 1.6) * height;
+    const normalizedDistance = distanceFromCenter / centerIndex;
+    const distanceFactor = Math.max(0.03, Math.pow(1 - normalizedDistance, 2.5));
+    const dampedValue = value * distanceFactor;
+    const barHeight = Math.pow(dampedValue, 1.6) * height;
     const y = height - barHeight;
-    const alpha = 0.18 + value * 0.82;
+    const alpha = 0.18 + dampedValue * 0.82;
     canvasCtx.fillStyle = `rgba(255,255,255,${alpha})`;
     canvasCtx.fillRect(x, y, barWidth, barHeight);
     x += barWidth + gap;
