@@ -149,6 +149,13 @@ if (savedVol) {
   } catch (e) {}
 }
 
+// Load saved muted state from cookie if present
+const savedMuted = getCookie('music_muted');
+if (savedMuted) {
+  muted = savedMuted === 'true';
+  console.log('Loaded saved muted state from cookie:', muted);
+}
+
 updateMuteIcon();
 
 function getCurrentTrackName(path) {
@@ -157,7 +164,7 @@ function getCurrentTrackName(path) {
 }
 
 function logTrackLoaded() {
-  console.log("Track loaded:", getCurrentTrackName(music.src));
+  console.log("😉 Track loaded:", getCurrentTrackName(music.src));
 }
 
 function setRandomSong() {
@@ -191,6 +198,8 @@ music.play().catch((error) => {
 muteBtn.addEventListener("click", () => {
   muted = !muted;
   updateMuteIcon();
+  setCookie('music_muted', String(muted), 365);
+  console.log('Saved muted state to cookie:', muted);
   if (!muted && music.paused) {
     tryPlayMusic();
   }
@@ -207,7 +216,7 @@ volumeSlider.addEventListener("input", () => {
   }
   updateMuteIcon();
   setCookie('music_vol', String(value), 365);
-  console.log('Saved music volume to cookie: 😉😉😉', value);
+  console.log('Saved music volume to cookie:', value);
 });
 
 // Keep the volume popup open while moving between the button and popup

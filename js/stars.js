@@ -3,9 +3,9 @@ let triangleFormed = false;
 
 function createStars(count){
   for(let i = 0; i < count; i++){
-    const star = document.createElement("div");
+    const star = document.createElement("img");
     star.className = "star";
-    star.textContent = "✦";
+    star.src = "Images/star.png";
 
     // Use percentages instead of pixels for zoom stability
     let xPercent = Math.random() * 100;
@@ -18,8 +18,15 @@ function createStars(count){
     const dy = (Math.random() - 0.5) * speed;
 
     const size = 4 + depth * 14;
-    star.style.fontSize = size + "px";
+    star.style.width = size + "px";
+    star.style.height = size + "px";
     star.style.opacity = 0.2 + depth * 0.8;
+
+    // Add random animation delay and duration for independent twinkling
+    const randomDelay = Math.random() * 3;
+    const randomDuration = 2.5 + Math.random() * 1.5;
+    star.style.animationDelay = randomDelay + "s";
+    star.style.setProperty("--twinkle-duration", randomDuration + "s");
 
     star.style.pointerEvents = "auto";
     star.style.cursor = "pointer";
@@ -36,12 +43,12 @@ function createStars(count){
 
       if(selectedStars.includes(star)) {
         selectedStars = selectedStars.filter(s => s !== star);
-        star.style.color = "";
+        star.style.animation = "twinkle var(--twinkle-duration) ease-in-out infinite alternate, pulse 2s ease-in-out infinite";
         star.style.transform = "";
         star.style.transition = "";
       } else if(selectedStars.length < 3) {
         selectedStars.push(star);
-        star.style.color = "#FFFFFF";
+        star.style.animation = "none";
         star.style.transition = "transform 0.3s ease";
         star.style.transform = "scale(2)";
         clearInterval(star.moveInterval);
@@ -172,4 +179,4 @@ function drawTriangle() {
   }, 30);
 }
 
-createStars(50);
+createStars(150);
