@@ -43,7 +43,7 @@ function createStars(count){
 
       if(selectedStars.includes(star)) {
         selectedStars = selectedStars.filter(s => s !== star);
-        star.style.animation = "twinkle var(--twinkle-duration) ease-in-out infinite alternate, pulse 2s ease-in-out infinite";
+        star.style.animation = "twinkle var(--twinkle-duration) ease-in-out infinite alternate, pulse 4s ease-in-out infinite";
         star.style.transform = "";
         star.style.transition = "";
       } else if(selectedStars.length < 3) {
@@ -179,4 +179,4 @@ function drawTriangle() {
   }, 30);
 }
 
-createStars(150);
+createStars(75);

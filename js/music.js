@@ -122,6 +122,10 @@ const songs = [
   "Music/Jackie's_Box_8-Bit_Remix_Instrumental.mp3",
   "Music/The_Third_Sanctuary.mp3",
   "Music/Ruder_Buster_but_the_chord_progressions_are_swapped.mp3",
+  "Music/Flower_Man.mp3",
+  "Music/Cutie_Mew_Mew_Magic.mp3",
+  "Music/Garden_of_Hopes_and_Dreams.mp3",
+  "Music/Rakuichi_Buster.mp3",
 ];
 
 let muted = false;

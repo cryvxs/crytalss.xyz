@@ -37,6 +37,7 @@ body::before {
   background: rgba(0, 0, 0, 0.03);
   z-index: 2;
   pointer-events: none;
+  isolation: isolate;
 }
 
 /* extra depth layer (parallax haze) */
@@ -225,7 +226,7 @@ p {
   transform: scale(1.15);
 }
 
-/* Fixes the giant icon layout issue */
+/* Audio Control (Top Left) */
 #audioControl {
   position: fixed;
   top: 10px;
@@ -238,9 +239,9 @@ p {
   border-radius: 16px;
   box-shadow: 0 16px 40px rgba(0,0,0,0.18);
   backdrop-filter: blur(10px);
+  isolation: isolate;
 }
 
-/* invisible wide hover area to make moving to the popup easier */
 #audioControl::after {
   content: "";
   position: absolute;
@@ -250,9 +251,6 @@ p {
   height: 100%;
   pointer-events: auto;
 }
-
-/* Removed headphones icon and swing animation */
-
 
 #muteBtn {
   background: white;
@@ -301,7 +299,6 @@ p {
   pointer-events: auto;
 }
 
-/* JS-driven class to keep popup open while moving between button and popup */
 .open #volumePopup {
   transform: translate(10px, -50%) scaleX(1) !important;
   opacity: 1 !important;
@@ -352,6 +349,62 @@ p {
   background: rgba(255,255,255,0.95);
   height: 6px;
   border-radius: 999px;
+}
+
+/* Track Control (Top Right - Mirrored) */
+#trackControl {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  background: rgba(0,0,0,0.22);
+  border-radius: 16px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  isolation: isolate;
+}
+
+/* Make the skip/rewind buttons look exactly like the mute button */
+.skip-btn {
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 6px;
+  border: none;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  pointer-events: auto !important; 
+  box-sizing: border-box; /* FIX: Prevents button from being huge */
+  margin: 0; /* FIX: Removes default button margin */
+}
+
+.skip-btn:hover {
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+}
+
+.skip-btn img {
+  width: 24px;
+  height: 24px;
+  pointer-events: none !important;
+}
+
+#currentTrackName {
+  color: white;
+  font-size: 0.85em;
+  white-space: nowrap;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Invisible click barrier covering everything */
@@ -485,21 +538,10 @@ p {
 
 /* Mobile Responsive Styles */
 @media (max-width: 768px) {
-  /* Adjust text sizes */
-  h1 {
-    font-size: 1.8em;
-  }
+  h1 { font-size: 1.8em; }
+  p { font-size: 0.9em; }
+  img.profile { width: 100px; }
   
-  p {
-    font-size: 0.9em;
-  }
-  
-  /* Profile image sizing */
-  img.profile {
-    width: 100px;
-  }
-  
-  /* Make buttons responsive */
   .buttons {
     display: flex;
     flex-wrap: wrap;
@@ -508,39 +550,19 @@ p {
     margin-top: 20px;
   }
   
-  .buttons a {
-    margin: 0;
-  }
+  .buttons a { margin: 0; }
+  .buttons a img { width: 50px; height: 50px; }
   
-  .buttons a img {
-    width: 50px;
-    height: 50px;
-  }
+  #audioControl { top: 8px; left: 8px; padding: 6px; }
+  #muteBtn { width: 32px; height: 32px; padding: 4px; }
+  #muteBtn img { width: 20px; height: 20px; }
+  #volumeSlider { width: 100px; }
   
-  /* Audio control positioning for mobile */
-  #audioControl {
-    top: 8px;
-    left: 8px;
-    padding: 6px;
-  }
+  #trackControl { top: 8px; right: 8px; padding: 6px; gap: 6px; }
+  .skip-btn { width: 32px; height: 32px; padding: 4px; }
+  .skip-btn img { width: 20px; height: 20px; }
+  #currentTrackName { font-size: 0.75em; max-width: 100px; }
   
-  #muteBtn {
-    width: 32px;
-    height: 32px;
-    padding: 4px;
-  }
-  
-  #muteBtn img {
-    width: 20px;
-    height: 20px;
-  }
-  
-  /* Volume popup sizing for mobile */
-  #volumeSlider {
-    width: 100px;
-  }
-  
-  /* Message box repositioning for mobile */
   #messageBox {
     bottom: 15px;
     left: 50%;
@@ -550,115 +572,39 @@ p {
     gap: 8px;
   }
   
-  #messageBox input {
-    flex: 1;
-    min-width: 0;
-    font-size: 0.9em;
-    padding: 8px;
-  }
+  #messageBox input { flex: 1; min-width: 0; font-size: 0.9em; padding: 8px; }
+  #messageBox button { font-size: 0.9em; padding: 8px 16px; white-space: nowrap; }
   
-  #messageBox button {
-    font-size: 0.9em;
-    padding: 8px 16px;
-    white-space: nowrap;
-  }
+  #listeningText { bottom: 70px; left: 50%; transform: translateX(-50%); }
+  #listeningText.show { transform: translateX(-50%) scaleX(1); }
   
-  /* Listening text repositioning for mobile */
-  #listeningText {
-    bottom: 70px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+  #nyanWrapper { bottom: 100px; left: 50%; transform: translateX(-50%); width: 120px; }
+  #nyanCat { width: 120px; }
   
-  #listeningText.show {
-    transform: translateX(-50%) scaleX(1);
-  }
-  
-  /* Nyan cat positioning */
-  #nyanWrapper {
-    bottom: 100px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 120px;
-  }
-  
-  #nyanCat {
-    width: 120px;
-  }
-  
-  /* Epic face sizing for mobile */
-  #epicFace {
-    width: 100px;
-    bottom: 15px;
-    right: 15px;
-  }
-  
-  /* Visualizer sizing */
-  #visualizer {
-    height: 120px;
-  }
-  
-  /* Star size adjustment for mobile screens */
-  .star {
-    font-size: clamp(8px, 2vw, 24px) !important;
-  }
+  #epicFace { width: 100px; bottom: 15px; right: 15px; }
+  #visualizer { height: 120px; }
+  .star { font-size: clamp(8px, 2vw, 24px) !important; }
 }
 
 @media (max-width: 480px) {
-  h1 {
-    font-size: 1.5em;
-    margin: 3px;
-  }
+  h1 { font-size: 1.5em; margin: 3px; }
+  p { font-size: 0.8em; }
+  img.profile { width: 80px; margin-bottom: 8px; }
+  .buttons a img { width: 45px; height: 45px; }
   
-  p {
-    font-size: 0.8em;
-  }
+  #messageBox input { padding: 6px; font-size: 0.85em; }
+  #messageBox button { padding: 6px 12px; font-size: 0.85em; }
   
-  img.profile {
-    width: 80px;
-    margin-bottom: 8px;
-  }
+  #nyanWrapper { bottom: 90px; width: 100px; }
+  #nyanCat { width: 100px; }
+  #epicFace { width: 80px; }
   
-  .buttons a img {
-    width: 45px;
-    height: 45px;
-  }
+  #audioControl { padding: 5px; }
+  #muteBtn { width: 28px; height: 28px; padding: 3px; }
+  #muteBtn img { width: 18px; height: 18px; }
   
-  #messageBox input {
-    padding: 6px;
-    font-size: 0.85em;
-  }
-  
-  #messageBox button {
-    padding: 6px 12px;
-    font-size: 0.85em;
-  }
-  
-  #nyanWrapper {
-    bottom: 90px;
-    width: 100px;
-  }
-  
-  #nyanCat {
-    width: 100px;
-  }
-  
-  #epicFace {
-    width: 80px;
-  }
-  
-  #audioControl {
-    padding: 5px;
-  }
-  
-  #muteBtn {
-    width: 28px;
-    height: 28px;
-    padding: 3px;
-  }
-  
-  #muteBtn img {
-    width: 18px;
-    height: 18px;
-  }
+  #trackControl { padding: 5px; gap: 4px; }
+  .skip-btn { width: 28px; height: 28px; padding: 3px; }
+  .skip-btn img { width: 18px; height: 18px; }
+  #currentTrackName { max-width: 80px; font-size: 0.7em; }
 }
