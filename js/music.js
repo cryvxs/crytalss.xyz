@@ -1,8 +1,4 @@
 const music = document.getElementById("music");
-const muteBtn = document.getElementById("muteBtn");
-const muteIcon = muteBtn.querySelector("img");
-const volumePopup = document.getElementById("volumePopup");
-const volumeSlider = document.getElementById("volumeSlider");
 const visualizerCanvas = document.getElementById("visualizer");
 
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -95,72 +91,12 @@ const tryPlayMusic = () => {
 
 document.addEventListener("click", tryPlayMusic);
 
-const songs = [
-  "Music/Spamton.mp3",
-  "Music/A_Home_For_Flowers_Empty.mp3",
-  "Music/Lost_Library.mp3",
-  "Music/Nintendo_Wi-Fi_Connection.mp3",
-  "Music/6AM_Rainy_ACNH_OST.mp3",
-  "Music/Bubblaine_Underwater.mp3",
-  "Music/January_Fourteenth.mp3",
-  "Music/GenesisKeys_-_Short_Man's_High_Ground.mp3",
-  "Music/FEX_-_Subways_of_your_mind_(NDR-2_RADIO_DEMO).mp3",
-  "Music/Chuck_Person_-_[untitled].mp3",
-  "Music/Girl_Like_Me_(Instrumental).mp3",
-  "Music/Introduction_to_the_Snow_(Instrumental).mp3",
-  "Music/Labyrinth.mp3",
-  "Music/Protocol.mp3",
-  "Music/Deal_Em_Out.mp3",
-  "Music/Meltdown.mp3",
-  "Music/Jawbreaker.mp3",
-  "Music/Rise_And_Shine_Ursine.mp3",
-  "Music/Wavetapper.mp3",
-  "Music/Basics_in_Behavior_(Instrumental).mp3",
-  "Music/Night_Walk_(Dreams_of_Our_Generation).mp3",
-  "Music/Cheer_Readers_2.mp3",
-  "Music/Screwbot_Factory_2.mp3",
-  "Music/Jackie's_Box_8-Bit_Remix_Instrumental.mp3",
-  "Music/The_Third_Sanctuary.mp3",
-  "Music/Ruder_Buster_but_the_chord_progressions_are_swapped.mp3",
-  "Music/Flower_Man.mp3",
-  "Music/Cutie_Mew_Mew_Magic.mp3",
-  "Music/Garden_of_Hopes_and_Dreams.mp3",
-  "Music/Rakuichi_Buster.mp3",
-];
+const musicTrack = "Music/Rakuichi_Buster.mp3";
 
 let muted = false;
 
-function updateMuteIcon() {
-  music.muted = muted;
-  muteIcon.src = muted ? "Images/mute.png" : "Images/unmute.png";
-}
-
 music.preload = 'auto';
 music.volume = 0.5;
-volumeSlider.value = 50;
-
-// Load saved volume from cookie if present
-const savedVol = getCookie('music_vol');
-if (savedVol) {
-  try {
-    const val = parseInt(decodeURIComponent(savedVol), 10);
-    if (!Number.isNaN(val)) {
-      volumeSlider.value = val;
-      music.volume = val / 100;
-      muted = val === 0;
-      console.log('Loaded saved music volume from cookie:', val);
-    }
-  } catch (e) {}
-}
-
-// Load saved muted state from cookie if present
-const savedMuted = getCookie('music_muted');
-if (savedMuted) {
-  muted = savedMuted === 'true';
-  console.log('Loaded saved muted state from cookie:', muted);
-}
-
-updateMuteIcon();
 
 function getCurrentTrackName(path) {
   const file = path.split("/").pop().split("?")[0];
@@ -171,82 +107,22 @@ function logTrackLoaded() {
   console.log("😉 Track loaded:", getCurrentTrackName(music.src));
 }
 
-function setRandomSong() {
-  const currentFile = music.src.split("/").pop().split("?")[0];
-  let nextSong = songs[Math.floor(Math.random() * songs.length)];
-  while (songs.length > 1 && nextSong.split("/").pop() === currentFile) {
-    nextSong = songs[Math.floor(Math.random() * songs.length)];
-  }
-  music.src = nextSong;
-  music.load();
-  console.log('Selected random song:', nextSong);
-}
-
 function handleMusicError() {
-  console.warn('Music failed to load/play, selecting another track.', music.error);
-  setRandomSong();
-  if (!muted) {
-    tryPlayMusic();
-  }
+  console.warn('Music failed to load/play.', music.error);
 }
 
 music.addEventListener('error', handleMusicError);
 music.addEventListener('stalled', handleMusicError);
 music.addEventListener('loadedmetadata', logTrackLoaded);
 
-setRandomSong();
+music.src = musicTrack;
+music.load();
+music.loop = true;
 music.play().catch((error) => {
   console.warn('Initial playback blocked or failed:', error);
 });
 
-muteBtn.addEventListener("click", () => {
-  muted = !muted;
-  updateMuteIcon();
-  setCookie('music_muted', String(muted), 365);
-  console.log('Saved muted state to cookie:', muted);
-  if (!muted && music.paused) {
-    tryPlayMusic();
-  }
-});
-
-volumeSlider.addEventListener("input", () => {
-  const value = parseInt(volumeSlider.value, 10);
-  const volume = value / 100;
-  music.volume = volume;
-  if (value === 0) {
-    muted = true;
-  } else if (muted) {
-    muted = false;
-  }
-  updateMuteIcon();
-  setCookie('music_vol', String(value), 365);
-  console.log('Saved music volume to cookie:', value);
-});
-
-// Keep the volume popup open while moving between the button and popup
-const audioControlEl = document.getElementById('audioControl');
-const volumePopupEl = document.getElementById('volumePopup');
-let popupTimeout = null;
-if (audioControlEl && volumePopupEl) {
-  audioControlEl.addEventListener('mouseenter', () => {
-    clearTimeout(popupTimeout);
-    audioControlEl.classList.add('open');
-  });
-  audioControlEl.addEventListener('mouseleave', () => {
-    popupTimeout = setTimeout(() => audioControlEl.classList.remove('open'), 250);
-  });
-  volumePopupEl.addEventListener('mouseenter', () => {
-    clearTimeout(popupTimeout);
-    audioControlEl.classList.add('open');
-  });
-  volumePopupEl.addEventListener('mouseleave', () => {
-    popupTimeout = setTimeout(() => audioControlEl.classList.remove('open'), 250);
-  });
-}
-
 music.addEventListener("ended", () => {
-  setRandomSong();
-  if(!muted) {
-    music.play().catch(() => {});
-  }
+  music.currentTime = 0;
+  music.play().catch(() => {});
 });

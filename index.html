@@ -6,10 +6,6 @@
 <title>info</title>
 
 <link rel="icon" type="image/gif" href="Images/luna.gif">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -18,50 +14,89 @@
 <div id="depthLayer"></div>
 <canvas id="visualizer"></canvas>
 
-<div id="overlay">click anywhere to view<div id="overlaySubtext">best viewed on desktop</div></div>
+<div class="page-grid">
+  <section class="profile-card">
+    <div class="profile-header">
+      <div class="avatar-wrap">
+        <img class="profile" src="Images/luna.gif" alt="cry avatar">
+      </div>
+      <span class="profile-badge">profile</span>
+      <h1>info</h1>
+      <div class="profile-subtext">links and such</div>
+    </div>
+    <div class="widget-stack">
+      <div class="steam-widget">
+        <img id="steamArtwork" class="steam-artwork" src="Images/steam.webp" alt="Steam artwork">
+        <div class="steam-info">
+          <div class="steam-status" id="steamStatus">steam loading...</div>
+          <div class="steam-game" id="steamGame">fetching steam data…</div>
+          <div class="steam-detail" id="steamDetail"></div>
+        </div>
+        <a class="steam-link" id="steamLink" href="https://steamcommunity.com/id/cry_tals" target="_blank" rel="noreferrer noopener" title="Steam" aria-label="Steam">
+          <img src="Images/steam.webp" alt="Steam">
+        </a>
+      </div>
+      <div class="lastfm-widget">
+        <img id="lastfmArtwork" class="lastfm-artwork" src="Images/lastfm.png" alt="Last.fm artwork">
+        <div class="lastfm-info">
+          <div class="lastfm-status" id="lastfmStatus">last.fm loading...</div>
+          <div class="lastfm-track" id="lastfmTrack">fetching your latest track…</div>
+          <div class="lastfm-artist" id="lastfmArtist"></div>
+        </div>
+        <a class="lastfm-link" href="https://last.fm/user/crystalvxs" target="_blank" rel="noreferrer noopener" title="Last.fm" aria-label="Last.fm">
+          <img src="Images/lastfm.png" alt="Last.fm">
+        </a>
+      </div>
+    </div>
+  </section>
 
-<div id="audioControl">
-  <button id="muteBtn"><img src="Images/unmute.png"></button>
-  <div id="volumePopup">
-    <input type="range" id="volumeSlider" min="0" max="100" value="50">
-  </div>
+  <section class="link-card">
+    <div class="card-header">
+      <span class="card-badge">links</span>
+      <h2>Where to find me</h2>
+    </div>
+    <div class="buttons">
+      <a href="https://steamcommunity.com/id/cry_tals" target="_blank">
+        <img src="Images/steam.webp" alt="Steam">
+        <div>
+          <div class="linkLabel">cry_tals</div>
+          <div class="linkSubtext">Steam</div>
+        </div>
+      </a>
+      <a href="https://discord.com/users/955250582078238730" target="_blank">
+        <img src="Images/discord.webp" alt="Discord">
+        <div>
+          <div class="linkLabel">cry_tals</div>
+          <div class="linkSubtext">Discord</div>
+        </div>
+      </a>
+      <a href="https://www.tiktok.com/@cry_tals" target="_blank">
+        <img src="Images/tiktok.webp" alt="TikTok">
+        <div>
+          <div class="linkLabel">cry_tals</div>
+          <div class="linkSubtext">TikTok</div>
+        </div>
+      </a>
+      <a href="https://www.roblox.com/users/679387671/profile" target="_blank">
+        <img src="Images/roblox.webp" alt="Roblox">
+        <div>
+          <div class="linkLabel">cry_tals</div>
+          <div class="linkSubtext">Roblox</div>
+        </div>
+      </a>
+      <a href="https://last.fm/user/crystalvxs" target="_blank">
+        <img src="Images/lastfm.png" alt="Last.fm">
+        <div>
+          <div class="linkLabel">crystalvxs</div>
+          <div class="linkSubtext">Last.fm</div>
+        </div>
+      </a>
+    </div>
+  </section>
 </div>
-
-<div class="container">
-  <img class="profile" src="Images/luna.gif">
-  <h1>cry</h1>
-  <p>social links below</p>
-
-  <div class="buttons">
-    <a href="https://steamcommunity.com/id/cry_tals" target="_blank"><img src="Images/steam1.webp"></a>
-    <a href="https://discord.com/users/955250582078238730" target="_blank"><img src="Images/discord.webp"></a>
-    <a href="https://www.tiktok.com/@cry_tals" target="_blank"><img src="Images/tiktok.webp"></a>
-    <a href="https://www.roblox.com/users/679387671/profile" target="_blank"><img src="Images/roblox1.webp"></a>
-    <a href="https://open.spotify.com/user/rug5s27cdasocy0227f5e75wc" target="_blank"><img src="Images/spotify.webp"></a>
-  </div>
-</div>
-
-<div id="nyanWrapper">
-  <img id="nyanCat" src="Images/nyancat.gif">
-</div>
-
-<img id="epicFace" src="Images/epicface.png">
-
-<div id="messageBox">
-  <input type="text" id="userMessage" placeholder="anything to say?" maxlength="100">
-  <button id="sendBtn">send</button>
-</div>
-
-<div id="listeningText">i'll be listening</div>
 
 <audio id="music"></audio>
-<audio id="typingSound" src="Music/typing.mp3" preload="auto"></audio>
-
-<script src="js/stars.js"></script>
 <script src="js/music.js"></script>
 <script src="js/main.js"></script>
-<script src="js/profile.js"></script>
-<script src="js/epicface.js"></script>
-
 </body>
 </html>

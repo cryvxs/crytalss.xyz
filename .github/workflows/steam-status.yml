@@ -1,0 +1,87 @@
+name: Steam status update
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+jobs:
+  update-steam-status:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Fetch Steam status
+        env:
+          STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+          STEAM_ID: ${{ secrets.STEAM_ID }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import pathlib
+          import urllib.request
+          import datetime
+
+          key = os.environ.get('STEAM_API_KEY')
+          steamid = os.environ.get('STEAM_ID')
+          if not key or not steamid:
+              raise SystemExit('Missing STEAM_API_KEY or STEAM_ID')
+
+          def fetch(url):
+              with urllib.request.urlopen(url) as response:
+                  return json.loads(response.read().decode())
+
+          summary = fetch(f'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key={key}&steamids={steamid}')
+          recent = fetch(f'https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v1/?key={key}&steamid={steamid}&count=1')
+
+          player = summary.get('response', {}).get('players', [])
+          player = player[0] if player else {}
+          game_name = player.get('gameextrainfo')
+          game_appid = player.get('gameid')
+          now_playing = bool(game_name)
+
+          recent_game = None
+          recent_response = recent.get('response', {})
+          if recent_response.get('total_count', 0) > 0:
+              recent_item = recent_response.get('games', [])[0]
+              recent_game = {
+                  'name': recent_item.get('name'),
+                  'appid': recent_item.get('appid'),
+                  'playtime_2weeks': recent_item.get('playtime_2weeks'),
+                  'img_logo_url': recent_item.get('img_logo_url'),
+              }
+              if recent_game['appid'] and recent_game['img_logo_url']:
+                  recent_game['img_url'] = f"https://media.steampowered.com/steamcommunity/public/images/apps/{recent_game['appid']}/{recent_game['img_logo_url']}.jpg"
+              else:
+                  recent_game['img_url'] = None
+
+          status = {
+              'updated_at': datetime.datetime.utcnow().replace(microsecond=0).isoformat() + 'Z',
+              'steamid': steamid,
+              'persona_name': player.get('personaname'),
+              'now_playing': now_playing,
+              'current_game': {'name': game_name, 'appid': game_appid} if now_playing else None,
+              'recent_game': recent_game,
+              'profile_url': f'https://steamcommunity.com/profiles/{steamid}'
+          }
+
+          path = pathlib.Path('steam-status.json')
+          new_text = json.dumps(status, indent=2) + '\n'
+          old_text = path.read_text() if path.exists() else ''
+          if old_text != new_text:
+              path.write_text(new_text)
+              print('Updated steam-status.json')
+          else:
+              print('steam-status.json unchanged')
+          PY
+
+      - name: Commit steam status
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add steam-status.json
+          git diff --cached --quiet || git commit -m 'Update Steam status'
+          git push
