@@ -30,14 +30,6 @@ body::after {
               radial-gradient(circle at 72% 76%, rgba(255,255,255,0.04), transparent 18%);
   opacity: 0.45;
 }
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.02), transparent 22%),
-              radial-gradient(circle at 70% 80%, rgba(255,255,255,0.015), transparent 18%);
-  opacity: 0.85;
-}
 
 #overlaySubtext {
   opacity: 0.05;
@@ -284,9 +276,12 @@ body::before {
 
 .steam-info {
   display: flex;
+  flex: 1;
+  min-width: 0;
   flex-direction: column;
   gap: 4px;
   text-align: left;
+  padding-right: 24px;
 }
 
 .steam-status {
@@ -353,12 +348,13 @@ body::before {
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 18px;
   width: 100%;
-  max-width: 380px;
+  max-width: none;
   box-sizing: border-box;
-  margin-bottom: 5px;
-  padding: 18px 22px;
+  margin-bottom: 0;
+  padding: 18px 14px;
   border-radius: 24px;
   background: rgba(25, 28, 31, 0.95);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -659,37 +655,38 @@ p {
   #listeningText.show { transform: translateX(-50%) scaleX(1); opacity: 1; will-change: transform, opacity; }
 
   #visualizer { height: var(--visualizer-height); contain: layout paint; }
+}
 
-  @media (max-width: 480px) {
-    h1 { font-size: 1.5em; margin: 3px; }
-    p { font-size: 0.8em; }
-    img.profile { width: 80px; margin-bottom: 8px; }
-    .buttons a img { width: 40px; height: 40px; }
+@media (max-width: 480px) {
+  h1 { font-size: 1.5em; margin: 3px; }
+  p { font-size: 0.8em; }
+  img.profile { width: 80px; margin-bottom: 8px; }
+  .buttons a img { width: 40px; height: 40px; }
 
-    #audioControl { padding: 5px; }
+  #audioControl { padding: 5px; }
+}
+
+/* Compact-only view: at very small widths, show only profile, link icons,
+   and the star field; keep backdrop blur layers visible. */
+@media (max-width: 520px) {
+  /* hide all elements */
+  body * { opacity: 0 !important; pointer-events: none !important; transition: opacity 160ms ease !important; }
+
+  /* keep profile and buttons visible */
+  img.profile, .buttons, .buttons *, #currentTrackName {
+    opacity: 1 !important; pointer-events: auto !important; z-index: 9999;
   }
 
-  /* Compact-only view: at very small widths, show only profile, link icons,
-     and the star field; keep backdrop blur layers visible. */
-  @media (max-width: 520px) {
-    /* hide all elements */
-    body * { opacity: 0 !important; pointer-events: none !important; transition: opacity 160ms ease !important; }
+  /* center profile and buttons for mobile clarity */
+  img.profile { position: fixed; top: 18px; left: 50%; transform: translateX(-50%); z-index: 10000; }
+  .buttons { position: fixed; top: 88px; left: 50%; transform: translateX(-50%); z-index: 10000; display: flex; gap: 8px; }
+  .buttons a img { width: 40px; height: 40px; }
 
-    /* keep profile and buttons visible */
-    img.profile, .buttons, .buttons *, #currentTrackName {
-      opacity: 1 !important; pointer-events: auto !important; z-index: 9999;
-    }
+  /* preserve backdrop blur and depth layer */
+  body::before, #depthLayer { opacity: 1 !important; pointer-events: none !important; }
 
-    /* center profile and buttons for mobile clarity */
-    img.profile { position: fixed; top: 18px; left: 50%; transform: translateX(-50%); z-index: 10000; }
-    .buttons { position: fixed; top: 88px; left: 50%; transform: translateX(-50%); z-index: 10000; display: flex; gap: 8px; }
-    .buttons a img { width: 40px; height: 40px; }
-
-    /* preserve backdrop blur and depth layer */
-    body::before, #depthLayer { opacity: 1 !important; pointer-events: none !important; }
-
-    /* neutralize animations/transforms for hidden elements to avoid layout shifts */
-    #visualizer, #trackControl, #audioControl, .container {
-      opacity: 0 !important; pointer-events: none !important; transform: none !important; animation: none !important;
-    }
+  /* neutralize animations/transforms for hidden elements to avoid layout shifts */
+  #visualizer, #trackControl, #audioControl, .container {
+    opacity: 0 !important; pointer-events: none !important; transform: none !important; animation: none !important;
   }
+}

@@ -124,21 +124,18 @@ async function updateSteamStatus() {
     const nowPlaying = data?.now_playing;
     const currentGame = data?.current_game;
     const recentGame = data?.recent_game;
+    const currentGameArtwork = currentGame?.img_url || recentGame?.img_url;
 
     if (nowPlaying && currentGame?.name) {
       steamStatusElement.textContent = 'Now Playing';
       steamGameElement.textContent = currentGame.name;
       steamDetailElement.textContent = 'on Steam';
-      steamArtworkElement.src = 'Images/steam.webp';
+      steamArtworkElement.src = currentGameArtwork || 'Images/steam.webp';
     } else if (recentGame?.name) {
       steamStatusElement.textContent = 'Last Played';
       steamGameElement.textContent = recentGame.name;
       steamDetailElement.textContent = 'recently played on Steam';
-      if (recentGame.img_url) {
-        steamArtworkElement.src = recentGame.img_url;
-      } else {
-        steamArtworkElement.src = 'Images/steam.webp';
-      }
+      steamArtworkElement.src = recentGame?.img_url || 'Images/steam.webp';
     } else {
       steamStatusElement.textContent = 'Steam status';
       steamGameElement.textContent = 'no recent games found';
