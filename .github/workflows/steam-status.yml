@@ -1,8 +1,11 @@
 name: Steam status update
 
+permissions:
+  contents: write
+  
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '*/3 * * * *'
   workflow_dispatch:
 
 jobs:
