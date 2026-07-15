@@ -1,5 +1,8 @@
 name: Steam status update
 
+permissions:
+  contents: write
+  
 on:
   schedule:
     - cron: '*/3 * * * *'
