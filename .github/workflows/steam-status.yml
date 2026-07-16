@@ -46,27 +46,44 @@ jobs:
           game_appid = player.get('gameid')
           now_playing = bool(game_name)
 
+          def get_game_artwork(appid):
+              try:
+                  app_data = fetch(f'https://store.steampowered.com/api/appdetails?appids={appid}')
+                  if appid in app_data and app_data[appid].get('success'):
+                      data = app_data[appid].get('data', {})
+                      return data.get('header_image') or data.get('capsule_image')
+              except:
+                  pass
+              return None
+
+          current_game = None
+          if now_playing:
+              artwork_url = get_game_artwork(game_appid)
+              current_game = {
+                  'name': game_name,
+                  'appid': game_appid,
+                  'img_url': artwork_url
+              }
+
           recent_game = None
           recent_response = recent.get('response', {})
           if recent_response.get('total_count', 0) > 0:
               recent_item = recent_response.get('games', [])[0]
+              recent_appid = recent_item.get('appid')
+              artwork_url = get_game_artwork(recent_appid)
               recent_game = {
                   'name': recent_item.get('name'),
-                  'appid': recent_item.get('appid'),
+                  'appid': recent_appid,
                   'playtime_2weeks': recent_item.get('playtime_2weeks'),
-                  'img_logo_url': recent_item.get('img_logo_url'),
+                  'img_url': artwork_url
               }
-              if recent_game['appid'] and recent_game['img_logo_url']:
-                  recent_game['img_url'] = f"https://media.steampowered.com/steamcommunity/public/images/apps/{recent_game['appid']}/{recent_game['img_logo_url']}.jpg"
-              else:
-                  recent_game['img_url'] = None
 
           status = {
               'updated_at': datetime.datetime.utcnow().replace(microsecond=0).isoformat() + 'Z',
               'steamid': steamid,
               'persona_name': player.get('personaname'),
               'now_playing': now_playing,
-              'current_game': {'name': game_name, 'appid': game_appid} if now_playing else None,
+              'current_game': current_game,
               'recent_game': recent_game,
               'profile_url': f'https://steamcommunity.com/profiles/{steamid}'
           }

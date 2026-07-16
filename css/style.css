@@ -195,7 +195,7 @@ body::before {
   box-sizing: border-box;
   padding: 18px 14px;
   border-radius: 24px;
-  background: rgba(25, 28, 31, 0.95);
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.22);
 }
@@ -225,15 +225,15 @@ body::before {
   display: grid;
   place-items: center;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   transition: transform 0.22s ease, background 0.22s ease, border-color 0.22s ease;
 }
 
 .lastfm-link:hover {
   transform: translateY(-1px);
-  background: rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.14);
 }
 
 .lastfm-link img {
@@ -251,7 +251,7 @@ body::before {
   box-sizing: border-box;
   padding: 18px 14px;
   border-radius: 24px;
-  background: rgba(25, 28, 31, 0.95);
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.22);
   text-transform: none;
@@ -319,15 +319,15 @@ body::before {
   display: grid;
   place-items: center;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   transition: transform 0.22s ease, background 0.22s ease, border-color 0.22s ease;
 }
 
 .steam-link:hover {
   transform: translateY(-1px);
-  background: rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.14);
 }
 
 .steam-link img {
@@ -356,7 +356,7 @@ body::before {
   margin-bottom: 0;
   padding: 18px 14px;
   border-radius: 24px;
-  background: rgba(25, 28, 31, 0.95);
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.22);
   text-transform: none;
