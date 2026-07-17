@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-07-17T12:58:46Z",
+  "updated_at": "2026-07-17T14:42:27Z",
   "steamid": "76561199105502199",
   "persona_name": "cry",
   "now_playing": true,
   "current_game": {
-    "name": "Bongo Cat",
-    "appid": "3419430",
-    "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3419430/2e6c93c020fe13d09d8120bb9164ed7cb58f00c5/header.jpg?t=1782563587"
+    "name": "Dead by Daylight",
+    "appid": "381210",
+    "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/381210/header.jpg?t=1784216454"
   },
   "recent_game": {
     "name": "The Binding of Isaac: Rebirth",
