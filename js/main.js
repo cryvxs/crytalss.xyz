@@ -72,6 +72,29 @@ const steamDetailElement = document.getElementById("steamDetail");
 const steamArtworkElement = document.getElementById("steamArtwork");
 const steamLinkElement = document.getElementById("steamLink");
 
+function getTimeAgoString(timestamp) {
+  if (!timestamp) return '';
+  
+  const now = Math.floor(Date.now() / 1000);
+  const secondsAgo = now - timestamp;
+  
+  if (secondsAgo < 60) {
+    return 'just now';
+  } else if (secondsAgo < 3600) {
+    const minutes = Math.floor(secondsAgo / 60);
+    return `${minutes}m ago`;
+  } else if (secondsAgo < 86400) {
+    const hours = Math.floor(secondsAgo / 3600);
+    return `${hours}h ago`;
+  } else if (secondsAgo < 604800) {
+    const days = Math.floor(secondsAgo / 86400);
+    return `${days}d ago`;
+  } else {
+    const weeks = Math.floor(secondsAgo / 604800);
+    return `${weeks}w ago`;
+  }
+}
+
 async function updateLastFM() {
   if (!lastfmTrackElement) return;
   if (!API_KEY) {
@@ -99,8 +122,17 @@ async function updateLastFM() {
     const nowPlaying = track["@attr"]?.nowplaying === "true";
     const artwork = track.image?.[3]?.["#text"] || track.image?.[track.image.length - 1]?.["#text"] || "Images/lastfm.png";
     const truncatedSong = song.length > 25 ? `${song.slice(0, 25)}..` : song;
+    const timestamp = track.date?.uts;
 
-    if (lastfmStatusElement) lastfmStatusElement.textContent = nowPlaying ? "Now Playing" : "Last Played";
+    let statusText = "Now Playing";
+    if (!nowPlaying && timestamp) {
+      const timeAgo = getTimeAgoString(parseInt(timestamp));
+      statusText = `Last played ${timeAgo}`;
+    } else if (!nowPlaying) {
+      statusText = "Last Played";
+    }
+
+    if (lastfmStatusElement) lastfmStatusElement.textContent = statusText;
     if (lastfmTrackElement) lastfmTrackElement.textContent = truncatedSong;
     if (lastfmArtistElement) lastfmArtistElement.textContent = artist;
     if (lastfmArtworkElement && artwork) lastfmArtworkElement.src = artwork;
@@ -131,9 +163,10 @@ async function updateSteamStatus() {
       steamDetailElement.textContent = 'on Steam';
       steamArtworkElement.src = currentGame?.img_url || 'Images/steam.webp';
     } else if (recentGame?.name) {
-      steamStatusElement.textContent = 'Last Played';
+      const timeAgo = getTimeAgoString(recentGame?.last_played_timestamp);
+      steamStatusElement.textContent = timeAgo ? `Last played ${timeAgo}` : 'Last Played';
       steamGameElement.textContent = recentGame.name;
-      steamDetailElement.textContent = 'recently played on Steam';
+      steamDetailElement.textContent = 'on Steam';
       steamArtworkElement.src = recentGame?.img_url || 'Images/steam.webp';
     } else {
       steamStatusElement.textContent = 'Steam status';

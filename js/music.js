@@ -96,7 +96,7 @@ const musicTrack = "Music/Rakuichi_Buster.mp3";
 let muted = false;
 
 music.preload = 'auto';
-music.volume = 0.5;
+music.volume = 0.25;
 
 function getCurrentTrackName(path) {
   const file = path.split("/").pop().split("?")[0];
