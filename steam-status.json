@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-25T14:53:04Z",
+  "updated_at": "2026-07-25T16:08:23Z",
   "steamid": "76561199105502199",
   "persona_name": "cry",
   "now_playing": true,
@@ -11,7 +11,7 @@
   "recent_game": {
     "name": "Bongo Cat",
     "appid": 3419430,
-    "playtime_2weeks": 9172,
+    "playtime_2weeks": 9262,
     "last_played_timestamp": null,
     "img_url": null
   },
