@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-07-29T17:50:24Z",
+  "updated_at": "2026-07-29T19:26:08Z",
   "steamid": "76561199105502199",
-  "persona_name": "IntelligentAlligator84",
+  "persona_name": "TunnelingKiller82",
   "now_playing": true,
   "current_game": {
-    "name": "Dead by Daylight",
-    "appid": "381210",
-    "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/381210/header.jpg?t=1784216454"
+    "name": "Bongo Cat",
+    "appid": "3419430",
+    "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3419430/2e6c93c020fe13d09d8120bb9164ed7cb58f00c5/header.jpg?t=1784816690"
   },
   "recent_game": {
     "name": "Bongo Cat",
     "appid": 3419430,
-    "playtime_2weeks": 15081,
+    "playtime_2weeks": 15171,
     "last_played_timestamp": null,
     "img_url": null
   },
