@@ -1,13 +1,17 @@
 {
-  "updated_at": "2026-08-02T22:38:11Z",
+  "updated_at": "2026-08-02T23:42:38Z",
   "steamid": "76561199105502199",
   "persona_name": "SluggingEvil82",
-  "now_playing": false,
-  "current_game": null,
+  "now_playing": true,
+  "current_game": {
+    "name": "Stardew Valley",
+    "appid": "413150",
+    "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413150/header.jpg?t=1754692865"
+  },
   "recent_game": {
     "name": "Bongo Cat",
     "appid": 3419430,
-    "playtime_2weeks": 12976,
+    "playtime_2weeks": 12911,
     "last_played_timestamp": null,
     "img_url": null
   },
