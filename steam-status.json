@@ -1,13 +1,14 @@
 {
-  "updated_at": "2026-07-17T06:09:31Z",
+  "updated_at": "2026-08-04T06:16:30Z",
   "steamid": "76561199105502199",
   "persona_name": "cry",
   "now_playing": false,
   "current_game": null,
   "recent_game": {
-    "name": "The Binding of Isaac: Rebirth",
-    "appid": 250900,
-    "playtime_2weeks": 2669,
+    "name": "Bongo Cat",
+    "appid": 3419430,
+    "playtime_2weeks": 11077,
+    "last_played_timestamp": null,
     "img_url": null
   },
   "profile_url": "https://steamcommunity.com/profiles/76561199105502199"
