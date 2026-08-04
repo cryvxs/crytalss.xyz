@@ -13,7 +13,6 @@
 
 <div id="depthLayer"></div>
 <div class="wavy-background"></div>
-<canvas id="visualizer"></canvas>
 
 <div class="page-grid">
   <section class="profile-card">
@@ -22,6 +21,10 @@
         <img class="profile" src="Images/luna.gif" alt="cry avatar">
       </div>
       <span class="profile-badge">profile</span>
+      <span class="status-pill" id="discordStatusPill" data-status="offline">
+        <span class="status-dot" id="discordStatusDot"></span>
+        <span id="discordStatusText">offline</span>
+      </span>
       <h1>info</h1>
       <div class="profile-subtext">links and such</div>
     </div>
@@ -96,8 +99,12 @@
   </section>
 </div>
 
-<audio id="music"></audio>
-<script src="js/music.js"></script>
+<img id="easter-egg-tree" src="Images/tree.webp" alt="Tree">
+<img id="easter-egg-man" src="Images/man.png" alt="Man">
+<img id="easter-egg-man2" src="Images/man2.png" alt="Man2">
+<img id="easter-egg-man3" src="Images/man3.png" alt="Man3">
+<audio id="music" autoplay loop></audio>
+<audio id="egg-sound"></audio>
 <script src="js/main.js"></script>
 </body>
 </html>

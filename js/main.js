@@ -1,67 +1,6 @@
-const input = document.getElementById("userMessage");
-const sendBtn = document.getElementById("sendBtn");
-const typingSound = document.getElementById("typingSound");
-const listeningText = document.getElementById("listeningText");
-
-const webhookURL = "https://discord.com/api/webhooks/1491511317700280440/oeLyXzuw63xDE2qhDeM7aQyIYS8uTTsQN_vygEZF8lZNDzlOILyEzDlWt0rH5AiUeuLB";
-
-let unlocked = false;
-let typingTimeout;
-
-function setCookie(name, value, days){
-  const d = new Date();
-  d.setTime(d.getTime() + days*24*60*60*1000);
-  document.cookie = `${name}=${value}; expires=${d.toUTCString()}; path=/`; 
-}
-
-function getCookie(name){
-  return document.cookie.split("; ").find(x => x.startsWith(name+"="))?.split("=")[1];
-}
-
-if (input && sendBtn && typingSound && listeningText) {
-  if(getCookie("sent")){
-    input.disabled = true;
-    sendBtn.disabled = true;
-    input.placeholder = "you already sent a message";
-  }
-
-  input.addEventListener("input", () => {
-    if(!unlocked || getCookie("sent")) return;
-
-    typingSound.currentTime = 0;
-    typingSound.play().catch(()=>{});
-
-    clearTimeout(typingTimeout);
-    typingTimeout = setTimeout(() => typingSound.pause(), 200);
-  });
-
-  sendBtn.addEventListener("click", async () => {
-    if(!unlocked || getCookie("sent")) return;
-
-    let msg = input.value.trim();
-    if(!msg) return;
-
-    listeningText.classList.add("show");
-
-    await fetch(webhookURL, {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({ content: msg })
-    });
-
-    setCookie("sent", "true", 365);
-
-    input.value = "";
-    input.disabled = true;
-    sendBtn.disabled = true;
-    input.placeholder = "you already sent a message";
-    
-    setTimeout(() => listeningText.classList.remove("show"), 3000);
-  });
-}
-
 const API_KEY = "2e10e484bd9c85a23b21304276c2eb76";
 const USERNAME = "crystalvxs";
+
 const lastfmStatusElement = document.getElementById("lastfmStatus");
 const lastfmTrackElement = document.getElementById("lastfmTrack");
 const lastfmArtistElement = document.getElementById("lastfmArtist");
@@ -71,15 +10,162 @@ const steamGameElement = document.getElementById("steamGame");
 const steamDetailElement = document.getElementById("steamDetail");
 const steamArtworkElement = document.getElementById("steamArtwork");
 const steamLinkElement = document.getElementById("steamLink");
+const discordStatusPill = document.getElementById("discordStatusPill");
+const discordStatusText = document.getElementById("discordStatusText");
+const discordStatusDot = document.getElementById("discordStatusDot");
+
+function fadeAudio(element, targetVolume, duration) {
+  return new Promise(resolve => {
+    const startVolume = element.volume;
+    const startTime = Date.now();
+    
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      element.volume = startVolume + (targetVolume - startVolume) * progress;
+      
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        resolve();
+      }
+    };
+    animate();
+  });
+}
+
+function fadeOpacity(element, targetOpacity, duration) {
+  return new Promise(resolve => {
+    const startOpacity = parseFloat(window.getComputedStyle(element).opacity);
+    const startTime = Date.now();
+    
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      element.style.opacity = startOpacity + (targetOpacity - startOpacity) * progress;
+      
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        resolve();
+      }
+    };
+    animate();
+  });
+}
+
+async function initializeEasterEgg() {
+  const musicElement = document.getElementById("music");
+
+  // Always play the normal music first
+  if (musicElement) {
+    musicElement.volume = 0;
+    musicElement.src = "Music/rakuichi.mp3";
+    musicElement.play().catch(e => console.log("Audio autoplay blocked", e));
+    await fadeAudio(musicElement, 1, 500);
+  }
+
+  // If the easter egg has already been completed, don't show it again
+  const easterEggCookie = document.cookie
+    .split("; ")
+    .find(row => row.startsWith("easterEggViewed="));
+
+  if (easterEggCookie) {
+    return;
+  }
+  
+  const easterEggChance = Math.random();
+  if (easterEggChance < 1/50) { // 2% chance >:)
+    document.body.classList.add("easter-egg");
+    if (musicElement) {
+      await fadeAudio(musicElement, 0, 500);
+      musicElement.src = "Music/chpt5egg.mp3";
+      musicElement.play().catch(e => console.log("Audio autoplay blocked", e));
+      await fadeAudio(musicElement, 1, 500);
+    }
+    const faviconLink = document.querySelector('link[rel="icon"]');
+    if (faviconLink) {
+      faviconLink.href = "Images/egg.png";
+    }
+    const treeElement = document.getElementById("easter-egg-tree");
+    if (treeElement) {
+      treeElement.style.display = "block";
+      treeElement.addEventListener("click", toggleMan);
+    }
+  }
+}
+
+let easterEggClickCount = 0;
+let treeClickCooldown = false;
+
+async function toggleMan() {
+  if (treeClickCooldown) return;
+  
+  treeClickCooldown = true;
+  setTimeout(() => {
+    treeClickCooldown = false;
+  }, 1500);
+  
+  easterEggClickCount++;
+  
+  const manElement = document.getElementById("easter-egg-man");
+  const man2Element = document.getElementById("easter-egg-man2");
+  const man3Element = document.getElementById("easter-egg-man3");
+  const treeElement = document.getElementById("easter-egg-tree");
+  
+  if (easterEggClickCount === 1) {
+    // First click: fade in man.png over 1 second, then fade out over 1 second
+    if (manElement) {
+      manElement.style.display = "block";
+      manElement.style.opacity = "0";
+      await fadeOpacity(manElement, 1, 1000);
+      await fadeOpacity(manElement, 0, 1000);
+      manElement.style.display = "none";
+    }
+  } else if (easterEggClickCount === 2) {
+    // Second click: fade in man2.png over 1 second, then fade out over 1 second
+    if (man2Element) {
+      man2Element.style.display = "block";
+      man2Element.style.opacity = "0";
+      await fadeOpacity(man2Element, 1, 1000);
+      await fadeOpacity(man2Element, 0, 1000);
+      man2Element.style.display = "none";
+    }
+  } else if (easterEggClickCount === 3) {
+    // Third click: play egg.mp3 sound effect
+    const eggSound = document.getElementById("egg-sound");
+    if (eggSound) {
+      eggSound.src = "Music/egg.mp3";
+      eggSound.play().catch(e => console.log("Sound autoplay blocked", e));
+    }
+  } else if (easterEggClickCount === 4) {
+    // Fourth click: fade in man3.png over 1 second and keep it forever, disable clicks, set cookie
+    if (man3Element) {
+      man3Element.style.display = "block";
+      man3Element.style.opacity = "0";
+      await fadeOpacity(man3Element, 1, 1000);
+    }
+    
+    // Set cookie so this easter egg won't trigger again
+    const date = new Date();
+    date.setFullYear(date.getFullYear() + 10);
+    document.cookie = `easterEggViewed=true; expires=${date.toUTCString()}; path=/`;
+    
+    // Remove click listener
+    if (treeElement) {
+      treeElement.removeEventListener("click", toggleMan);
+    }
+  }
+}
 
 function getTimeAgoString(timestamp) {
-  if (!timestamp) return '';
-  
+  if (!timestamp) return "";
+
   const now = Math.floor(Date.now() / 1000);
   const secondsAgo = now - timestamp;
-  
+
   if (secondsAgo < 60) {
-    return 'just now';
+    return "just now";
   } else if (secondsAgo < 3600) {
     const minutes = Math.floor(secondsAgo / 60);
     return `${minutes}m ago`;
@@ -149,8 +235,8 @@ async function updateSteamStatus() {
   if (!steamGameElement) return;
 
   try {
-    const response = await fetch('/steam-status.json', { cache: 'no-store' });
-    if (!response.ok) throw new Error('Steam status fetch failed');
+    const response = await fetch("/steam-status.json", { cache: "no-store" });
+    if (!response.ok) throw new Error("Steam status fetch failed");
     const data = await response.json();
 
     const nowPlaying = data?.now_playing;
@@ -158,36 +244,71 @@ async function updateSteamStatus() {
     const recentGame = data?.recent_game;
 
     if (nowPlaying && currentGame?.name) {
-      steamStatusElement.textContent = 'Now Playing';
-      steamGameElement.textContent = currentGame.name;
-      steamDetailElement.textContent = 'on Steam';
-      steamArtworkElement.src = currentGame?.img_url || 'Images/steam.webp';
+      if (steamStatusElement) steamStatusElement.textContent = "Now Playing";
+      if (steamGameElement) steamGameElement.textContent = currentGame.name;
+      if (steamDetailElement) steamDetailElement.textContent = "on Steam";
+      if (steamArtworkElement) steamArtworkElement.src = currentGame?.img_url || "Images/steam.webp";
     } else if (recentGame?.name) {
       const timeAgo = getTimeAgoString(recentGame?.last_played_timestamp);
-      steamStatusElement.textContent = timeAgo ? `Last played ${timeAgo}` : 'Last Played';
-      steamGameElement.textContent = recentGame.name;
-      steamDetailElement.textContent = 'on Steam';
-      steamArtworkElement.src = recentGame?.img_url || 'Images/steam.webp';
+      if (steamStatusElement) steamStatusElement.textContent = timeAgo ? `Last played ${timeAgo}` : "Last Played";
+      if (steamGameElement) steamGameElement.textContent = recentGame.name;
+      if (steamDetailElement) steamDetailElement.textContent = "on Steam";
+      if (steamArtworkElement) steamArtworkElement.src = recentGame?.img_url || "Images/steam.webp";
     } else {
-      steamStatusElement.textContent = 'Steam status';
-      steamGameElement.textContent = 'no recent games found';
-      steamDetailElement.textContent = '';
-      steamArtworkElement.src = 'Images/steam.webp';
+      if (steamStatusElement) steamStatusElement.textContent = "Steam status";
+      if (steamGameElement) steamGameElement.textContent = "no recent games found";
+      if (steamDetailElement) steamDetailElement.textContent = "";
+      if (steamArtworkElement) steamArtworkElement.src = "Images/steam.webp";
     }
 
     if (steamLinkElement && data?.profile_url) {
       steamLinkElement.href = data.profile_url;
     }
   } catch (error) {
-    if (steamStatusElement) steamStatusElement.textContent = 'Steam unavailable';
-    if (steamGameElement) steamGameElement.textContent = 'unable to load status';
-    if (steamDetailElement) steamDetailElement.textContent = '';
-    if (steamArtworkElement) steamArtworkElement.src = 'Images/steam.webp';
-    console.error('Steam status fetch failed', error);
+    if (steamStatusElement) steamStatusElement.textContent = "Steam unavailable";
+    if (steamGameElement) steamGameElement.textContent = "unable to load status";
+    if (steamDetailElement) steamDetailElement.textContent = "";
+    if (steamArtworkElement) steamArtworkElement.src = "Images/steam.webp";
+    console.error("Steam status fetch failed", error);
   }
 }
 
+function updateDiscordStatus() {
+  fetch("/discord-status.json", { cache: "no-store" })
+    .then((response) => {
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return response.json();
+    })
+    .then((data) => {
+      const now = new Date();
+      const hours = now.getHours();
+      const schedule = data?.schedule;
+      const startHour = Number(schedule?.startHour ?? 12);
+      const endHour = Number(schedule?.endHour ?? 2);
+      const isOnline = hours >= startHour || hours < endHour;
+
+      if (discordStatusPill) {
+        discordStatusPill.dataset.status = isOnline ? "online" : "offline";
+      }
+
+      if (discordStatusText) {
+        discordStatusText.textContent = isOnline ? "online" : "offline";
+      }
+    })
+    .catch(() => {
+      if (discordStatusPill) {
+        discordStatusPill.dataset.status = "offline";
+      }
+      if (discordStatusText) {
+        discordStatusText.textContent = "offline";
+      }
+    });
+}
+
+initializeEasterEgg();
 updateLastFM();
 updateSteamStatus();
-setInterval(updateLastFM, 15000); // refresh every 15 seconds
-setInterval(updateSteamStatus, 30000); // refresh every 30 seconds
+updateDiscordStatus();
+setInterval(updateLastFM, 15000);
+setInterval(updateSteamStatus, 30000);
+setInterval(updateDiscordStatus, 30000);

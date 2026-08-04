@@ -1,26 +1,20 @@
 const music = document.getElementById("music");
 const visualizerCanvas = document.getElementById("visualizer");
 
+if (!music || !visualizerCanvas) {
+  throw new Error("Music and visualizer elements are required.");
+}
+
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 const analyser = audioCtx.createAnalyser();
 const source = audioCtx.createMediaElementSource(music);
 source.connect(analyser);
 analyser.connect(audioCtx.destination);
 analyser.fftSize = 256;
+
 const bufferLength = analyser.frequencyBinCount;
 const dataArray = new Uint8Array(bufferLength);
 const canvasCtx = visualizerCanvas.getContext("2d");
-
-// Simple cookie helpers (self-contained)
-function setCookie(name, value, days) {
-  const d = new Date();
-  d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
-  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${d.toUTCString()}; path=/`;
-}
-
-function getCookie(name) {
-  return document.cookie.split('; ').find(x => x.startsWith(name + '='))?.split('=')[1];
-}
 
 function resizeVisualizer() {
   const ratio = window.devicePixelRatio || 1;
@@ -32,6 +26,7 @@ function resizeVisualizer() {
 function drawVisualizer() {
   requestAnimationFrame(drawVisualizer);
   analyser.getByteFrequencyData(dataArray);
+
   const width = visualizerCanvas.clientWidth;
   const height = visualizerCanvas.clientHeight;
   canvasCtx.clearRect(0, 0, width, height);
@@ -61,8 +56,9 @@ function drawVisualizer() {
 
   for (let i = 0; i < barCount; i++) {
     const distanceFromCenter = Math.abs(i - centerIndex);
-    const freqIndex = Math.min(bufferLength - 1,
-      Math.round(distanceFromCenter * ((bufferLength - 1) / 2) / centerIndex)
+    const freqIndex = Math.min(
+      bufferLength - 1,
+      Math.round((distanceFromCenter * ((bufferLength - 1) / 2)) / centerIndex)
     );
     const value = Math.max(0, dataArray[freqIndex] - 15) / 240;
     const barHeight = Math.pow(value, 1.6) * height;
@@ -82,45 +78,20 @@ const tryPlayMusic = () => {
   if (audioCtx.state === "suspended") {
     audioCtx.resume().catch(() => {});
   }
+
   if (music.paused) {
-    music.play().catch((error) => {
-      console.warn('Music play blocked or failed:', error);
-    });
+    music.play().catch(() => {});
   }
 };
 
-document.addEventListener("click", tryPlayMusic);
+document.addEventListener("click", tryPlayMusic, { once: true });
 
-const musicTrack = "Music/Rakuichi_Buster.mp3";
-
-let muted = false;
-
-music.preload = 'auto';
+music.preload = "auto";
 music.volume = 0.25;
-
-function getCurrentTrackName(path) {
-  const file = path.split("/").pop().split("?")[0];
-  return decodeURIComponent(file.replace(/\+/g, " ")).replace(/\.mp3$/i, "").replace(/_/g, " ");
-}
-
-function logTrackLoaded() {
-  console.log("😉 Track loaded:", getCurrentTrackName(music.src));
-}
-
-function handleMusicError() {
-  console.warn('Music failed to load/play.', music.error);
-}
-
-music.addEventListener('error', handleMusicError);
-music.addEventListener('stalled', handleMusicError);
-music.addEventListener('loadedmetadata', logTrackLoaded);
-
-music.src = musicTrack;
+music.src = "Music/rakuichi.mp3";
 music.load();
 music.loop = true;
-music.play().catch((error) => {
-  console.warn('Initial playback blocked or failed:', error);
-});
+music.play().catch(() => {});
 
 music.addEventListener("ended", () => {
   music.currentTime = 0;
