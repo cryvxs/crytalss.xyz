@@ -1,13 +1,17 @@
 {
-  "updated_at": "2026-08-13T10:32:39Z",
+  "updated_at": "2026-08-13T11:26:10Z",
   "steamid": "76561199105502199",
   "persona_name": "cry",
-  "now_playing": false,
-  "current_game": null,
+  "now_playing": true,
+  "current_game": {
+    "name": "Dead by Daylight",
+    "appid": "381210",
+    "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/381210/header.jpg?t=1784216454"
+  },
   "recent_game": {
     "name": "Dead by Daylight",
     "appid": 381210,
-    "playtime_2weeks": 5560,
+    "playtime_2weeks": 5590,
     "last_played_timestamp": null,
     "img_url": null
   },
