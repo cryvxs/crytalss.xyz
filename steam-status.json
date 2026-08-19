@@ -1,13 +1,17 @@
 {
-  "updated_at": "2026-08-18T23:56:10Z",
+  "updated_at": "2026-08-19T01:45:39Z",
   "steamid": "76561199105502199",
   "persona_name": "friend inside me",
-  "now_playing": false,
-  "current_game": null,
+  "now_playing": true,
+  "current_game": {
+    "name": "The Binding of Isaac: Rebirth",
+    "appid": "250900",
+    "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/250900/header.jpg?t=1731977365"
+  },
   "recent_game": {
     "name": "Dead by Daylight",
     "appid": 381210,
-    "playtime_2weeks": 9415,
+    "playtime_2weeks": 9396,
     "last_played_timestamp": null,
     "img_url": null
   },
