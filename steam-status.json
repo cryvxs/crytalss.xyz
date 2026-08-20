@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-20T05:04:57Z",
+  "updated_at": "2026-08-20T05:44:42Z",
   "steamid": "76561199105502199",
   "persona_name": "friend inside me",
   "now_playing": true,
@@ -11,7 +11,7 @@
   "recent_game": {
     "name": "Dead by Daylight",
     "appid": 381210,
-    "playtime_2weeks": 10520,
+    "playtime_2weeks": 10510,
     "last_played_timestamp": null,
     "img_url": null
   },
