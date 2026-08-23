@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-08-23T19:03:19Z",
+  "updated_at": "2026-08-23T19:32:32Z",
   "steamid": "76561199105502199",
   "persona_name": "cry",
   "now_playing": true,
   "current_game": {
-    "name": "Dead by Daylight",
-    "appid": "381210",
-    "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/381210/header.jpg?t=1784216454"
+    "name": "We Were Here Expeditions: The FriendShip",
+    "appid": "2296990",
+    "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2296990/header.jpg?t=1764331912"
   },
   "recent_game": {
     "name": "Dead by Daylight",
     "appid": 381210,
-    "playtime_2weeks": 10947,
+    "playtime_2weeks": 10970,
     "last_played_timestamp": null,
     "img_url": null
   },
