@@ -1,17 +1,13 @@
 {
-  "updated_at": "2026-08-29T10:13:11Z",
+  "updated_at": "2026-08-29T15:07:03Z",
   "steamid": "76561199105502199",
   "persona_name": "cry",
-  "now_playing": true,
-  "current_game": {
-    "name": "Geometry Dash",
-    "appid": "322170",
-    "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/322170/header.jpg?t=1775300400"
-  },
+  "now_playing": false,
+  "current_game": null,
   "recent_game": {
     "name": "Dead by Daylight",
     "appid": 381210,
-    "playtime_2weeks": 8754,
+    "playtime_2weeks": 8460,
     "last_played_timestamp": null,
     "img_url": null
   },
