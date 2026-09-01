@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-01T21:09:00Z",
+  "updated_at": "2026-09-01T23:19:15Z",
   "steamid": "76561199105502199",
   "persona_name": "cry",
   "now_playing": false,
@@ -7,7 +7,7 @@
   "recent_game": {
     "name": "Geometry Dash",
     "appid": 322170,
-    "playtime_2weeks": 7677,
+    "playtime_2weeks": 7639,
     "last_played_timestamp": null,
     "img_url": null
   },
