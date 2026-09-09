@@ -10,10 +10,21 @@ const steamGameElement = document.getElementById("steamGame");
 const steamDetailElement = document.getElementById("steamDetail");
 const steamArtworkElement = document.getElementById("steamArtwork");
 const steamLinkElement = document.getElementById("steamLink");
-const discordStatusPill = document.getElementById("discordStatusPill");
-const discordStatusText = document.getElementById("discordStatusText");
-const discordStatusDot = document.getElementById("discordStatusDot");
+const profileEmojiElement = document.getElementById("profileEmoji");
 
+const profileEmojis = [
+  "Images/emoji.png",
+  "Images/bigsunsmallcloud.png",
+  "Images/cloudy.png",
+  "Images/rainy.png",
+  "Images/snowy.png",
+  "Images/stormy.png"
+];
+
+if (profileEmojiElement) {
+  const randomEmoji = profileEmojis[Math.floor(Math.random() * profileEmojis.length)];
+  profileEmojiElement.src = randomEmoji;
+}
 function fadeAudio(element, targetVolume, duration) {
   return new Promise(resolve => {
     const startVolume = element.volume;
@@ -65,7 +76,7 @@ async function initializeEasterEgg() {
     await fadeAudio(musicElement, 1, 500);
   }
 
-  // If the easter egg has already been completed, don't show it again
+  // If the easter egg has been completed, don't show again
   const easterEggCookie = document.cookie
     .split("; ")
     .find(row => row.startsWith("easterEggViewed="));
@@ -200,6 +211,7 @@ async function updateLastFM() {
       if (lastfmTrackElement) lastfmTrackElement.textContent = "nothing found yet";
       if (lastfmArtistElement) lastfmArtistElement.textContent = "check your Last.fm profile";
       if (lastfmArtworkElement) lastfmArtworkElement.src = "Images/lastfm.png";
+      if (lastfmArtworkElement) lastfmArtworkElement.style.display = "none";
       return;
     }
 
@@ -221,12 +233,18 @@ async function updateLastFM() {
     if (lastfmStatusElement) lastfmStatusElement.textContent = statusText;
     if (lastfmTrackElement) lastfmTrackElement.textContent = truncatedSong;
     if (lastfmArtistElement) lastfmArtistElement.textContent = artist;
-    if (lastfmArtworkElement && artwork) lastfmArtworkElement.src = artwork;
+    if (lastfmArtworkElement && artwork) {
+      lastfmArtworkElement.src = artwork;
+      lastfmArtworkElement.style.display = "block";
+    }
   } catch (error) {
     if (lastfmStatusElement) lastfmStatusElement.textContent = "Last.fm unavailable";
     if (lastfmTrackElement) lastfmTrackElement.textContent = "try again later";
     if (lastfmArtistElement) lastfmArtistElement.textContent = "";
-    if (lastfmArtworkElement) lastfmArtworkElement.src = "Images/lastfm.png";
+    if (lastfmArtworkElement) {
+      lastfmArtworkElement.src = "Images/lastfm.png";
+      lastfmArtworkElement.style.display = "none";
+    }
     console.error("Last.fm fetch failed", error);
   }
 }
@@ -247,18 +265,35 @@ async function updateSteamStatus() {
       if (steamStatusElement) steamStatusElement.textContent = "Now Playing";
       if (steamGameElement) steamGameElement.textContent = currentGame.name;
       if (steamDetailElement) steamDetailElement.textContent = "on Steam";
-      if (steamArtworkElement) steamArtworkElement.src = currentGame?.img_url || "Images/steam.webp";
+      if (steamArtworkElement) {
+        if (currentGame?.img_url) {
+          steamArtworkElement.src = currentGame.img_url;
+          steamArtworkElement.style.display = "block";
+        } else {
+          steamArtworkElement.style.display = "none";
+        }
+      }
     } else if (recentGame?.name) {
       const timeAgo = getTimeAgoString(recentGame?.last_played_timestamp);
       if (steamStatusElement) steamStatusElement.textContent = timeAgo ? `Last played ${timeAgo}` : "Last Played";
       if (steamGameElement) steamGameElement.textContent = recentGame.name;
       if (steamDetailElement) steamDetailElement.textContent = "on Steam";
-      if (steamArtworkElement) steamArtworkElement.src = recentGame?.img_url || "Images/steam.webp";
+      if (steamArtworkElement) {
+        if (recentGame?.img_url) {
+          steamArtworkElement.src = recentGame.img_url;
+          steamArtworkElement.style.display = "block";
+        } else {
+          steamArtworkElement.style.display = "none";
+        }
+      }
     } else {
       if (steamStatusElement) steamStatusElement.textContent = "Steam status";
       if (steamGameElement) steamGameElement.textContent = "no recent games found";
       if (steamDetailElement) steamDetailElement.textContent = "";
-      if (steamArtworkElement) steamArtworkElement.src = "Images/steam.webp";
+      if (steamArtworkElement) {
+        steamArtworkElement.src = "Images/steam.webp";
+        steamArtworkElement.style.display = "none";
+      }
     }
 
     if (steamLinkElement && data?.profile_url) {
@@ -268,47 +303,16 @@ async function updateSteamStatus() {
     if (steamStatusElement) steamStatusElement.textContent = "Steam unavailable";
     if (steamGameElement) steamGameElement.textContent = "unable to load status";
     if (steamDetailElement) steamDetailElement.textContent = "";
-    if (steamArtworkElement) steamArtworkElement.src = "Images/steam.webp";
+    if (steamArtworkElement) {
+      steamArtworkElement.src = "Images/steam.webp";
+      steamArtworkElement.style.display = "none";
+    }
     console.error("Steam status fetch failed", error);
   }
-}
-
-function updateDiscordStatus() {
-  fetch("/discord-status.json", { cache: "no-store" })
-    .then((response) => {
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      return response.json();
-    })
-    .then((data) => {
-      const now = new Date();
-      const hours = now.getHours();
-      const schedule = data?.schedule;
-      const startHour = Number(schedule?.startHour ?? 12);
-      const endHour = Number(schedule?.endHour ?? 2);
-      const isOnline = hours >= startHour || hours < endHour;
-
-      if (discordStatusPill) {
-        discordStatusPill.dataset.status = isOnline ? "online" : "offline";
-      }
-
-      if (discordStatusText) {
-        discordStatusText.textContent = isOnline ? "online" : "offline";
-      }
-    })
-    .catch(() => {
-      if (discordStatusPill) {
-        discordStatusPill.dataset.status = "offline";
-      }
-      if (discordStatusText) {
-        discordStatusText.textContent = "offline";
-      }
-    });
 }
 
 initializeEasterEgg();
 updateLastFM();
 updateSteamStatus();
-updateDiscordStatus();
 setInterval(updateLastFM, 15000);
 setInterval(updateSteamStatus, 30000);
-setInterval(updateDiscordStatus, 30000);

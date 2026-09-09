@@ -14,90 +14,100 @@
 <div id="depthLayer"></div>
 <div class="wavy-background"></div>
 
-<div class="page-grid">
-  <section class="profile-card">
-    <div class="profile-header">
-      <div class="avatar-wrap">
-        <img class="profile" src="Images/luna.gif" alt="cry avatar">
-      </div>
-      <span class="profile-badge">profile</span>
-      <span class="status-pill" id="discordStatusPill" data-status="offline">
-        <span class="status-dot" id="discordStatusDot"></span>
-        <span id="discordStatusText">offline</span>
-      </span>
-      <h1>info</h1>
-      <div class="profile-subtext">links and such</div>
-    </div>
-    <div class="widget-stack">
-      <div class="steam-widget">
-        <img id="steamArtwork" class="steam-artwork" src="Images/steam.webp" alt="Steam artwork">
-        <div class="steam-info">
-          <div class="steam-status" id="steamStatus">steam loading...</div>
-          <div class="steam-game" id="steamGame">fetching steam data…</div>
-          <div class="steam-detail" id="steamDetail"></div>
-        </div>
-        <a class="steam-link" id="steamLink" href="https://steamcommunity.com/id/cry_tals" target="_blank" rel="noreferrer noopener" title="Steam" aria-label="Steam">
-          <img src="Images/steam.webp" alt="Steam">
-        </a>
-      </div>
-      <div class="lastfm-widget">
-        <img id="lastfmArtwork" class="lastfm-artwork" src="Images/lastfm.png" alt="Last.fm artwork">
-        <div class="lastfm-info">
-          <div class="lastfm-status" id="lastfmStatus">last.fm loading...</div>
-          <div class="lastfm-track" id="lastfmTrack">fetching your latest track…</div>
-          <div class="lastfm-artist" id="lastfmArtist"></div>
-        </div>
-        <a class="lastfm-link" href="https://last.fm/user/crystalvxs" target="_blank" rel="noreferrer noopener" title="Last.fm" aria-label="Last.fm">
-          <img src="Images/lastfm.png" alt="Last.fm">
-        </a>
+<main class="dashboard-grid">
+  <section class="dashboard-card intro-card">
+    <div class="card-mark">info</div>
+    <div class="intro-content">
+      <div class="intro-copy">
+        <h1>i'm cry <img id="profileEmoji" class="profile-emoji" src="Images/emoji.png" alt=""></h1>
+        <ul>
+          <li>i like playing games</li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <section class="link-card">
+  <section class="dashboard-card listening-card">
+    <div class="card-mark">music</div>
     <div class="card-header">
-      <span class="card-badge">links</span>
-      <h2>Where to find me</h2>
+      <h2>what i'm listening to</h2>
+    </div>
+    <div class="feature-widget lastfm-widget">
+      <img id="lastfmArtwork" class="lastfm-artwork live-artwork" src="Images/lastfm.png" alt="Last.fm artwork">
+      <div class="lastfm-info">
+        <div class="lastfm-status" id="lastfmStatus">last.fm loading...</div>
+        <div class="lastfm-track" id="lastfmTrack">fetching the latest track…</div>
+        <div class="lastfm-artist" id="lastfmArtist"></div>
+      </div>
+      <a class="lastfm-link" href="https://last.fm/user/crystalvxs" target="_blank" rel="noreferrer noopener" title="Last.fm" aria-label="Last.fm">
+        <img src="Images/lastfm.png" alt="Last.fm">
+      </a>
+    </div>
+  </section>
+
+  <section class="dashboard-card links-card">
+    <div class="card-mark">links</div>
+    <div class="card-header">
+      <h2>where to find me</h2>
     </div>
     <div class="buttons">
       <a href="https://steamcommunity.com/id/cry_tals" target="_blank">
         <img src="Images/steam.webp" alt="Steam">
-        <div>
-          <div class="linkLabel">cry_tals</div>
-          <div class="linkSubtext">Steam</div>
-        </div>
+        <div><div class="linkLabel">Steam</div><div class="linkSubtext">cry_tals</div></div>
       </a>
       <a href="https://discord.com/users/955250582078238730" target="_blank">
         <img src="Images/discord.webp" alt="Discord">
-        <div>
-          <div class="linkLabel">cry_tals</div>
-          <div class="linkSubtext">Discord</div>
-        </div>
+        <div><div class="linkLabel">Discord</div><div class="linkSubtext">cry_tals</div></div>
       </a>
-      <a href="https://www.tiktok.com/@cry_tals" target="_blank">
+      <a href="https://www.tiktok.com/@cryvxs" target="_blank">
         <img src="Images/tiktok.webp" alt="TikTok">
-        <div>
-          <div class="linkLabel">cry_tals</div>
-          <div class="linkSubtext">TikTok</div>
-        </div>
+        <div><div class="linkLabel">TikTok</div><div class="linkSubtext">cryvxs</div></div>
       </a>
       <a href="https://www.roblox.com/users/679387671/profile" target="_blank">
         <img src="Images/roblox.webp" alt="Roblox">
-        <div>
-          <div class="linkLabel">cry_tals</div>
-          <div class="linkSubtext">Roblox</div>
-        </div>
+        <div><div class="linkLabel">Roblox</div><div class="linkSubtext">cry_tals</div></div>
       </a>
       <a href="https://last.fm/user/crystalvxs" target="_blank">
         <img src="Images/lastfm.png" alt="Last.fm">
-        <div>
-          <div class="linkLabel">crystalvxs</div>
-          <div class="linkSubtext">Last.fm</div>
-        </div>
+        <div><div class="linkLabel">Last.fm</div><div class="linkSubtext">crystalvxs</div></div>
       </a>
     </div>
   </section>
-</div>
+
+  <section class="dashboard-card playing-card">
+    <div class="card-mark">games</div>
+    <div class="card-header">
+      <h2>what i'm playing</h2>
+    </div>
+    <div class="feature-widget steam-widget">
+      <img id="steamArtwork" class="steam-artwork live-artwork" src="Images/steam.webp" alt="Steam artwork">
+      <div class="steam-info">
+        <div class="steam-status" id="steamStatus">steam loading...</div>
+        <div class="steam-game" id="steamGame">fetching steam data…</div>
+        <div class="steam-detail" id="steamDetail"></div>
+      </div>
+      <a class="steam-link" id="steamLink" href="https://steamcommunity.com/id/cry_tals" target="_blank" rel="noreferrer noopener" title="Steam" aria-label="Steam">
+        <img src="Images/steam.webp" alt="Steam">
+      </a>
+    </div>
+    <div class="recent-games">
+      <div class="favorite-games">
+        <a class="recent-game-row" href="https://store.steampowered.com/app/250900/The_Binding_of_Isaac_Rebirth/" target="_blank" rel="noreferrer noopener">
+          <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/250900/header.jpg" alt="The Binding of Isaac: Rebirth artwork">
+        </a>
+        <a class="recent-game-row" href="https://store.steampowered.com/app/322170/Geometry_Dash/" target="_blank" rel="noreferrer noopener">
+          <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/322170/header.jpg" alt="Geometry Dash artwork">
+        </a>
+        <a class="recent-game-row" href="https://store.steampowered.com/app/381210/Dead_by_Daylight/" target="_blank" rel="noreferrer noopener">
+          <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/381210/header.jpg" alt="Dead by Daylight artwork">
+        </a>
+        <a class="recent-game-row" href="https://store.steampowered.com/app/1671210/DELTARUNE/" target="_blank" rel="noreferrer noopener">
+          <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1671210/header.jpg" alt="Deltarune artwork">
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
 
 <img id="easter-egg-tree" src="Images/tree.webp" alt="Tree">
 <img id="easter-egg-man" src="Images/man.png" alt="Man">
