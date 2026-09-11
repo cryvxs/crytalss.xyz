@@ -5,16 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>info</title>
 
-<link rel="icon" type="image/gif" href="Images/luna.gif">
+<!-- Page styles and dynamic emoji favicon. -->
+<link rel="icon" type="image/png" href="Images/rainy.png">
 <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-<div id="depthLayer"></div>
-<div class="wavy-background"></div>
-
 <main class="dashboard-grid">
+  <!-- Profile -->
   <section class="dashboard-card intro-card">
     <div class="card-mark">info</div>
     <div class="intro-content">
@@ -27,6 +26,7 @@
     </div>
   </section>
 
+  <!-- Last.fm status -->
   <section class="dashboard-card listening-card">
     <div class="card-mark">music</div>
     <div class="card-header">
@@ -45,6 +45,7 @@
     </div>
   </section>
 
+  <!-- Social links -->
   <section class="dashboard-card links-card">
     <div class="card-mark">links</div>
     <div class="card-header">
@@ -74,6 +75,7 @@
     </div>
   </section>
 
+  <!-- Steam status and recently played games -->
   <section class="dashboard-card playing-card">
     <div class="card-mark">games</div>
     <div class="card-header">
@@ -91,30 +93,17 @@
       </a>
     </div>
     <div class="recent-games">
-      <div class="favorite-games">
-        <a class="recent-game-row" href="https://store.steampowered.com/app/250900/The_Binding_of_Isaac_Rebirth/" target="_blank" rel="noreferrer noopener">
-          <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/250900/header.jpg" alt="The Binding of Isaac: Rebirth artwork">
-        </a>
-        <a class="recent-game-row" href="https://store.steampowered.com/app/322170/Geometry_Dash/" target="_blank" rel="noreferrer noopener">
-          <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/322170/header.jpg" alt="Geometry Dash artwork">
-        </a>
-        <a class="recent-game-row" href="https://store.steampowered.com/app/381210/Dead_by_Daylight/" target="_blank" rel="noreferrer noopener">
-          <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/381210/header.jpg" alt="Dead by Daylight artwork">
-        </a>
-        <a class="recent-game-row" href="https://store.steampowered.com/app/1671210/DELTARUNE/" target="_blank" rel="noreferrer noopener">
-          <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1671210/header.jpg" alt="Deltarune artwork">
-        </a>
-      </div>
+      <div class="favorite-games" id="recentGames"></div>
     </div>
   </section>
 </main>
 
+<!-- Easter egg artwork is hidden until enabled by main.js. -->
 <img id="easter-egg-tree" src="Images/tree.webp" alt="Tree">
 <img id="easter-egg-man" src="Images/man.png" alt="Man">
 <img id="easter-egg-man2" src="Images/man2.png" alt="Man2">
 <img id="easter-egg-man3" src="Images/man3.png" alt="Man3">
-<audio id="music" autoplay loop></audio>
-<audio id="egg-sound"></audio>
+
 <script src="js/main.js"></script>
 </body>
 </html>

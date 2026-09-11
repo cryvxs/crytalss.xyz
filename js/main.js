@@ -1,6 +1,8 @@
+// Service configuration
 const API_KEY = "2e10e484bd9c85a23b21304276c2eb76";
 const USERNAME = "crystalvxs";
 
+// Page elements
 const lastfmStatusElement = document.getElementById("lastfmStatus");
 const lastfmTrackElement = document.getElementById("lastfmTrack");
 const lastfmArtistElement = document.getElementById("lastfmArtist");
@@ -10,8 +12,11 @@ const steamGameElement = document.getElementById("steamGame");
 const steamDetailElement = document.getElementById("steamDetail");
 const steamArtworkElement = document.getElementById("steamArtwork");
 const steamLinkElement = document.getElementById("steamLink");
+const recentGamesElement = document.getElementById("recentGames");
 const profileEmojiElement = document.getElementById("profileEmoji");
+const faviconElement = document.querySelector('link[rel="icon"]');
 
+// Profile emoji and favicon
 const profileEmojis = [
   "Images/emoji.png",
   "Images/bigsunsmallcloud.png",
@@ -24,27 +29,10 @@ const profileEmojis = [
 if (profileEmojiElement) {
   const randomEmoji = profileEmojis[Math.floor(Math.random() * profileEmojis.length)];
   profileEmojiElement.src = randomEmoji;
-}
-function fadeAudio(element, targetVolume, duration) {
-  return new Promise(resolve => {
-    const startVolume = element.volume;
-    const startTime = Date.now();
-    
-    const animate = () => {
-      const elapsed = Date.now() - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      element.volume = startVolume + (targetVolume - startVolume) * progress;
-      
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      } else {
-        resolve();
-      }
-    };
-    animate();
-  });
+  if (faviconElement) faviconElement.href = randomEmoji;
 }
 
+// Shared animation helper
 function fadeOpacity(element, targetOpacity, duration) {
   return new Promise(resolve => {
     const startOpacity = parseFloat(window.getComputedStyle(element).opacity);
@@ -65,17 +53,8 @@ function fadeOpacity(element, targetOpacity, duration) {
   });
 }
 
-async function initializeEasterEgg() {
-  const musicElement = document.getElementById("music");
-
-  // Always play the normal music first
-  if (musicElement) {
-    musicElement.volume = 0;
-    musicElement.src = "Music/rakuichi.mp3";
-    musicElement.play().catch(e => console.log("Audio autoplay blocked", e));
-    await fadeAudio(musicElement, 1, 500);
-  }
-
+// Easter egg
+function initializeEasterEgg() {
   // If the easter egg has been completed, don't show again
   const easterEggCookie = document.cookie
     .split("; ")
@@ -88,16 +67,6 @@ async function initializeEasterEgg() {
   const easterEggChance = Math.random();
   if (easterEggChance < 1/50) { // 2% chance >:)
     document.body.classList.add("easter-egg");
-    if (musicElement) {
-      await fadeAudio(musicElement, 0, 500);
-      musicElement.src = "Music/chpt5egg.mp3";
-      musicElement.play().catch(e => console.log("Audio autoplay blocked", e));
-      await fadeAudio(musicElement, 1, 500);
-    }
-    const faviconLink = document.querySelector('link[rel="icon"]');
-    if (faviconLink) {
-      faviconLink.href = "Images/egg.png";
-    }
     const treeElement = document.getElementById("easter-egg-tree");
     if (treeElement) {
       treeElement.style.display = "block";
@@ -143,14 +112,7 @@ async function toggleMan() {
       man2Element.style.display = "none";
     }
   } else if (easterEggClickCount === 3) {
-    // Third click: play egg.mp3 sound effect
-    const eggSound = document.getElementById("egg-sound");
-    if (eggSound) {
-      eggSound.src = "Music/egg.mp3";
-      eggSound.play().catch(e => console.log("Sound autoplay blocked", e));
-    }
-  } else if (easterEggClickCount === 4) {
-    // Fourth click: fade in man3.png over 1 second and keep it forever, disable clicks, set cookie
+    // Third click: fade in man3.png and keep it visible, then disable clicks.
     if (man3Element) {
       man3Element.style.display = "block";
       man3Element.style.opacity = "0";
@@ -169,6 +131,7 @@ async function toggleMan() {
   }
 }
 
+// Shared time formatting
 function getTimeAgoString(timestamp) {
   if (!timestamp) return "";
 
@@ -192,6 +155,7 @@ function getTimeAgoString(timestamp) {
   }
 }
 
+// Last.fm status
 async function updateLastFM() {
   if (!lastfmTrackElement) return;
   if (!API_KEY) {
@@ -249,6 +213,7 @@ async function updateLastFM() {
   }
 }
 
+// Steam status and recently played games
 async function updateSteamStatus() {
   if (!steamGameElement) return;
 
@@ -260,6 +225,27 @@ async function updateSteamStatus() {
     const nowPlaying = data?.now_playing;
     const currentGame = data?.current_game;
     const recentGame = data?.recent_game;
+    const recentGames = Array.isArray(data?.recent_games) ? data.recent_games : recentGame ? [recentGame] : [];
+
+    if (recentGamesElement) {
+      recentGamesElement.replaceChildren();
+      recentGames.slice(0, 4).forEach(game => {
+        if (!game?.appid || !game?.name) return;
+
+        const gameLink = document.createElement("a");
+        gameLink.className = "recent-game-row";
+        gameLink.href = `https://store.steampowered.com/app/${game.appid}/`;
+        gameLink.target = "_blank";
+        gameLink.rel = "noreferrer noopener";
+
+        const gameImage = document.createElement("img");
+        gameImage.src = game.img_url || `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${game.appid}/header.jpg`;
+        gameImage.alt = `${game.name} artwork`;
+        gameLink.appendChild(gameImage);
+
+        recentGamesElement.appendChild(gameLink);
+      });
+    }
 
     if (nowPlaying && currentGame?.name) {
       if (steamStatusElement) steamStatusElement.textContent = "Now Playing";
@@ -311,6 +297,7 @@ async function updateSteamStatus() {
   }
 }
 
+// Initial load and periodic status refreshes
 initializeEasterEgg();
 updateLastFM();
 updateSteamStatus();
