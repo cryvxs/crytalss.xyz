@@ -49,9 +49,9 @@ jobs:
           def get_game_artwork(appid):
               try:
                   app_data = fetch(f'https://store.steampowered.com/api/appdetails?appids={appid}')
-                app_key = str(appid)
-                if app_key in app_data and app_data[app_key].get('success'):
-                  data = app_data[app_key].get('data', {})
+                  app_key = str(appid)
+                  if app_key in app_data and app_data[app_key].get('success'):
+                      data = app_data[app_key].get('data', {})
                       return data.get('header_image') or data.get('capsule_image')
               except:
                   pass
@@ -66,25 +66,25 @@ jobs:
                   'img_url': artwork_url
               }
 
-            recent_games = []
+          recent_games = []
           recent_response = recent.get('response', {})
           if recent_response.get('total_count', 0) > 0:
               games = recent_response.get('games', [])
               # Sort by last played time (most recent first) and skip current game if playing
               sorted_games = sorted(games, key=lambda x: x.get('rtime_last_played', 0), reverse=True)
               for game in sorted_games:
-                if now_playing and game.get('appid') == game_appid:
-                  continue
-                recent_appid = game.get('appid')
-                recent_games.append({
-                  'name': game.get('name'),
-                  'appid': recent_appid,
-                  'playtime_2weeks': game.get('playtime_2weeks'),
-                  'last_played_timestamp': game.get('rtime_last_played'),
-                  'img_url': get_game_artwork(recent_appid)
-                })
-                if len(recent_games) == 4:
-                  break
+                  if now_playing and game.get('appid') == game_appid:
+                      continue
+                  recent_appid = game.get('appid')
+                  recent_games.append({
+                      'name': game.get('name'),
+                      'appid': recent_appid,
+                      'playtime_2weeks': game.get('playtime_2weeks'),
+                      'last_played_timestamp': game.get('rtime_last_played'),
+                      'img_url': get_game_artwork(recent_appid)
+                  })
+                  if len(recent_games) == 4:
+                      break
 
           status = {
               'updated_at': datetime.datetime.utcnow().replace(microsecond=0).isoformat() + 'Z',
