@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-18T17:48:46Z",
+  "updated_at": "2026-09-18T20:04:58Z",
   "steamid": "76561199105502199",
   "persona_name": "cry",
   "now_playing": false,
@@ -7,7 +7,7 @@
   "recent_game": {
     "name": "Geometry Dash",
     "appid": 322170,
-    "playtime_2weeks": 2486,
+    "playtime_2weeks": 2382,
     "last_played_timestamp": null,
     "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/322170/header.jpg?t=1775300400"
   },
@@ -15,30 +15,30 @@
     {
       "name": "Geometry Dash",
       "appid": 322170,
-      "playtime_2weeks": 2486,
+      "playtime_2weeks": 2382,
       "last_played_timestamp": null,
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/322170/header.jpg?t=1775300400"
     },
     {
       "name": "Dead by Daylight",
       "appid": 381210,
-      "playtime_2weeks": 916,
+      "playtime_2weeks": 780,
       "last_played_timestamp": null,
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/381210/header.jpg?t=1787769494"
     },
     {
-      "name": "DELTARUNE",
-      "appid": 1671210,
-      "playtime_2weeks": 809,
+      "name": "Stardew Valley",
+      "appid": 413150,
+      "playtime_2weeks": 699,
       "last_played_timestamp": null,
-      "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1671210/7ccda5b1631d2e60cc756a3271e845dbb9168821/header.jpg?t=1782314340"
+      "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413150/header.jpg?t=1786554168"
     },
     {
-      "name": "Celeste",
-      "appid": 504230,
-      "playtime_2weeks": 809,
+      "name": "DELTARUNE",
+      "appid": 1671210,
+      "playtime_2weeks": 673,
       "last_played_timestamp": null,
-      "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/504230/header.jpg?t=1714089525"
+      "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1671210/7ccda5b1631d2e60cc756a3271e845dbb9168821/header.jpg?t=1782314340"
     }
   ],
   "profile_url": "https://steamcommunity.com/profiles/76561199105502199"
