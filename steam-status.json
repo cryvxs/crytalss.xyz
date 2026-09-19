@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-19T05:05:28Z",
+  "updated_at": "2026-09-19T09:28:20Z",
   "steamid": "76561199105502199",
   "persona_name": "cry",
   "now_playing": false,
@@ -22,14 +22,14 @@
     {
       "name": "Stardew Valley",
       "appid": 413150,
-      "playtime_2weeks": 667,
+      "playtime_2weeks": 596,
       "last_played_timestamp": null,
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413150/header.jpg?t=1786554168"
     },
     {
       "name": "Dead by Daylight",
       "appid": 381210,
-      "playtime_2weeks": 477,
+      "playtime_2weeks": 426,
       "last_played_timestamp": null,
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/381210/header.jpg?t=1787769494"
     },
