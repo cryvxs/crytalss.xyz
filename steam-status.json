@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-24T12:12:16Z",
+  "updated_at": "2026-09-24T17:19:49Z",
   "steamid": "76561199105502199",
   "persona_name": "cry",
   "now_playing": false,
@@ -7,7 +7,7 @@
   "recent_game": {
     "name": "Geometry Dash",
     "appid": 322170,
-    "playtime_2weeks": 413,
+    "playtime_2weeks": 356,
     "last_played_timestamp": null,
     "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/322170/header.jpg?t=1775300400"
   },
@@ -15,23 +15,23 @@
     {
       "name": "Geometry Dash",
       "appid": 322170,
-      "playtime_2weeks": 413,
+      "playtime_2weeks": 356,
       "last_played_timestamp": null,
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/322170/header.jpg?t=1775300400"
     },
     {
       "name": "Stardew Valley",
       "appid": 413150,
-      "playtime_2weeks": 218,
+      "playtime_2weeks": 207,
       "last_played_timestamp": null,
-      "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413150/header.jpg?t=1786554168"
+      "img_url": null
     },
     {
       "name": "VRChat",
       "appid": 438100,
       "playtime_2weeks": 195,
       "last_played_timestamp": null,
-      "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/438100/header.jpg?t=1762366454"
+      "img_url": null
     },
     {
       "name": "Danganronpa: Trigger Happy Havoc",
