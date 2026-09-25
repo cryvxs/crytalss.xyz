@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-25T06:52:53Z",
+  "updated_at": "2026-09-25T12:40:35Z",
   "steamid": "76561199105502199",
   "persona_name": "cry",
   "now_playing": false,
@@ -36,7 +36,7 @@
     {
       "name": "Stardew Valley",
       "appid": 413150,
-      "playtime_2weeks": 37,
+      "playtime_2weeks": 36,
       "last_played_timestamp": null,
       "img_url": null
     }
