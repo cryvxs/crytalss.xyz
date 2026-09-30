@@ -1,13 +1,9 @@
 {
-  "updated_at": "2026-09-30T07:29:49Z",
+  "updated_at": "2026-09-30T14:11:50Z",
   "steamid": "76561199105502199",
   "persona_name": "cry",
-  "now_playing": true,
-  "current_game": {
-    "name": "PEAK",
-    "appid": "3527290",
-    "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3527290/31bac6b2eccf09b368f5e95ce510bae2baf3cfcd/header.jpg?t=1790591892"
-  },
+  "now_playing": false,
+  "current_game": null,
   "recent_game": {
     "name": "Geometry Dash",
     "appid": 322170,
@@ -33,7 +29,7 @@
     {
       "name": "PEAK",
       "appid": 3527290,
-      "playtime_2weeks": 129,
+      "playtime_2weeks": 136,
       "last_played_timestamp": null,
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3527290/31bac6b2eccf09b368f5e95ce510bae2baf3cfcd/header.jpg?t=1790591892"
     },
