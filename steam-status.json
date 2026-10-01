@@ -1,9 +1,13 @@
 {
-  "updated_at": "2026-09-30T23:10:30Z",
+  "updated_at": "2026-10-01T02:13:13Z",
   "steamid": "76561199105502199",
   "persona_name": "cry",
-  "now_playing": false,
-  "current_game": null,
+  "now_playing": true,
+  "current_game": {
+    "name": "MECCHA CHAMELEON",
+    "appid": "4704690",
+    "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4704690/163e2a742e5fb8e1f5d1e3a890da98f04ab809d4/header.jpg?t=1789464996"
+  },
   "recent_game": {
     "name": "Geometry Dash",
     "appid": 322170,
