@@ -1,13 +1,17 @@
 {
-  "updated_at": "2026-10-02T00:54:21Z",
+  "updated_at": "2026-10-02T06:51:40Z",
   "steamid": "76561199105502199",
   "persona_name": "cry",
-  "now_playing": false,
-  "current_game": null,
+  "now_playing": true,
+  "current_game": {
+    "name": "Scritchy Scratchy",
+    "appid": "3948120",
+    "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3948120/dc726b9c35076bb0bfbf63a664bbf61638cbc2ab/header_alt_assets_0.jpg?t=1790587008"
+  },
   "recent_game": {
     "name": "VRChat",
     "appid": 438100,
-    "playtime_2weeks": 488,
+    "playtime_2weeks": 442,
     "last_played_timestamp": null,
     "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/438100/header.jpg?t=1762366454"
   },
@@ -15,7 +19,7 @@
     {
       "name": "VRChat",
       "appid": 438100,
-      "playtime_2weeks": 488,
+      "playtime_2weeks": 442,
       "last_played_timestamp": null,
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/438100/header.jpg?t=1762366454"
     },
@@ -27,18 +31,18 @@
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/322170/header.jpg?t=1775300400"
     },
     {
+      "name": "Scritchy Scratchy",
+      "appid": 3948120,
+      "playtime_2weeks": 150,
+      "last_played_timestamp": null,
+      "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3948120/dc726b9c35076bb0bfbf63a664bbf61638cbc2ab/header_alt_assets_0.jpg?t=1790587008"
+    },
+    {
       "name": "PEAK",
       "appid": 3527290,
       "playtime_2weeks": 136,
       "last_played_timestamp": null,
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3527290/31bac6b2eccf09b368f5e95ce510bae2baf3cfcd/header.jpg?t=1790591892"
-    },
-    {
-      "name": "Dead by Daylight",
-      "appid": 381210,
-      "playtime_2weeks": 119,
-      "last_played_timestamp": null,
-      "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/381210/header.jpg?t=1787769494"
     }
   ],
   "profile_url": "https://steamcommunity.com/profiles/76561199105502199"
