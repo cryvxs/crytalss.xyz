@@ -1,17 +1,13 @@
 {
-  "updated_at": "2026-10-09T21:15:53Z",
+  "updated_at": "2026-10-10T01:00:32Z",
   "steamid": "76561199105502199",
   "persona_name": "cry",
-  "now_playing": true,
-  "current_game": {
-    "name": "Danganronpa: Trigger Happy Havoc",
-    "appid": "413410",
-    "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413410/header.jpg?t=1781085607"
-  },
+  "now_playing": false,
+  "current_game": null,
   "recent_game": {
     "name": "Danganronpa: Trigger Happy Havoc",
     "appid": 413410,
-    "playtime_2weeks": 1584,
+    "playtime_2weeks": 1691,
     "last_played_timestamp": null,
     "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413410/header.jpg?t=1781085607"
   },
@@ -19,14 +15,14 @@
     {
       "name": "Danganronpa: Trigger Happy Havoc",
       "appid": 413410,
-      "playtime_2weeks": 1584,
+      "playtime_2weeks": 1691,
       "last_played_timestamp": null,
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413410/header.jpg?t=1781085607"
     },
     {
       "name": "Geometry Dash",
       "appid": 322170,
-      "playtime_2weeks": 684,
+      "playtime_2weeks": 640,
       "last_played_timestamp": null,
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/322170/header.jpg?t=1775300400"
     },
