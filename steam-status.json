@@ -1,9 +1,13 @@
 {
-  "updated_at": "2026-10-15T00:35:39Z",
+  "updated_at": "2026-10-15T05:11:38Z",
   "steamid": "76561199105502199",
   "persona_name": "cry",
-  "now_playing": false,
-  "current_game": null,
+  "now_playing": true,
+  "current_game": {
+    "name": "Danganronpa 2: Goodbye Despair",
+    "appid": "413420",
+    "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413420/header.jpg?t=1781085654"
+  },
   "recent_game": {
     "name": "Danganronpa: Trigger Happy Havoc",
     "appid": 413410,
@@ -29,14 +33,14 @@
     {
       "name": "VRChat",
       "appid": 438100,
-      "playtime_2weeks": 486,
+      "playtime_2weeks": 462,
       "last_played_timestamp": null,
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/438100/header.jpg?t=1762366454"
     },
     {
       "name": "Danganronpa 2: Goodbye Despair",
       "appid": 413420,
-      "playtime_2weeks": 218,
+      "playtime_2weeks": 248,
       "last_played_timestamp": null,
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413420/header.jpg?t=1781085654"
     }
