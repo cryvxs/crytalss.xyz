@@ -1,12 +1,9 @@
-// Service configuration
-const API_KEY = "2e10e484bd9c85a23b21304276c2eb76";
-const USERNAME = "crystalvxs";
-
 // Page elements
-const lastfmStatusElement = document.getElementById("lastfmStatus");
-const lastfmTrackElement = document.getElementById("lastfmTrack");
-const lastfmArtistElement = document.getElementById("lastfmArtist");
-const lastfmArtworkElement = document.getElementById("lastfmArtwork");
+const spotifyStatusElement = document.getElementById("spotifyStatus");
+const spotifyTrackElement = document.getElementById("spotifyTrack");
+const spotifyArtistElement = document.getElementById("spotifyArtist");
+const spotifyArtworkElement = document.getElementById("spotifyArtwork");
+const spotifyLinkElement = document.getElementById("spotifyLink");
 const steamStatusElement = document.getElementById("steamStatus");
 const steamGameElement = document.getElementById("steamGame");
 const steamDetailElement = document.getElementById("steamDetail");
@@ -15,6 +12,10 @@ const steamLinkElement = document.getElementById("steamLink");
 const recentGamesElement = document.getElementById("recentGames");
 const profileEmojiElement = document.getElementById("profileEmoji");
 const faviconElement = document.querySelector('link[rel="icon"]');
+const messageForm = document.getElementById("messageForm");
+const messageTextElement = document.getElementById("messageText");
+const messageFormStatusElement = document.getElementById("messageFormStatus");
+const MESSAGE_ENDPOINT = "";
 
 // Profile emoji and favicon
 const profileEmojis = [
@@ -155,61 +156,60 @@ function getTimeAgoString(timestamp) {
   }
 }
 
-// Last.fm status
-async function updateLastFM() {
-  if (!lastfmTrackElement) return;
-  if (!API_KEY) {
-    lastfmTrackElement.textContent = "last.fm key not set";
-    return;
-  }
-
+// Spotify status
+async function updateSpotifyStatus() {
+  if (!spotifyTrackElement) return;
   try {
-    const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${encodeURIComponent(USERNAME)}&api_key=${API_KEY}&format=json&limit=1`;
-    const response = await fetch(url);
+    const response = await fetch("/spotify-status.json", { cache: "no-store" });
+    if (!response.ok) throw new Error("Spotify status fetch failed");
     const data = await response.json();
-    const recentTracks = data.recenttracks?.track;
-    const track = Array.isArray(recentTracks) ? recentTracks[0] : recentTracks;
-
-    if (!track) {
-      if (lastfmStatusElement) lastfmStatusElement.textContent = "No recent track";
-      if (lastfmTrackElement) lastfmTrackElement.textContent = "nothing found yet";
-      if (lastfmArtistElement) lastfmArtistElement.textContent = "check your Last.fm profile";
-      if (lastfmArtworkElement) lastfmArtworkElement.src = "Images/lastfm.png";
-      if (lastfmArtworkElement) lastfmArtworkElement.style.display = "none";
+    const track = data?.track;
+    if (!track?.name) {
+      if (spotifyStatusElement) spotifyStatusElement.textContent = "Spotify status";
+      if (spotifyTrackElement) spotifyTrackElement.textContent = "nothing playing yet";
+      if (spotifyArtistElement) spotifyArtistElement.textContent = "open Spotify and start listening";
+      if (spotifyArtworkElement) {
+        spotifyArtworkElement.src = "Images/spotify.png";
+        spotifyArtworkElement.style.display = "none";
+      }
+      if (spotifyLinkElement) spotifyLinkElement.href = "https://open.spotify.com/";
       return;
     }
 
-    const artist = track.artist?.["#text"] || "unknown artist";
-    const song = track.name || "unknown track";
-    const nowPlaying = track["@attr"]?.nowplaying === "true";
-    const artwork = track.image?.[3]?.["#text"] || track.image?.[track.image.length - 1]?.["#text"] || "Images/lastfm.png";
-    const truncatedSong = song.length > 25 ? `${song.slice(0, 25)}..` : song;
-    const timestamp = track.date?.uts;
-
-    let statusText = "Now Playing";
-    if (!nowPlaying && timestamp) {
-      const timeAgo = getTimeAgoString(parseInt(timestamp));
-      statusText = `Last played ${timeAgo}`;
-    } else if (!nowPlaying) {
-      statusText = "Last Played";
+    let statusText = "Last Played";
+    if (data.now_playing) {
+      statusText = "Now Playing";
+    } else if (data.paused) {
+      statusText = "Paused";
+    } else if (track.played_at) {
+      const playedAt = Math.floor(Date.parse(track.played_at) / 1000);
+      const timeAgo = getTimeAgoString(playedAt);
+      if (timeAgo) statusText = `Last played ${timeAgo}`;
     }
 
-    if (lastfmStatusElement) lastfmStatusElement.textContent = statusText;
-    if (lastfmTrackElement) lastfmTrackElement.textContent = truncatedSong;
-    if (lastfmArtistElement) lastfmArtistElement.textContent = artist;
-    if (lastfmArtworkElement && artwork) {
-      lastfmArtworkElement.src = artwork;
-      lastfmArtworkElement.style.display = "block";
+    if (spotifyStatusElement) spotifyStatusElement.textContent = statusText;
+    if (spotifyTrackElement) spotifyTrackElement.textContent = track.name;
+    if (spotifyArtistElement) spotifyArtistElement.textContent = track.artists || "unknown artist";
+    if (spotifyArtworkElement) {
+      if (track.artwork_url) {
+        spotifyArtworkElement.src = track.artwork_url;
+        spotifyArtworkElement.style.display = "block";
+      } else {
+        spotifyArtworkElement.src = "Images/spotify.png";
+        spotifyArtworkElement.style.display = "none";
+      }
     }
+    if (spotifyLinkElement) spotifyLinkElement.href = track.url || "https://open.spotify.com/";
   } catch (error) {
-    if (lastfmStatusElement) lastfmStatusElement.textContent = "Last.fm unavailable";
-    if (lastfmTrackElement) lastfmTrackElement.textContent = "try again later";
-    if (lastfmArtistElement) lastfmArtistElement.textContent = "";
-    if (lastfmArtworkElement) {
-      lastfmArtworkElement.src = "Images/lastfm.png";
-      lastfmArtworkElement.style.display = "none";
+    if (spotifyStatusElement) spotifyStatusElement.textContent = "Spotify unavailable";
+    if (spotifyTrackElement) spotifyTrackElement.textContent = "try again later";
+    if (spotifyArtistElement) spotifyArtistElement.textContent = "";
+    if (spotifyArtworkElement) {
+      spotifyArtworkElement.src = "Images/spotify.png";
+      spotifyArtworkElement.style.display = "none";
     }
-    console.error("Last.fm fetch failed", error);
+    if (spotifyLinkElement) spotifyLinkElement.href = "https://open.spotify.com/";
+    console.error("Spotify status fetch failed", error);
   }
 }
 
@@ -297,9 +297,47 @@ async function updateSteamStatus() {
   }
 }
 
+if (messageForm && messageTextElement && messageFormStatusElement) {
+  messageForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    const message = messageTextElement.value.trim();
+    if (!message) {
+      messageTextElement.focus();
+      return;
+    }
+    if (!MESSAGE_ENDPOINT) {
+      alert("The message form isn't connected yet.");
+      return;
+    }
+
+    const submitButton = messageForm.querySelector('button[type="submit"]');
+    if (submitButton) submitButton.disabled = true;
+    messageFormStatusElement.textContent = "sending…";
+
+    try {
+      const response = await fetch(MESSAGE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message,
+          website: messageForm.elements.website.value
+        })
+      });
+      if (!response.ok) throw new Error(`Message submission failed (${response.status})`);
+      messageTextElement.value = "";
+      messageFormStatusElement.textContent = "message sent, thank you!";
+    } catch (error) {
+      messageFormStatusElement.textContent = "couldn't send your message. please try again later.";
+      console.error("Message submission failed", error);
+    } finally {
+      if (submitButton) submitButton.disabled = false;
+    }
+  });
+}
+
 // Initial load and periodic status refreshes
 initializeEasterEgg();
-updateLastFM();
+updateSpotifyStatus();
 updateSteamStatus();
-setInterval(updateLastFM, 15000);
+setInterval(updateSpotifyStatus, 30000);
 setInterval(updateSteamStatus, 30000);

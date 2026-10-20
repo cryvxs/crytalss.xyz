@@ -5,13 +5,6 @@
   font-style: normal;
 }
 
-@font-face {
-  font-family: 'Rockadelic';
-  src: url('../fontface/Rockadelic-Regular.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-}
-
 :root {
   --bg-1: #16191d;
   --text: #f4f7fb;
@@ -37,14 +30,12 @@ body {
   box-sizing: border-box;
 }
 
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background: none;
-  opacity: 0;
-  z-index: 1;
+html {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
 }
 
 /* base blur behind UI */
@@ -71,7 +62,7 @@ body::before {
   }
 }
 
-.lastfm-widget,
+.spotify-widget,
 .steam-widget {
   position: relative;
   display: flex;
@@ -88,13 +79,13 @@ body::before {
   text-transform: none;
 }
 
-.lastfm-widget:hover,
+.spotify-widget:hover,
 .steam-widget:hover {
   transform: translateY(-2px);
   border-color: rgba(255,255,255,0.16);
 }
 
-.lastfm-artwork,
+.spotify-artwork,
 .steam-artwork {
   width: 74px;
   height: 74px;
@@ -105,7 +96,7 @@ body::before {
   box-shadow: 0 12px 28px rgba(0,0,0,0.24);
 }
 
-.lastfm-info,
+.spotify-info,
 .steam-info {
   display: flex;
   flex: 1;
@@ -116,7 +107,7 @@ body::before {
   padding-right: 28px;
 }
 
-.lastfm-link,
+.spotify-link,
 .steam-link {
   position: absolute;
   right: 12px;
@@ -131,14 +122,14 @@ body::before {
   transition: transform 0.22s ease, background 0.22s ease, border-color 0.22s ease;
 }
 
-.lastfm-link:hover,
+.spotify-link:hover,
 .steam-link:hover {
   transform: translateY(-1px);
   background: rgba(255,255,255,0.14);
   border-color: rgba(255,255,255,0.18);
 }
 
-.lastfm-link img,
+.spotify-link img,
 .steam-link img {
   width: 15px;
   height: 15px;
@@ -146,7 +137,7 @@ body::before {
 }
 
 .steam-status,
-.lastfm-status {
+.spotify-status {
   text-transform: uppercase;
   font-size: 0.72rem;
   letter-spacing: 0.16em;
@@ -155,7 +146,7 @@ body::before {
 }
 
 .steam-game,
-.lastfm-track {
+.spotify-track {
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.25;
@@ -168,30 +159,10 @@ body::before {
 }
 
 .steam-detail,
-.lastfm-artist {
+.spotify-artist {
   font-size: 0.88rem;
   color: rgba(255,255,255,0.68);
   text-transform: none !important;
-}
-
-.widget-stack {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 8px;
-}
-
-.widget-stack .section-label:not(:first-child) {
-  margin-top: 14px;
-}
-
-.profile-subtitle {
-  max-width: 260px;
-  margin: 0;
-  color: rgba(255,255,255,0.72);
-  line-height: 1.6;
-  font-size: 0.95rem;
 }
 
 /* Shared card widgets */
@@ -206,12 +177,12 @@ body::before {
 
 .card-header h2 {
   margin: 0;
-  font-family: 'Rockadelic', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-weight: normal;
-  font-size: clamp(3.4rem, 5.4vw, 4.2rem);
+  font-size: 30px;
   text-transform: lowercase;
   letter-spacing: -0.03em;
-  line-height: 0.9;
+  line-height: 1.1;
   text-align: right;
 }
 
@@ -297,26 +268,19 @@ img { pointer-events: none; -webkit-user-drag: none; }
 
 }
 
-@media (max-width: 480px) {
-}
-
 /* Easter Egg Mode */
 body.easter-egg {
   background: radial-gradient(circle at top left, rgba(0, 0, 0, 0.1), transparent 32%), radial-gradient(circle at 82% 18%, rgba(0, 0, 0, 0.1), transparent 24%), linear-gradient(135deg, #000000 0%, #050505 50%, #0a0a0a 100%);
 }
 
-body.easter-egg::after {
-  background: radial-gradient(circle at 24% 24%, rgba(0,0,0,0.12), transparent 18%), radial-gradient(circle at 76% 74%, rgba(0,0,0,0.1), transparent 20%);
-}
-
 body.easter-egg .steam-link,
-body.easter-egg .lastfm-link {
+body.easter-egg .spotify-link {
   background: #0a0a0a;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 body.easter-egg .steam-link:hover,
-body.easter-egg .lastfm-link:hover {
+body.easter-egg .spotify-link:hover {
   background: #0f0f0f;
   border-color: rgba(255, 255, 255, 0.12);
 }
@@ -411,15 +375,6 @@ body.easter-egg .lastfm-link:hover {
 
 .intro-content {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  min-height: 150px;
-}
-
-.intro-card {
-  min-height: 284px;
-  box-sizing: border-box;
 }
 
 .intro-copy {
@@ -427,17 +382,21 @@ body.easter-egg .lastfm-link:hover {
 }
 
 .intro-copy h1 {
-  margin: 0 0 12px;
+  margin: 0 0 10px;
   font-family: 'Inter', sans-serif;
-  font-size: clamp(1.95rem, 3.6vw, 2.95rem);
+  font-size: 32px;
   font-weight: 700;
   letter-spacing: 0;
-  line-height: 0.95;
+  line-height: 1.1;
+  text-align: left;
 }
 .intro-copy ul {
   list-style: none;
   padding: 0;
   margin: 0;
+  color: rgba(244,247,251,0.72);
+  font-size: 0.84rem;
+  line-height: 1.5;
 }
 .intro-copy li {
   color: rgba(248, 251, 255, 0.82);
@@ -445,27 +404,15 @@ body.easter-egg .lastfm-link:hover {
   font-weight: 600;
   letter-spacing: 0;
   line-height: 1.25;
-}
-
-.intro-copy ul {
-  margin: 0;
-  padding-left: 18px;
-  color: rgba(244,247,251,0.72);
-  font-size: 0.84rem;
-  line-height: 1.5;
+  text-align: left;
 }
 
 .dashboard-card .card-header {
   justify-content: flex-start;
-  margin: 22px 0 16px;
 }
 
 .dashboard-card .card-header h2 {
-  font-family: 'Inter', sans-serif;
-  font-size: clamp(1.6rem, 2.8vw, 2.15rem);
   font-weight: 600;
-  letter-spacing: 0;
-  line-height: 1;
   text-align: left;
 }
 
@@ -473,12 +420,12 @@ body.easter-egg .lastfm-link:hover {
   min-height: 118px;
   padding: 14px;
   border: 1px solid rgba(255,255,255,0.04);
-  border-radius: 16px;
+  border-radius: 14px;
   background: rgba(255,255,255,0.055);
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.035);
 }
 
-.feature-widget .lastfm-artwork,
+.feature-widget .spotify-artwork,
 .feature-widget .steam-artwork {
   width: 96px;
   height: 96px;
@@ -489,18 +436,9 @@ body.easter-egg .lastfm-link:hover {
   display: none;
 }
 
-.feature-widget .lastfm-info,
+.feature-widget .spotify-info,
 .feature-widget .steam-info {
   padding-right: 34px;
-}
-
-.playing-card {
-  min-height: 526px;
-  box-sizing: border-box;
-}
-
-.recent-games {
-  margin-top: -7.3px;
 }
 
 .favorite-games {
@@ -609,7 +547,7 @@ body.easter-egg .lastfm-link:hover {
     font-size: 0.9rem;
   }
 
-  .feature-widget .lastfm-artwork,
+  .feature-widget .spotify-artwork,
   .feature-widget .steam-artwork {
     width: 76px;
     height: 76px;
@@ -621,16 +559,7 @@ body.easter-egg .lastfm-link:hover {
 }
 
 .favorite-games .recent-game-row {
-  min-height: 40px;
   box-sizing: border-box;
-}
-
-.favorite-games .recent-game-row img {
-  width: 58px;
-  height: 32px;
-  flex: 0 0 58px;
-  object-fit: cover;
-  border-radius: 6px;
 }
 
 /* Shared dashboard geometry */
@@ -700,35 +629,90 @@ body.easter-egg .lastfm-link:hover {
   padding-top: 2px;
 }
 
-.intro-copy ul {
-  padding-left: 0;
+.contact-card {
+  position: relative;
+  z-index: 5;
+  width: min(100%, 480px);
+  height: auto;
+  margin: 80px auto 24px;
+  flex: 0 0 auto;
+  padding: 12px;
 }
 
-.intro-copy h1 {
-  margin-bottom: 10px;
+.message-form {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.message-form input[name="message"] {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  height: 42px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.055);
+  outline: none;
+  box-shadow: none;
+  color: var(--text);
+  font: inherit;
   text-align: left;
+  text-transform: none;
+  user-select: text;
 }
 
-.intro-copy li {
-  text-align: left;
+.message-form input[name="message"]::placeholder {
+  color: #fff;
+  opacity: 1;
 }
 
-.intro-copy h1 {
-  font-size: 36px;
-  line-height: 1.1;
+.message-honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+.message-form-status {
+  margin: 0;
+  padding: 0 4px;
+  color: rgba(244,247,251,0.68);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  text-align: center;
+  text-transform: none;
+}
+
+.message-form button {
+  flex: 0 0 auto;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(104, 137, 20, 0.2);
+  outline: none;
+  box-shadow: none;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.message-form button:disabled {
+  cursor: wait;
+  opacity: 0.6;
 }
 
 .dashboard-card .card-header {
   margin: 20px 0 14px;
 }
 
-.dashboard-card .card-header h2 {
-  font-size: 36px;
-  line-height: 1.1;
-}
-
 .feature-widget {
-  min-height: 118px;
   background: #1b1d20;
 }
 
@@ -766,29 +750,7 @@ body.easter-egg .lastfm-link:hover {
   }
 }
 
-@media (max-width: 640px) {
-  .dashboard-card {
-    border-radius: 24px;
-  }
-
-  .dashboard-card .card-header h2 {
-    font-size: 30px;
-  }
-}
-
 /* Second-pass dashboard polish */
-.intro-copy h1 {
-  font-size: 32px;
-}
-
-.dashboard-card .card-header h2 {
-  font-size: 30px;
-}
-
-.feature-widget {
-  border-radius: 14px;
-}
-
 .favorite-games .recent-game-row {
   overflow: hidden;
 }

@@ -1,0 +1,113 @@
+name: Spotify status update
+
+permissions:
+  contents: write
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  update-spotify-status:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Fetch Spotify status
+        env:
+          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+          SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
+        run: |
+          python3 - <<'PY'
+          import base64
+          import datetime
+          import json
+          import os
+          import pathlib
+          import urllib.parse
+          import urllib.request
+
+          client_id = os.environ.get('SPOTIFY_CLIENT_ID')
+          client_secret = os.environ.get('SPOTIFY_CLIENT_SECRET')
+          refresh_token = os.environ.get('SPOTIFY_REFRESH_TOKEN')
+          if not client_id or not client_secret or not refresh_token:
+              raise SystemExit('Missing SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, or SPOTIFY_REFRESH_TOKEN repository secret')
+
+          credentials = base64.b64encode(f'{client_id}:{client_secret}'.encode()).decode()
+          token_request = urllib.request.Request(
+              'https://accounts.spotify.com/api/token',
+              data=urllib.parse.urlencode({
+                  'grant_type': 'refresh_token',
+                  'refresh_token': refresh_token
+              }).encode(),
+              headers={
+                  'Authorization': f'Basic {credentials}',
+                  'Content-Type': 'application/x-www-form-urlencoded'
+              }
+          )
+          with urllib.request.urlopen(token_request) as response:
+              access_token = json.loads(response.read().decode())['access_token']
+
+          def spotify_get(path):
+              request = urllib.request.Request(
+                  f'https://api.spotify.com/v1/{path}',
+                  headers={'Authorization': f'Bearer {access_token}'}
+              )
+              with urllib.request.urlopen(request) as response:
+                  if response.status == 204:
+                      return None
+                  return json.loads(response.read().decode())
+
+          def make_track(item, played_at=None):
+              if not item:
+                  return None
+              images = item.get('album', {}).get('images', [])
+              return {
+                  'name': item.get('name'),
+                  'artists': ', '.join(artist.get('name', '') for artist in item.get('artists', []) if artist.get('name')),
+                  'artwork_url': images[0].get('url') if images else None,
+                  'url': item.get('external_urls', {}).get('spotify'),
+                  'played_at': played_at
+              }
+
+          current = spotify_get('me/player/currently-playing')
+          now_playing = bool(current and current.get('is_playing') and current.get('item'))
+          paused = bool(current and not current.get('is_playing') and current.get('item'))
+          if current and current.get('item'):
+              track = make_track(current['item'])
+          else:
+              recent = spotify_get('me/player/recently-played?limit=1')
+              items = recent.get('items', []) if recent else []
+              latest = items[0] if items else None
+              track = make_track(latest.get('track'), latest.get('played_at')) if latest else None
+
+          status = {
+              'updated_at': datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat(),
+              'now_playing': now_playing,
+              'paused': paused,
+              'track': track
+          }
+          path = pathlib.Path('spotify-status.json')
+          old_text = path.read_text() if path.exists() else ''
+          old_status = json.loads(old_text) if old_text else {}
+          comparable_status = {key: value for key, value in status.items() if key != 'updated_at'}
+          comparable_old_status = {key: value for key, value in old_status.items() if key != 'updated_at'}
+          if comparable_old_status != comparable_status:
+              new_text = json.dumps(status, indent=2) + '\n'
+              path.write_text(new_text)
+              print('Updated spotify-status.json')
+          else:
+              print('spotify-status.json unchanged')
+          PY
+
+      - name: Commit Spotify status
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add spotify-status.json
+          git diff --cached --quiet || git commit -m 'Update Spotify status'
+          git push

@@ -1,0 +1,4 @@
+name = "crytalss-message-relay"
+main = "worker/index.js"
+compatibility_date = "2026-10-19"
+workers_dev = true

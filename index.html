@@ -26,21 +26,21 @@
     </div>
   </section>
 
-  <!-- Last.fm status -->
+  <!-- Spotify status -->
   <section class="dashboard-card listening-card">
     <div class="card-mark">music</div>
     <div class="card-header">
       <h2>what i'm listening to</h2>
     </div>
-    <div class="feature-widget lastfm-widget">
-      <img id="lastfmArtwork" class="lastfm-artwork live-artwork" src="Images/lastfm.png" alt="Last.fm artwork">
-      <div class="lastfm-info">
-        <div class="lastfm-status" id="lastfmStatus">last.fm loading...</div>
-        <div class="lastfm-track" id="lastfmTrack">fetching the latest track…</div>
-        <div class="lastfm-artist" id="lastfmArtist"></div>
+    <div class="feature-widget spotify-widget">
+      <img id="spotifyArtwork" class="spotify-artwork live-artwork" src="Images/spotify.png" alt="Spotify artwork">
+      <div class="spotify-info">
+        <div class="spotify-status" id="spotifyStatus">spotify loading...</div>
+        <div class="spotify-track" id="spotifyTrack">fetching the latest track…</div>
+        <div class="spotify-artist" id="spotifyArtist"></div>
       </div>
-      <a class="lastfm-link" href="https://last.fm/user/crystalvxs" target="_blank" rel="noreferrer noopener" title="Last.fm" aria-label="Last.fm">
-        <img src="Images/lastfm.png" alt="Last.fm">
+      <a class="spotify-link" id="spotifyLink" href="https://open.spotify.com/" target="_blank" rel="noreferrer noopener" title="Spotify" aria-label="Open track on Spotify">
+        <img src="Images/spotify.png" alt="">
       </a>
     </div>
   </section>
@@ -97,6 +97,15 @@
     </div>
   </section>
 </main>
+
+<section class="contact-card" aria-label="Send a message">
+  <form id="messageForm" class="message-form">
+    <input id="messageText" name="message" type="text" maxlength="1983" required placeholder="Want to say something?" aria-label="Your message" autocomplete="off">
+    <input class="message-honeypot" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button type="submit">send</button>
+  </form>
+  <p id="messageFormStatus" class="message-form-status" role="status" aria-live="polite"></p>
+</section>
 
 <!-- Easter egg artwork is hidden until enabled by main.js. -->
 <img id="easter-egg-tree" src="Images/tree.webp" alt="Tree">
