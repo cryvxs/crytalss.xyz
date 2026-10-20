@@ -1,6 +1,12 @@
 {
-  "updated_at": null,
+  "updated_at": "2026-10-20T02:59:30+00:00",
   "now_playing": false,
   "paused": false,
-  "track": null
+  "track": {
+    "name": "Shades Of Cool",
+    "artists": "Lana Del Rey",
+    "artwork_url": "https://i.scdn.co/image/ab67616d0000b2731624590458126fc8b8c64c2f",
+    "url": "https://open.spotify.com/track/4VSg5K1hnbmIg4PwRdY6wV",
+    "played_at": "2026-10-18T06:18:51.967Z"
+  }
 }
