@@ -16,8 +16,6 @@ const messageForm = document.getElementById("messageForm");
 const messageTextElement = document.getElementById("messageText");
 const messageFormStatusElement = document.getElementById("messageFormStatus");
 const MESSAGE_ENDPOINT = "https://crytalss-message-relay.noahkaminskyg.workers.dev";
-const MESSAGE_COOLDOWN_COOKIE = "messageCooldownUntil";
-const MESSAGE_COOLDOWN_MS = 60 * 60 * 1000;
 
 // Profile emoji and favicon
 const profileEmojis = [
@@ -300,44 +298,8 @@ async function updateSteamStatus() {
 }
 
 if (messageForm && messageTextElement && messageFormStatusElement) {
-  function getMessageCooldownRemaining() {
-    const cookie = document.cookie.split("; ").find(value => value.startsWith(`${MESSAGE_COOLDOWN_COOKIE}=`));
-    if (!cookie) return 0;
-
-    const cooldownUntil = Number(cookie.slice(MESSAGE_COOLDOWN_COOKIE.length + 1));
-    if (!Number.isFinite(cooldownUntil)) return 0;
-
-    const remaining = cooldownUntil - Date.now();
-    if (remaining <= 0) {
-      document.cookie = `${MESSAGE_COOLDOWN_COOKIE}=; Max-Age=0; Path=/; SameSite=Lax; Secure`;
-      return 0;
-    }
-    return remaining;
-  }
-
-  function setMessageCooldown() {
-    const cooldownUntil = Date.now() + MESSAGE_COOLDOWN_MS;
-    document.cookie = `${MESSAGE_COOLDOWN_COOKIE}=${cooldownUntil}; Max-Age=3600; Path=/; SameSite=Lax; Secure`;
-  }
-
-  function formatMessageCooldown(remaining) {
-    const minutes = Math.ceil(remaining / 60000);
-    return `please wait ${minutes} minute${minutes === 1 ? "" : "s"} before sending another message.`;
-  }
-
-  const initialCooldown = getMessageCooldownRemaining();
-  if (initialCooldown > 0) {
-    messageFormStatusElement.textContent = formatMessageCooldown(initialCooldown);
-  }
-
   messageForm.addEventListener("submit", async event => {
     event.preventDefault();
-    const cooldownRemaining = getMessageCooldownRemaining();
-    if (cooldownRemaining > 0) {
-      messageFormStatusElement.textContent = formatMessageCooldown(cooldownRemaining);
-      return;
-    }
-
     const message = messageTextElement.value.trim();
     if (!message) {
       messageTextElement.focus();
@@ -362,9 +324,8 @@ if (messageForm && messageTextElement && messageFormStatusElement) {
         })
       });
       if (!response.ok) throw new Error(`Message submission failed (${response.status})`);
-      setMessageCooldown();
       messageTextElement.value = "";
-      messageFormStatusElement.textContent = `message sent, thank you! ${formatMessageCooldown(MESSAGE_COOLDOWN_MS)}`;
+      messageFormStatusElement.textContent = "message sent, thank you!";
     } catch (error) {
       messageFormStatusElement.textContent = "couldn't send your message. please try again later.";
       console.error("Message submission failed", error);
