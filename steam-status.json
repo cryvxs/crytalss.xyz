@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-10-21T00:06:38Z",
+  "updated_at": "2026-10-21T04:39:04Z",
   "steamid": "76561199105502199",
-  "persona_name": "fapzilla",
+  "persona_name": "cry",
   "now_playing": true,
   "current_game": {
     "name": "Danganronpa 2: Goodbye Despair",
@@ -24,18 +24,18 @@
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413410/header.jpg?t=1781085607"
     },
     {
+      "name": "Danganronpa 2: Goodbye Despair",
+      "appid": 413420,
+      "playtime_2weeks": 819,
+      "last_played_timestamp": null,
+      "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413420/header.jpg?t=1781085654"
+    },
+    {
       "name": "Geometry Dash",
       "appid": 322170,
       "playtime_2weeks": 781,
       "last_played_timestamp": null,
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/322170/header.jpg?t=1775300400"
-    },
-    {
-      "name": "Danganronpa 2: Goodbye Despair",
-      "appid": 413420,
-      "playtime_2weeks": 659,
-      "last_played_timestamp": null,
-      "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413420/header.jpg?t=1781085654"
     },
     {
       "name": "The Binding of Isaac: Rebirth",
