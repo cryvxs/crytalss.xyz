@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-10-20T21:33:28Z",
+  "updated_at": "2026-10-21T00:06:38Z",
   "steamid": "76561199105502199",
   "persona_name": "fapzilla",
   "now_playing": true,
   "current_game": {
-    "name": "The Binding of Isaac: Rebirth",
-    "appid": "250900",
-    "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/250900/header.jpg?t=1731977365"
+    "name": "Danganronpa 2: Goodbye Despair",
+    "appid": "413420",
+    "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413420/header.jpg?t=1781085654"
   },
   "recent_game": {
     "name": "Danganronpa: Trigger Happy Havoc",
@@ -40,7 +40,7 @@
     {
       "name": "The Binding of Isaac: Rebirth",
       "appid": 250900,
-      "playtime_2weeks": 594,
+      "playtime_2weeks": 630,
       "last_played_timestamp": null,
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/250900/header.jpg?t=1731977365"
     }
