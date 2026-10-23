@@ -1,13 +1,17 @@
 {
-  "updated_at": "2026-10-22T22:35:21Z",
+  "updated_at": "2026-10-23T00:54:51Z",
   "steamid": "76561199105502199",
   "persona_name": "cry",
-  "now_playing": false,
-  "current_game": null,
+  "now_playing": true,
+  "current_game": {
+    "name": "The Binding of Isaac: Rebirth",
+    "appid": "250900",
+    "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/250900/header.jpg?t=1731977365"
+  },
   "recent_game": {
     "name": "Danganronpa: Trigger Happy Havoc",
     "appid": 413410,
-    "playtime_2weeks": 1513,
+    "playtime_2weeks": 1482,
     "last_played_timestamp": null,
     "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413410/header.jpg?t=1781085607"
   },
@@ -15,7 +19,7 @@
     {
       "name": "Danganronpa: Trigger Happy Havoc",
       "appid": 413410,
-      "playtime_2weeks": 1513,
+      "playtime_2weeks": 1482,
       "last_played_timestamp": null,
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413410/header.jpg?t=1781085607"
     },
@@ -29,14 +33,14 @@
     {
       "name": "Geometry Dash",
       "appid": 322170,
-      "playtime_2weeks": 672,
+      "playtime_2weeks": 647,
       "last_played_timestamp": null,
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/322170/header.jpg?t=1775300400"
     },
     {
       "name": "The Binding of Isaac: Rebirth",
       "appid": 250900,
-      "playtime_2weeks": 630,
+      "playtime_2weeks": 604,
       "last_played_timestamp": null,
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/250900/header.jpg?t=1731977365"
     }
