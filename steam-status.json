@@ -1,24 +1,17 @@
 {
-  "updated_at": "2026-11-04T02:08:47Z",
+  "updated_at": "2026-11-04T09:08:30Z",
   "steamid": "76561199105502199",
   "persona_name": "cry",
   "now_playing": false,
   "current_game": null,
   "recent_game": {
-    "name": "Danganronpa 2: Goodbye Despair",
-    "appid": 413420,
-    "playtime_2weeks": 1023,
+    "name": "Geometry Dash",
+    "appid": 322170,
+    "playtime_2weeks": 844,
     "last_played_timestamp": null,
-    "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413420/header.jpg?t=1781085654"
+    "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/322170/header.jpg?t=1775300400"
   },
   "recent_games": [
-    {
-      "name": "Danganronpa 2: Goodbye Despair",
-      "appid": 413420,
-      "playtime_2weeks": 1023,
-      "last_played_timestamp": null,
-      "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413420/header.jpg?t=1781085654"
-    },
     {
       "name": "Geometry Dash",
       "appid": 322170,
@@ -27,9 +20,16 @@
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/322170/header.jpg?t=1775300400"
     },
     {
+      "name": "Danganronpa 2: Goodbye Despair",
+      "appid": 413420,
+      "playtime_2weeks": 772,
+      "last_played_timestamp": null,
+      "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413420/header.jpg?t=1781085654"
+    },
+    {
       "name": "Dead by Daylight",
       "appid": 381210,
-      "playtime_2weeks": 114,
+      "playtime_2weeks": 127,
       "last_played_timestamp": null,
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/381210/header.jpg?t=1793724618"
     },
