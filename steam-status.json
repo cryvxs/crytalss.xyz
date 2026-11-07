@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-07T02:43:52Z",
+  "updated_at": "2026-11-07T09:17:45Z",
   "steamid": "76561199105502199",
   "persona_name": "cry",
   "now_playing": false,
@@ -22,16 +22,9 @@
     {
       "name": "Danganronpa 2: Goodbye Despair",
       "appid": 413420,
-      "playtime_2weeks": 353,
+      "playtime_2weeks": 284,
       "last_played_timestamp": null,
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413420/header.jpg?t=1781085654"
-    },
-    {
-      "name": "Dead by Daylight",
-      "appid": 381210,
-      "playtime_2weeks": 127,
-      "last_played_timestamp": null,
-      "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/381210/header.jpg?t=1793724618"
     },
     {
       "name": "VRChat",
@@ -39,6 +32,13 @@
       "playtime_2weeks": 51,
       "last_played_timestamp": null,
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/438100/header.jpg?t=1762366454"
+    },
+    {
+      "name": "Dead by Daylight",
+      "appid": 381210,
+      "playtime_2weeks": 27,
+      "last_played_timestamp": null,
+      "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/381210/header.jpg?t=1793724618"
     }
   ],
   "profile_url": "https://steamcommunity.com/profiles/76561199105502199"
