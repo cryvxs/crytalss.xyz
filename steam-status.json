@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-08T23:53:06Z",
+  "updated_at": "2026-11-09T04:00:34Z",
   "steamid": "76561199105502199",
   "persona_name": "cry",
   "now_playing": false,
@@ -34,11 +34,11 @@
       "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/381210/header.jpg?t=1793724618"
     },
     {
-      "name": "VRChat",
-      "appid": 438100,
-      "playtime_2weeks": 20,
+      "name": "Escape Simulator",
+      "appid": 1435790,
+      "playtime_2weeks": 11,
       "last_played_timestamp": null,
-      "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/438100/header.jpg?t=1762366454"
+      "img_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1435790/413708a2da512607f70bb22b29270359586c6e5f/header.jpg?t=1791969592"
     }
   ],
   "profile_url": "https://steamcommunity.com/profiles/76561199105502199"
