@@ -1,6 +1,12 @@
 {
-  "updated_at": "2026-10-27T07:31:21+00:00",
+  "updated_at": "2026-11-17T21:14:34+00:00",
   "now_playing": false,
   "paused": false,
-  "track": null
+  "track": {
+    "name": "Ghost",
+    "artists": "nelward",
+    "artwork_url": "https://i.scdn.co/image/ab67616d0000b2731cecc7242dcb36298f33b0fd",
+    "url": "https://open.spotify.com/track/6EmGcKra63FXiRA6XsfAas",
+    "played_at": "2026-11-17T20:57:54.095Z"
+  }
 }
