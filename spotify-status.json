@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-11-23T03:01:48+00:00",
+  "updated_at": "2026-11-23T23:51:39+00:00",
   "now_playing": false,
   "paused": false,
   "track": {
-    "name": "Malcolm In The Middle",
-    "artists": "Malcolm Todd",
-    "artwork_url": "https://i.scdn.co/image/ab67616d0000b2736ad1bfc5a6102f8e926a8c5f",
-    "url": "https://open.spotify.com/track/0JeAKH2DCIgCCrZ9qBGthg",
-    "played_at": "2026-11-23T02:16:30.640Z"
+    "name": "Let It Happen",
+    "artists": "Tame Impala",
+    "artwork_url": "https://i.scdn.co/image/ab67616d0000b2739e1cfc756886ac782e363d79",
+    "url": "https://open.spotify.com/track/2X485T9Z5Ly0xyaghN73ed",
+    "played_at": "2026-11-23T20:06:53.169Z"
   }
 }
